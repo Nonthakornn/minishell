@@ -1,0 +1,20 @@
+*.txt
+#Default
+.vscode
+*.out
+*.o
+*.so
+*.a
+a.out
+.DS_Store
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+#project
+minishell
