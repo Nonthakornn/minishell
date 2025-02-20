@@ -20,15 +20,16 @@ typedef enum e_token_type
 
 typedef struct s_redirect
 {
-	t_token_type	token_type;
-	char			*value;
+	t_token_type			token_type;
+	char					*value;
+	struct s_redirect		*next;
 
 }	t_redirect;
 
 typedef struct s_pipe
 {
 	char				**cmd; //The command with arguments
-	t_redirect			*redirects; // Linked list of redirection
+	t_redirect			*redirect; // Linked list of redirection
 	struct s_command	*next; // For piping next command
 
 }	t_pipe;
