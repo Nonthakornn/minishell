@@ -1,9 +1,10 @@
 NAME = minishell
 CC = cc 
-CFLAGS =  -Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror -g
+LDFLAGS = -lreadline
 RM = rm -rf
 
-SRC_FILES = main.c utils.c
+SRC_FILES = main.c utils.c token_utils.c free.c linklist_token.c
 OBJ_DIR = obj
 
 OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
@@ -14,7 +15,7 @@ $(OBJ_DIR):
 				mkdir -p $(OBJ_DIR)
 
 $(NAME):		$(OBJ_FILES)
-				$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME)
+				$(CC) $(CFLAGS) $(OBJ_FILES) $(LDFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o:	%.c | $(OBJ_DIR)
 				$(CC) $(CFLAGS) -c $< -o $@

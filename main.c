@@ -1,14 +1,28 @@
 #include "minishell.h"
 
-int main(int argc, char *argv[], char *env[])
+int main()
 {
-	(void)argc;
-	(void)argv;
-	(void)env;
+	// char	*input;
+	t_redirect	*redirects;
+	// t_pipe		*pipes;
 
-	ft_print_str(1, "Testing");
-	//if readline reutrn NULL (Ctrl+D), break the loop.
-	//Add line to history
+	redirects = create_redir_lst(READ_FILE, "text.txt");
+	display_redir_lst(redirects);
+	free_redirects(redirects);
+
+	/*
+	while (1)
+	{
+		input = readline("minishell $> ");
+		if (!input)
+			break ;
+		add_history(input);
+		// start parsing
+		free(input);
+	}
+	rl_clear_history();
+	*/
+
 	//Split by pipes (|) to get each command segment.
 	//For each command segment:
 		//Identify the command (first word not part of redirection)
@@ -16,7 +30,7 @@ int main(int argc, char *argv[], char *env[])
 		//Collect remaining words as arguments
 		//Link it to next command if there was a pipe
 	//Debug Output Stage
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 /*
