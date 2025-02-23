@@ -17,7 +17,7 @@ void	display_redir_lst(t_redirect *head)
 		head = head->next;
 		i++;
 	}
-	printf(CYAN"-----------------------------\n"RST);
+	printf(RED"-----------------------------\n"RST);
 }
 
 t_redirect	*create_redir_lst(t_token_type type, char *value)

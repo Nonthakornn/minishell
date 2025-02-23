@@ -3,12 +3,19 @@
 int main()
 {
 	// char	*input;
-	t_redirect	*redirects;
-	// t_pipe		*pipes;
+	t_redirect	*redir_node;
+	t_pipe		*pipes_node;
 
-	redirects = create_redir_lst(READ_FILE, "text.txt");
-	display_redir_lst(redirects);
-	free_redirects(redirects);
+	redir_node = create_redir_lst(READ_FILE, "text.txt");
+	char *cmd1[] = {"cat", "file.txt", NULL};
+	char *cmd2[] = {"ls", "-la", NULL};
+
+	pipes_node = create_pipe_lst(cmd1, redir_node);
+	addback_pipe_lst(&pipes_node, create_pipe_lst(cmd2, NULL));
+
+	display_pipe_lst(pipes_node);
+	free_pipe_and_redir(pipes_node);
+	// display_redir_lst(redirects);
 
 	/*
 	while (1)

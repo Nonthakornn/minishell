@@ -42,7 +42,7 @@ typedef struct s_pipe
 {
 	char				**cmd; //The command with arguments
 	t_redirect			*redirect; // Linked list of redirection
-	struct s_command	*next; // For piping next command
+	struct s_pipe		*next; // For piping next command
 
 }	t_pipe;
 
@@ -54,14 +54,20 @@ void		ft_strcpy(char *dst, char *src);
 //token utils
 char 		*get_str_token(t_token_type type);
 
-//linklist_utils
+//linklist_token
 void 		display_redir_lst(t_redirect *head);
 void		addback_redir_lst(t_redirect **head, t_redirect *new_node);
 t_redirect	*create_redir_lst(t_token_type type, char *value);
 t_redirect	*lastnode_redir_lst(t_redirect *head);
 
-//free
-void free_redirects(t_redirect *head);
+//linklist_pipe
+void	display_pipe_lst(t_pipe *head);
+void	addback_pipe_lst(t_pipe **head, t_pipe *new_node);
+t_pipe	*create_pipe_lst(char **cmd, t_redirect *redir);
+t_pipe	*lastnode_pipe_lst(t_pipe *head);
 
+//free
+void	free_redirects(t_redirect *head);
+void	free_pipe_and_redir(t_pipe *head);
 
 #endif
