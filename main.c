@@ -2,41 +2,76 @@
 
 int main()
 {
-	// char	*input;
-	t_redirect	*redir_node;
-	t_pipe		*pipes_node;
+	// t_redirect	*redir_node;
+	// t_pipe		*pipes_node;
 
-	redir_node = create_redir_lst(READ_FILE, "text.txt");
-	char *cmd1[] = {"cat", "file.txt", NULL};
-	char *cmd2[] = {"ls", "-la", NULL};
+	//segment
+	char		*input;
+	char		**pipe_segments;
+	// int			i;
 
-	pipes_node = create_pipe_lst(cmd1, redir_node);
-	addback_pipe_lst(&pipes_node, create_pipe_lst(cmd2, NULL));
+	// redir_node = create_redir_lst(READ_FILE, "text.txt");
+	// char *cmd1[] = {"cat", "-e", "echo", NULL};
+	// char *cmd2[] = {"ls", "-la", NULL};
 
-	display_pipe_lst(pipes_node);
-	free_pipe_and_redir(pipes_node);
-	// display_redir_lst(redirects);
+	// pipes_node = create_pipe_lst(cmd1, redir_node);
+	// addback_pipe_lst(&pipes_node, create_pipe_lst(cmd2, NULL));
 
-	/*
+	// display_pipe_lst(pipes_node);
+	// free_pipe_and_redir(pipes_node);
+
 	while (1)
 	{
+		// i = 0;
 		input = readline("minishell $> ");
 		if (!input)
 			break ;
 		add_history(input);
-		// start parsing
-		free(input);
-	}
-	rl_clear_history();
-	*/
+		if (input[0] == '\0')
+		{
+			free(input);
+			continue;
+		}
+		// pipes_node = NULL;
+		// Split pipes into segment
+		pipe_segments = split_by_pipes(input);
+		display_pipe_segment(pipe_segments);
 
-	//Split by pipes (|) to get each command segment.
-	//For each command segment:
-		//Identify the command (first word not part of redirection)
-		//Find all redirections (< << > >>)
-		//Collect remaining words as arguments
-		//Link it to next command if there was a pipe
-	//Debug Output Stage
+		// For each pipe segment
+		// while (pipe_segments[i])
+		// {
+		// 	// Split segment into command and find redirections
+		// 	// Example: "cat <input.txt" becomes cmd = {"cat", NULL}
+		// 	// char **cmd = split_command(pipe_segments[i]);
+
+		// 	// Example: "cat <input.txt >output.txt"
+        //     // Creates redirect nodes and links them
+		// 	/*
+		// 	"cat >output.txt >>append.txt"
+		// 	Creates:
+		// 	redirects:
+  		// 	type: WRITE_FILE
+  		// 	value: "output.txt"
+  		// 	next:
+    	// 	type: APPEND_FILE
+    	// 	value: "append.txt"
+    	// 	next: NULL
+		// 	*/
+		// 	/*
+		// 	if you find you create
+		// 	t_redirect *redir = create_redir_lst(READ_FILE, "input.txt");
+		// 	addback_redir_lst(&redir, create_redir_lst(WRITE_FILE, "output.txt"));
+		// 	*/
+		// 	// t_redirect *redir = find_redirections(pipe_segments[i]);
+		// 	// // Create and link pipe node
+		// 	// t_pipe *new_node = create_pipe_lst(cmd, redir);
+		// 	// addback_pipe_lst(&pipes_node, new_node);
+		// 	// i++;
+		// }
+			free(input);
+	}
+
+	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
 

@@ -36,3 +36,10 @@ void ft_strcpy(char *dst, char *src)
 	}
 	dst[i] = '\0';
 }
+
+bool is_space(int c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (true);
+	return (false);
+}

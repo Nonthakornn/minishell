@@ -5,7 +5,7 @@ LDFLAGS = -lreadline
 RM = rm -rf
 
 SRC_FILES = main.c utils.c token_utils.c free.c linklist_token.c \
-			linklist_pipe.c
+			linklist_pipe.c split_pipe.c
 OBJ_DIR = obj
 
 OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
