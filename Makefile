@@ -1,0 +1,42 @@
+NAME = minishell
+LIB_PATH = lib
+SRC_DIR = srcs
+BUILD_DIR = obj
+
+SRC_FILES = main.c token_utils.c close_free.c linklist_token.c \
+			linklist_process.c exec_heredoc.c redirect.c error.c \
+			split_pipe.c exec_process.c get_path.c
+
+HEADERS = srcs/minishell.h
+
+INCLUDES = -I $(LIB_PATH) -I$(SRC_DIR)
+
+LIBS = -L$(LIB_PATH) -lft
+
+OBJS = $(SRC_FILES:%.c=$(BUILD_DIR)/%.o)
+
+CC = cc 
+CFLAGS =  -Wall -Wextra -Werror -g
+RM = rm -rf
+
+all:			$(NAME)
+
+$(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
+				@mkdir -p $(BUILD_DIR)
+				$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
+
+$(NAME):		$(OBJS)
+				$(MAKE) -C $(LIB_PATH)
+				$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+
+clean:
+				$(MAKE) -C $(LIB_PATH) clean
+				$(RM) $(BUILD_DIR)
+
+fclean:			clean
+				$(MAKE) -C $(LIB_PATH) fclean
+				$(RM) $(NAME)
+
+re:				fclean all
+
+.PHONY:			all clean fclean re
