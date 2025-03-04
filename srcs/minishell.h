@@ -29,9 +29,23 @@ typedef enum e_token_type
 	APPEND_FILE, // >>
 	PIPE, // |
 	ENV_VAR, // env variable like $PATH
+}	t_token_type;
+
+typedef enum e_quote_state
+{
+	NORMAL,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE
-}	t_token_type;
+
+}	t_quote_state;
+
+typedef struct s_token
+{
+	t_token_type			token_type;
+	char					*value;
+	struct s_token			*next;
+
+}	t_token;
 
 typedef struct s_redirect
 {
@@ -77,28 +91,32 @@ void		clear_substr(char **substr);
 
 //token utils
 char		*get_str_token(t_token_type type);
+t_token		*tokenize(char *input);
 
 //linklist_token
+t_token *create_token_lst(t_token_type type, char *value);
+t_token *lastnode_token_lst(t_token *head);
+void	addback_token_lst(t_token **head, t_token *new_node);
+
+//linklist_redirect
 void		display_redir_lst(t_redirect *head);
 void		addback_redir_lst(t_redirect **head, t_redirect *new_node);
 t_redirect	*create_redir_lst(t_token_type type, char *value);
 t_redirect	*lastnode_redir_lst(t_redirect *head);
 
 //linklist_process
-// void		display_process_lst(t_process *head);
 void		addback_process_lst(t_process **head, t_process *new_node);
 t_process	*create_process_lst(char **cmd, t_redirect *redir);
 t_process	*lastnode_process_lst(t_process *head);
 void		pipe_process_lst(t_process **head);
 
 //split process
-//void		process_segment(char **process_segment);
 char		**split_by_pipes(char *str);
-
 
 //free
 void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
+void		free_token(t_token *head);
 
 //heredoc
 void		exec_heredoc(t_process *process);
@@ -120,8 +138,8 @@ int			display_error_no_command(char *command);
 int			display_error_path(char *command);
 
 //display for dubugging
-// void		display_process_lst(t_process *head);
-void		display_process_segment(char **process_segment);
+void		display_process_lst(t_process *head);
 void 		display_redir_lst(t_redirect *head);
+void		display_token_lst(t_token *head);
 
 #endif
