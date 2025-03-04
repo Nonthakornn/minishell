@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include "libft.h"
 
 typedef enum e_token_type
 {
@@ -62,19 +63,6 @@ typedef struct s_redirect_store
 
 }	t_redir_store;
 
-//utils
-void		ft_print_str(int fd, char *str);
-void		ft_strcpy(char *dst, char *src);
-size_t		ft_strlen(char *str);
-bool		is_space(int c);
-int			ft_find_index(char *str, char c);
-void		ft_puterror(char *str);
-int			ft_startwith(char *str, char *word);
-char		*ft_slice(char *src, size_t start, size_t end);
-char		**ft_str_split(char *str, char *sep);
-void		clear_substr(char **substr);
-
-
 //token utils
 char		*get_str_token(t_token_type type);
 
@@ -85,29 +73,25 @@ t_redirect	*create_redir_lst(t_token_type type, char *value);
 t_redirect	*lastnode_redir_lst(t_redirect *head);
 
 //linklist_process
-// void		display_process_lst(t_process *head);
 void		addback_process_lst(t_process **head, t_process *new_node);
 t_process	*create_process_lst(char **cmd, t_redirect *redir);
 t_process	*lastnode_process_lst(t_process *head);
 void		pipe_process_lst(t_process **head);
 
 //split process
-//void		process_segment(char **process_segment);
 char		**split_by_pipes(char *str);
 
 
-//free
+//Close & free
 void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
+void		close_fd(t_process *process);
 
 //heredoc
 void		exec_heredoc(t_process *process);
 
 //process_redirect
 int			process_redirect(t_process *process);
-
-// close_fd
-void		close_fd(t_process *process);
 
 // exec_process
 void		wait_process(t_process *head, int *exit_code);
