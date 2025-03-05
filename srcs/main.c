@@ -3,7 +3,7 @@
 int main(void)
 {
 	char		*input;
-	// t_token		*tokens;
+	t_token		*tokens;
 	// t_process	*proc; 
 
 	while (1)
@@ -18,12 +18,12 @@ int main(void)
 			continue;
 		}
 		//TODO
-		// tokens = tokenize(input);
+		tokens = tokenize(input); //lexical
 
 		//! Debug: Display tokens
-		//display_token(tokens);
+		display_token_lst(tokens);
 
-		// proc = parse(tokens);
+		// proc = parse(tokens); //Syntax
 
 		//! Debug: Display process
 		//display_process_lst(proc)

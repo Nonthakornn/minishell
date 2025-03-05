@@ -91,7 +91,6 @@ void		clear_substr(char **substr);
 
 //token utils
 char		*get_str_token(t_token_type type);
-t_token		*tokenize(char *input);
 
 //linklist_token
 t_token *create_token_lst(t_token_type type, char *value);
@@ -136,6 +135,9 @@ char		*ft_get_path(char *env[], char *command);
 int			display_error_access(char *access_name);
 int			display_error_no_command(char *command);
 int			display_error_path(char *command);
+
+//lexical
+t_token		*tokenize(char *input);
 
 //display for dubugging
 void		display_process_lst(t_process *head);
