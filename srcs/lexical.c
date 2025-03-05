@@ -115,7 +115,7 @@ t_token	*tokenize(char *input)
 	}
 	if (state != NORMAL)
 	{
-		write(2,"Check you quote propery!", 25);
+		printf(RED"Check your quote propery!\n"RST);
 		return (head);
 	}
 	return (head);
