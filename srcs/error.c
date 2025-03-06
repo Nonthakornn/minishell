@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-static void put_strerror(char *name, char *strerr)
+static void	put_strerror(char *name, char *strerr)
 {
 	char	*str;
 	char	*cur;
 	int		len;
 
-	len = ft_strlen("bash: ") + ft_strlen(name) + ft_strlen(": ") + ft_strlen(strerr);
-
-	str =  malloc(sizeof(char) * (len + 2));
+	len = ft_strlen("bash: ") + ft_strlen(name) + ft_strlen(": ") \
+		+ ft_strlen(strerr);
+	str = malloc(sizeof(char) * (len + 2));
 	cur = str;
 	ft_strcpy(cur, "bash: ");
 	cur += ft_strlen("bash: ");
