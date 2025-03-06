@@ -81,7 +81,6 @@ void		pipe_process_lst(t_process **head);
 //split process
 char		**split_by_pipes(char *str);
 
-
 //Close & free
 void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
@@ -106,6 +105,6 @@ int			display_error_path(char *command);
 //display for dubugging
 // void		display_process_lst(t_process *head);
 void		display_process_segment(char **process_segment);
-void 		display_redir_lst(t_redirect *head);
+void		display_redir_lst(t_redirect *head);
 
 #endif

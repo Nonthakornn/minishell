@@ -91,14 +91,14 @@ int main(int argc, char *argv[], char *env[])
 		printf("%s %s\n", argv[1], env[0]);
 	}
 
-	char *cmd1[] = {" ", NULL};
+	char *cmd1[] = {"cat", NULL};
 	redir_1 = create_redir_lst(READ_FILE, "text1.txt");
 	addback_redir_lst(&redir_1, create_redir_lst(HERE_DOC, "end"));
 	addback_redir_lst(&redir_1, create_redir_lst(HERE_DOC, "EOF"));
 	// addback_redir_lst(&redir_1, create_redir_lst(WRITE_FILE, "out"));
 	process_1 = create_process_lst(cmd1, redir_1);
 
-	char *cmd2[] = {" ", NULL};
+	char *cmd2[] = {"cat", NULL};
 	redir_2 = create_redir_lst(READ_FILE, "text.txt");
 	// redir_2 = create_redir_lst(HERE_DOC, "EOF");
 	// addback_redir_lst(&redir_2, create_redir_lst(HERE_DOC, "end"));

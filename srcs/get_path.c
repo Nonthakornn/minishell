@@ -6,7 +6,7 @@ static char	*ft_join_dir(char *dir, char *cmd)
 	size_t	i;
 	size_t	j;
 
-	if (!dir | !cmd)
+	if (!dir || !cmd)
 		return (NULL);
 	new_str = malloc(ft_strlen(dir) + ft_strlen(cmd) + 2);
 	if (!new_str)
