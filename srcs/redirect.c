@@ -27,7 +27,8 @@ static void	std_redirect(t_redir_store *store)
 	}
 }
 
-static int	process_readfile(t_redir_store *store, t_redirect *redir, int *heredoc)
+static int	process_readfile(t_redir_store *store, \
+	t_redirect *redir, int *heredoc)
 {
 	if (store->infile_fd > 2 && store->cur_infile_type == READ_FILE)
 		close(store->infile_fd);

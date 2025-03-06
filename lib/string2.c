@@ -17,7 +17,7 @@ int	ft_startwith(char *str, char *word)
 {
 	size_t	i;
 
-	if ((!str || !word || ft_strlen(str)) < ft_strlen(word))
+	if (!str || !word || ft_strlen(str) < ft_strlen(word))
 		return (-1);
 	i = 0;
 	while (i < ft_strlen(word))

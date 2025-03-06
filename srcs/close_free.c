@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void free_redirects(t_redirect *head)
+void	free_redirects(t_redirect *head)
 {
 	t_redirect	*tmp;
 
@@ -16,8 +16,8 @@ void free_redirects(t_redirect *head)
 
 void	free_process_and_redir(t_process *head)
 {
-	int		i;
-	t_process *tmp;
+	int			i;
+	t_process	*tmp;
 
 	while (head)
 	{
