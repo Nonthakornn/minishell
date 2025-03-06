@@ -12,10 +12,10 @@ all:	$(NAME)
 		
 
 %.o: 	%.c libft.h Makefile
-		cc $(FLAG) $< -o $@ -c 
+		@cc $(FLAG) $< -o $@ -c 
 
 $(NAME): $(OBJS)
-		$(AR) $(NAME) $(OBJS)
+		@$(AR) $(NAME) $(OBJS)
 
 clean:
 		@rm -f $(OBJS)

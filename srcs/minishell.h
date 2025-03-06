@@ -30,9 +30,23 @@ typedef enum e_token_type
 	APPEND_FILE, // >>
 	PIPE, // |
 	ENV_VAR, // env variable like $PATH
+}	t_token_type;
+
+typedef enum e_quote_state
+{
+	NORMAL,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE
-}	t_token_type;
+
+}	t_quote_state;
+
+typedef struct s_token
+{
+	t_token_type			token_type;
+	char					*value;
+	struct s_token			*next;
+
+}	t_token;
 
 typedef struct s_redirect
 {
@@ -67,6 +81,11 @@ typedef struct s_redirect_store
 char		*get_str_token(t_token_type type);
 
 //linklist_token
+t_token *create_token_lst(t_token_type type, char *value);
+t_token *lastnode_token_lst(t_token *head);
+void	addback_token_lst(t_token **head, t_token *new_node);
+
+//linklist_redirect
 void		display_redir_lst(t_redirect *head);
 void		addback_redir_lst(t_redirect **head, t_redirect *new_node);
 t_redirect	*create_redir_lst(t_token_type type, char *value);
@@ -85,6 +104,7 @@ char		**split_by_pipes(char *str);
 void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
 void		close_fd(t_process *process);
+void		free_token(t_token *head);
 
 //heredoc
 void		exec_heredoc(t_process *process);
@@ -102,9 +122,13 @@ int			display_error_access(char *access_name);
 int			display_error_no_command(char *command);
 int			display_error_path(char *command);
 
+//lexical
+t_token		*tokenize(char *input);
+
 //display for dubugging
-// void		display_process_lst(t_process *head);
-void		display_process_segment(char **process_segment);
+void		display_process_lst(t_process *head);
+void 		display_redir_lst(t_redirect *head);
+void		display_token_lst(t_token *head);
 void		display_redir_lst(t_redirect *head);
 
 #endif

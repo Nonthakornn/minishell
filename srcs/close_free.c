@@ -37,6 +37,19 @@ void	free_process_and_redir(t_process *head)
 	}
 }
 
+void free_token(t_token *head)
+{
+	t_token *tmp;
+
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
 void	close_fd(t_process *head)
 {
 	int	i;

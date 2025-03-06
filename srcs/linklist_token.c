@@ -1,30 +1,10 @@
 #include "minishell.h"
 
-void	display_redir_lst(t_redirect *head)
+t_token	*create_token_lst(t_token_type type, char *value)
 {
-	int	i;
+	t_token	*new_node;
 
-	i = 0;
-	printf(CYAN"Redirection List:\n"RST);
-	printf(CYAN"-----------------------------\n"RST);
-	if (!head)
-		printf(RED"Empty Redirect List!\n"RST);
-	while (head)
-	{
-		printf("Node:%d\n", i);
-		printf("type: %s \n", get_str_token(head->token_type));
-		printf("value: \"%s\"\n", head->value);
-		head = head->next;
-		i++;
-	}
-	printf(RED"-----------------------------\n"RST);
-}
-
-t_redirect	*create_redir_lst(t_token_type type, char *value)
-{
-	t_redirect	*new_node;
-
-	new_node = malloc(sizeof(t_redirect));
+	new_node = malloc(sizeof(t_token));
 	if (!new_node)
 		return (NULL);
 	new_node->token_type = type;
@@ -34,29 +14,50 @@ t_redirect	*create_redir_lst(t_token_type type, char *value)
 		free(new_node);
 		return (NULL);
 	}
-	ft_strcpy(new_node->value, value);
+	strcpy(new_node->value, value);
 	new_node->next = NULL;
 	return (new_node);
 }
 
-t_redirect	*lastnode_redir_lst(t_redirect *head)
+t_token	*lastnode_token_lst(t_token *head)
 {
-	t_redirect	*ptr;
+	t_token	*tmp;
 
 	if (!head)
 		return (NULL);
-	ptr = head;
-	while (ptr->next)
-		ptr = ptr->next;
-	return (ptr);
+	tmp = head;
+	while (tmp->next)
+		tmp = tmp->next;
+	return (tmp);
 }
 
-void	addback_redir_lst(t_redirect **head, t_redirect *new_node)
+void	addback_token_lst(t_token **head, t_token *new_node)
 {
 	if (!head || !new_node)
 		return ;
 	if (!(*head))
 		*head = new_node;
 	else
-		lastnode_redir_lst(*head)->next = new_node;
+		lastnode_token_lst(*head)->next = new_node;
+}
+
+void	display_token_lst(t_token *head)
+{
+	int		i;
+	t_token	*tmp;
+
+	i = 0;
+	tmp = head;
+	if (!head)
+		return ;
+	printf(CYAN"Token List:\n"RST);
+	while (tmp)
+	{
+		printf("Token[%d]:\n", i);
+		printf(" Type: %s\n", get_str_token(tmp->token_type));
+		printf(" Value: \"%s\"\n", tmp->value);
+		tmp = tmp->next;
+		i++;
+	}
+	printf(CYAN"----------------------------\n"RST);
 }
