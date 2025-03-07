@@ -4,7 +4,7 @@ FLAG	=	-Wall -Werror -Wextra
 
 AR		=	ar -rsc
 
-SRCS	=	string1.c string2.c
+SRCS	=	string1.c string2.c str_array1.c str_array2.c
 
 OBJS	=	$(SRCS:.c=.o)
 

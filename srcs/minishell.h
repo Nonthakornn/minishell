@@ -125,6 +125,9 @@ int			display_error_path(char *command);
 //lexical
 t_token		*tokenize(char *input);
 
+//env
+char		**load_env(char *env[]);
+
 //display for dubugging
 void		display_process_lst(t_process *head);
 void 		display_redir_lst(t_redirect *head);

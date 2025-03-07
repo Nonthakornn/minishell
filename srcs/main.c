@@ -1,38 +1,38 @@
 #include "minishell.h"
 
-int main(void)
-{
-	char		*input;
-	t_token		*tokens;
-	// t_process	*proc; 
+// int main(void)
+// {
+// 	char		*input;
+// 	t_token		*tokens;
+// 	// t_process	*proc; 
 
-	while (1)
-	{
-		input = readline("minishell $> ");
-		if (!input)
-			break ;
-		add_history(input);
-		if (input[0] == '\0')
-		{
-			free(input);
-			continue;
-		}
-		//TODO
-		tokens = tokenize(input); //lexical
+// 	while (1)
+// 	{
+// 		input = readline("minishell $> ");
+// 		if (!input)
+// 			break ;
+// 		add_history(input);
+// 		if (input[0] == '\0')
+// 		{
+// 			free(input);
+// 			continue;
+// 		}
+// 		//TODO
+// 		tokens = tokenize(input); //lexical
 
-		//! Debug: Display tokens
-		display_token_lst(tokens);
+// 		//! Debug: Display tokens
+// 		display_token_lst(tokens);
 
-		// proc = parse(tokens); //Syntax
+// 		proc = parse(tokens); //Syntax
 
-		//! Debug: Display process
-		//display_process_lst(proc)
+// 		//! Debug: Display process
+// 		//display_process_lst(proc)
 
-		//TODO Clean up
-	}
-	rl_clear_history();
-	return (EXIT_SUCCESS);
-}
+// 		//TODO Clean up
+// 	}
+// 	rl_clear_history();
+// 	return (EXIT_SUCCESS);
+// }
 
 
 // int main(int ac, char *av[], char *env[])
@@ -70,3 +70,18 @@ int main(void)
 // 	return (exit_code >> 8);
 
 // }
+
+int main(int ac, char *av[], char *env[])
+{
+	(void)av;
+	(void)ac;
+	(void)env;
+	char	**str_arr;
+
+	str_arr = NULL;
+	print_str_array(str_arr);
+	printf("---------------\n");
+	str_arr = push_str_arr(str_arr, ft_slice("test='helllo'", 0, ft_strlen("test='helllo'")));
+	// print_str_array(str_arr);
+	free_str_arr(str_arr);
+}
