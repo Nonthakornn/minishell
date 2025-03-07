@@ -41,7 +41,6 @@ char	**remove_str_arr(char **str_arr, int removed_index)
 	free(str_arr);
 	return (new_arr);
 }
-#include <stdio.h>
 
 char	**push_str_arr(char **str_arr, char *new_str)
 {
@@ -50,7 +49,7 @@ char	**push_str_arr(char **str_arr, char *new_str)
 	int		i;
 
 	old_arr_len = count_str_array(str_arr);
-	new_arr = malloc(sizeof(char *) * old_arr_len + 2);
+	new_arr = malloc(sizeof(char *) * (old_arr_len + 2));
 	set_zero_str_array(new_arr, old_arr_len + 2);
 	i = 0;
 	while (str_arr && str_arr[i])
@@ -61,4 +60,17 @@ char	**push_str_arr(char **str_arr, char *new_str)
 	free(str_arr);
 	new_arr[i] = new_str;
 	return (new_arr);
+}
+
+void	edit_str_arr(char **str_arr, char *key, char *new_str)
+{
+	int	target_idx;
+
+	(void)new_str;
+
+	target_idx = find_startwith_index(str_arr, key);
+	if (target_idx < 0)
+		return ;
+	free(str_arr[target_idx]);
+	str_arr[target_idx] = ft_cat_str(key, new_str);
 }

@@ -23,5 +23,7 @@ char	**remove_str_arr(char **str_arr, int removed_index);
 void	print_str_array(char **str_arr);
 int		find_startwith_index(char **str_arr, char *word);
 char	**push_str_arr(char **str_arr, char *new_str);
+char	*ft_cat_str(char *s1, char *s2);
+void	edit_str_arr(char **str_arr, char *key, char *new_str);
 
 #endif

@@ -71,5 +71,3 @@ void	print_str_array(char **str_arr)
 		i++;
 	}
 }
-
-

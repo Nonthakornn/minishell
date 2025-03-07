@@ -1,11 +1,12 @@
 #include "minishell.h"
 
-char	**load_env(char *env[])
+char	**load_variable(char *env[])
 {
-	char	**shell_env;
+	char	**variable;
 
-	shell_env = new_str_arr(env);
-	if (!shell_env)
+	variable = new_str_arr(env);
+	if (!variable)
 		return (NULL);
-	return (NULL);
+	edit_str_arr(variable, "SHLVL=", "14");
+	return (variable);
 }

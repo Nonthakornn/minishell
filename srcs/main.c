@@ -75,13 +75,9 @@ int main(int ac, char *av[], char *env[])
 {
 	(void)av;
 	(void)ac;
-	(void)env;
-	char	**str_arr;
+	char	**variable;
 
-	str_arr = NULL;
-	print_str_array(str_arr);
-	printf("---------------\n");
-	str_arr = push_str_arr(str_arr, ft_slice("test='helllo'", 0, ft_strlen("test='helllo'")));
-	// print_str_array(str_arr);
-	free_str_arr(str_arr);
+	variable = load_variable(env);
+	print_str_array(variable);
+	free_str_arr(variable);
 }
