@@ -22,6 +22,8 @@ CC = cc
 CFLAGS =  -Wall -Wextra -Werror -g
 RM = rm -rf
 LDFLAGS = -lreadline
+VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all \
+			--suppressions=readline.supp
 
 all:			$(NAME)
 
@@ -32,6 +34,9 @@ $(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 $(NAME):		$(OBJS)
 				@$(MAKE) -C $(LIB_PATH)
 				@$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(LDFLAGS) -o $(NAME)
+
+vg:				$(NAME)
+				$(VALGRIND) ./$(NAME)
 
 clean:
 				@$(MAKE) -C $(LIB_PATH) clean
