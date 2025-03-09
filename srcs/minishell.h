@@ -105,7 +105,6 @@ void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
 void		close_fd(t_process *process);
 void		free_token(t_token *head);
-void		free_end_process(t_process *head, char **variable);
 
 //heredoc
 void		exec_heredoc(t_process *process);
@@ -115,9 +114,9 @@ int			process_redirect(t_process *process);
 
 // exec_process
 int			exec_command(t_process *head, t_process *process, char **variable);
-void		exec_process(t_process *head, t_process *process, char **variable);
+int			exec_process(t_process *head, t_process *process, char ***variable);
 void		wait_process(t_process *head, int *exit_code);
-void		fork_process(t_process *head, char **variable);
+void		fork_process(t_process *head, char ***variable);
 char		*get_path(char *env[], char *command);
 
 // error
@@ -137,6 +136,9 @@ char		**inherited_variable(char *env[]);
 char		**get_parent_variable(char *env[]);
 char		**get_child_variable(char **parent_variable);
 int			exec_env(t_process *head, t_process *process, char **variable);
+
+//unset
+int			exec_unset(t_process *head, t_process *process, char ***variable);
 
 //display for dubugging
 void		display_process_lst(t_process *head);
