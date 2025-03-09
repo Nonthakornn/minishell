@@ -81,9 +81,9 @@ typedef struct s_redirect_store
 char		*get_str_token(t_token_type type);
 
 //linklist_token
-t_token *create_token_lst(t_token_type type, char *value);
-t_token *lastnode_token_lst(t_token *head);
-void	addback_token_lst(t_token **head, t_token *new_node);
+t_token		*create_token_lst(t_token_type type, char *value);
+t_token		*lastnode_token_lst(t_token *head);
+void		addback_token_lst(t_token **head, t_token *new_node);
 
 //linklist_redirect
 void		display_redir_lst(t_redirect *head);
@@ -105,6 +105,7 @@ void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
 void		close_fd(t_process *process);
 void		free_token(t_token *head);
+void		free_end_process(t_process *head, char **variable);
 
 //heredoc
 void		exec_heredoc(t_process *process);
@@ -113,11 +114,14 @@ void		exec_heredoc(t_process *process);
 int			process_redirect(t_process *process);
 
 // exec_process
+int			exec_command(t_process *head, t_process *process, char **variable);
+void		exec_process(t_process *head, t_process *process, char **variable);
 void		wait_process(t_process *head, int *exit_code);
-void		fork_process(t_process *head, char *env[]);
-char		*ft_get_path(char *env[], char *command);
+void		fork_process(t_process *head, char **variable);
+char		*get_path(char *env[], char *command);
 
 // error
+void		put_strerror(char *name, char *strerr);
 int			display_error_access(char *access_name);
 int			display_error_no_command(char *command);
 int			display_error_path(char *command);
@@ -125,9 +129,18 @@ int			display_error_path(char *command);
 //lexical
 t_token		*tokenize(char *input);
 
+//env
+int			key_exist(char *var_str, char *key);
+int			get_variable_index(char **variable, char *key);
+int			count_variable(char *env[]);
+char		**inherited_variable(char *env[]);
+char		**get_parent_variable(char *env[]);
+char		**get_child_variable(char **parent_variable);
+int			exec_env(t_process *head, t_process *process, char **variable);
+
 //display for dubugging
 void		display_process_lst(t_process *head);
-void 		display_redir_lst(t_redirect *head);
+void		display_redir_lst(t_redirect *head);
 void		display_token_lst(t_token *head);
 void		display_redir_lst(t_redirect *head);
 

@@ -28,9 +28,9 @@ static int	input_heredoc(char *end_str)
 		write(1, "> ", 3);
 		read_byte = read(0, buffer, 1024);
 		buffer[read_byte] = '\0';
-		if (read_byte > 0 && ft_find_index(buffer, '\n') == -1)
+		if (read_byte > 0 && find_index(buffer, '\n') == -1)
 		{
-			while (ft_find_index(buffer, '\n') == -1)
+			while (find_index(buffer, '\n') == -1)
 			{
 				write(p[1], buffer, read_byte);
 				read_byte = read(0, buffer, 1024);

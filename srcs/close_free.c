@@ -37,9 +37,9 @@ void	free_process_and_redir(t_process *head)
 	}
 }
 
-void free_token(t_token *head)
+void	free_token(t_token *head)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	while (head)
 	{
@@ -72,4 +72,10 @@ void	close_fd(t_process *head)
 		}
 		head = head->next;
 	}
+}
+
+void	free_end_process(t_process *head, char **variable)
+{
+	free_process_and_redir(head);
+	free_str_arr(variable);
 }

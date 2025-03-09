@@ -1,26 +1,15 @@
 #include "libft.h"
 
-void	ft_print_str(int fd, char *str)
+void	init_str(char *str, int len)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (i <= len)
 	{
-		write(fd, &str[i], 1);
+		str[i] = '\0';
 		i++;
 	}
-	write(1, "\n", 1);
-}
-
-size_t	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
 }
 
 void	ft_strcpy(char *dst, char *src)
@@ -38,7 +27,19 @@ void	ft_strcpy(char *dst, char *src)
 	dst[i] = '\0';
 }
 
-int	ft_find_index(char *str, char c)
+size_t	ft_strlen(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	find_index(char *str, char c)
 {
 	size_t	i;
 
