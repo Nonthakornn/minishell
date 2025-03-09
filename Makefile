@@ -8,7 +8,7 @@ SRC_FILES = main.c token_utils.c close_free.c linklist_redirect.c \
 			split_pipe.c lexical.c \
 			exec_process.c get_path.c linklist_token.c \
 			process_variable.c get_process_variable.c \
-			exec_env.c
+			exec_env.c exec_unset.c
 
 HEADERS = srcs/minishell.h
 

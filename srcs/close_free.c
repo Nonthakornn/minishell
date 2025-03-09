@@ -73,9 +73,3 @@ void	close_fd(t_process *head)
 		head = head->next;
 	}
 }
-
-void	free_end_process(t_process *head, char **variable)
-{
-	free_process_and_redir(head);
-	free_str_arr(variable);
-}
