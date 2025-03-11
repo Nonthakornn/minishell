@@ -7,6 +7,7 @@
 
 int		startwith(char *str, char *word);
 int		find_index(char *str, char c);
+int		ft_strcmp(char *s1, char *s2, char terminal);
 char	*slice(char *src, size_t start, size_t end);
 char	**str_split(char *str, char *sep);
 bool	is_space(int c);
@@ -27,4 +28,5 @@ int		ft_atoi(char *nstr);
 char	*itoa(int n);
 int		is_equal(char *s1, char *s2);
 int		is_include(char *str, char c);
+char	**sort_arr(char **str);
 #endif

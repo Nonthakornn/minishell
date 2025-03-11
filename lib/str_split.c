@@ -7,7 +7,7 @@ char	*slice(char *src, size_t start, size_t end)
 
 	if (end > ft_strlen(src))
 		end = ft_strlen(src);
-	if (!src || start >= end)
+	if (!src)
 		return (NULL);
 	i = 0;
 	rs = malloc(sizeof(char) * (end - start + 1));

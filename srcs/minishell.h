@@ -140,6 +140,10 @@ int			exec_env(t_process *head, t_process *process, char **variable);
 //unset
 int			exec_unset(t_process *head, t_process *process, char ***variable);
 
+//export
+int			exec_export(t_process *head, t_process *process, char ***variable);
+int			add_export(char ***variable, char *str);
+
 //display for dubugging
 void		display_process_lst(t_process *head);
 void		display_redir_lst(t_redirect *head);
