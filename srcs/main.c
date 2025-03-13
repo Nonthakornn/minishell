@@ -46,9 +46,10 @@ int main(int ac, char *av[], char *env[])
 	char	**variable;
 
 	variable = get_parent_variable(env);
+	variable = add_str_arr(variable, slice("$a=", 0, ft_strlen("$a=")));
 
-	char *cmd1[] = {"unset", "SHLVL", "SHELL", NULL};
-	redir_1 = create_redir_lst(WRITE_FILE, "gen_env");
+	char *cmd1[] = {"ls", NULL};
+	redir_1 = create_redir_lst(WRITE_FILE, "gen_export");
 	// addback_redir_lst(&redir_1, create_redir_lst(HERE_DOC, "EOF"));
 	// addback_redir_lst(&redir_1, create_redir_lst(WRITE_FILE, "out"));
 	process_1 = create_process_lst(cmd1, redir_1);
@@ -73,8 +74,21 @@ int main(int ac, char *av[], char *env[])
 		wait_process(process_1, &exit_code);
 		free_process_and_redir(process_1);
 	}
-	
+	print_str_array(variable);
 	free_str_arr(variable);
 	return (exit_code >> 8);
 }
 
+// int	main()
+// {
+// 	char	**variable;
+
+// 	variable = malloc(sizeof(char *) * 3);
+// 	variable[0] = slice("$a=1234", 0, ft_strlen("$a=1234"));
+// 	variable[1] = slice("b=1234", 0, ft_strlen("b=1234"));
+// 	variable[2] = NULL;
+
+
+// 	printf("%d\n", get_variable_index(variable, "a"));
+// 	free_str_arr(variable);
+// }

@@ -4,11 +4,12 @@ SRC_DIR = srcs
 BUILD_DIR = obj
 
 SRC_FILES = main.c token_utils.c close_free.c linklist_redirect.c \
-			linklist_process.c exec_heredoc.c redirect.c error.c \
+			error_exec.c error_export.c error_unset.c \
+			linklist_process.c exec_heredoc.c redirect.c \
 			split_pipe.c lexical.c \
 			exec_process.c get_path.c linklist_token.c \
 			process_variable.c get_process_variable.c \
-			exec_env.c exec_unset.c
+			exec_env.c exec_unset.c exec_export.c exec_export_add.c
 
 HEADERS = srcs/minishell.h
 
@@ -27,7 +28,7 @@ VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all \
 
 all:			$(NAME)
 
-$(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
+$(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS) Makefile
 				@mkdir -p $(BUILD_DIR)
 				@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ 
 

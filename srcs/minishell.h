@@ -121,9 +121,12 @@ char		*get_path(char *env[], char *command);
 
 // error
 void		put_strerror(char *name, char *strerr);
-int			display_error_access(char *access_name);
-int			display_error_no_command(char *command);
-int			display_error_path(char *command);
+int			error_access(char *access_name);
+int			error_no_command(char *command);
+int			error_path(char *command);
+int			error_unset_option(char *name);
+int			error_export_option(char *key, char *value);
+int			error_export_name(char *key, char *value);
 
 //lexical
 t_token		*tokenize(char *input);
@@ -139,6 +142,10 @@ int			exec_env(t_process *head, t_process *process, char **variable);
 
 //unset
 int			exec_unset(t_process *head, t_process *process, char ***variable);
+
+//export
+int			exec_export(t_process *head, t_process *process, char ***variable);
+int			add_export(char ***variable, char *str);
 
 //display for dubugging
 void		display_process_lst(t_process *head);

@@ -15,19 +15,19 @@ void	put_strerror(char *name, char *strerr)
 	free(full_str);
 }
 
-int	display_error_access(char *access_name)
+int	error_access(char *access_name)
 {
 	put_strerror(access_name, strerror(errno));
 	return (1);
 }
 
-int	display_error_no_command(char *command)
+int	error_no_command(char *command)
 {
 	put_strerror(command, "command not found\n");
 	return (1);
 }
 
-int	display_error_path(char *command)
+int	error_path(char *command)
 {
 	if (ft_strlen(command) == 1 && command[0] == '/')
 		put_strerror(command, "Is a directory\n");

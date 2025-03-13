@@ -2,16 +2,13 @@
 
 int	key_exist(char *var_str, char *key)
 {
-	int	i;
-
 	if (ft_strlen(key) == 0 || ft_strlen(var_str) == 0)
 		return (0);
 	if (ft_strlen(key) > ft_strlen(var_str))
 		return (0);
-	i = 0;
-	while (key[i])
-		i++;
-	if (var_str[i] == '=' || var_str[i] == '\0')
+	if (var_str[0] == '$')
+		var_str++;
+	if (ft_strcmp(var_str, key, '=') == 0)
 		return (1);
 	return (0);
 }

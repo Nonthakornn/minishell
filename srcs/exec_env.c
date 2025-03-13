@@ -13,7 +13,7 @@ static void	print_variable(char **variable)
 			i++;
 			continue ;
 		}
-		if (is_include(variable[i], '='))
+		if (is_include(variable[i], '=') && !startwith(variable[i], "$"))
 			print_str(1, variable[i]);
 		i++;
 	}
