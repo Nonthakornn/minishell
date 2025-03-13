@@ -6,13 +6,13 @@ int	exec_command(t_process *head, t_process *process, char **variable)
 
 	if (!(process->cmd) || !(process->cmd)[0])
 	{
-		display_error_no_command(" ");
+		error_no_command(" ");
 		free_process_and_redir(head);
 		return (127);
 	}
 	if (ft_strlen((process->cmd)[0]) == 1 && (process->cmd)[0][0] == '/')
 	{
-		display_error_path("/");
+		error_path("/");
 		free_process_and_redir(head);
 		return (126);
 	}
@@ -36,15 +36,15 @@ int	exec_process(t_process *head, t_process *process, char ***variable)
 	if (redir_result != 0)
 	{
 		free_process_and_redir(head);
-		return(1);
+		return (1);
 	}
 	if (is_equal("env", (process->cmd)[0]))
-		return(exec_env(head, process, (*variable)));
+		return (exec_env(head, process, (*variable)));
 	if (is_equal("unset", (process->cmd)[0]))
-		return(exec_unset(head, process, variable));
+		return (exec_unset(head, process, variable));
 	if (is_equal("export", (process->cmd)[0]))
 		return (exec_export(head, process, variable));
-	return(exec_command(head, process, (*variable)));
+	return (exec_command(head, process, (*variable)));
 }
 
 void	fork_process(t_process *head, char ***variable)

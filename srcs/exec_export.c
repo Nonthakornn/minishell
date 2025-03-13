@@ -2,9 +2,9 @@
 
 static void	printf_export_str(char *str)
 {
-	int	i;
-	char temp[2];
-	int	found;
+	int		i;
+	char	temp[2];
+	int		found;
 
 	if (is_equal(str, "_"))
 		return ;
@@ -37,7 +37,8 @@ static void	show_export(char **variable)
 	i = 0;
 	while (sort_variable[i])
 	{
-		if (startwith(sort_variable[i], "_=") || startwith(sort_variable[i], "$"))
+		if (startwith(sort_variable[i], "_=") || \
+		startwith(sort_variable[i], "$"))
 		{
 			i++;
 			continue ;
@@ -49,7 +50,7 @@ static void	show_export(char **variable)
 }
 
 int	exec_export(t_process *head, t_process *process, char ***variable)
-{	
+{
 	int	exit_code;
 	int	i;
 
@@ -61,8 +62,9 @@ int	exec_export(t_process *head, t_process *process, char ***variable)
 	{
 		while ((process->cmd)[i])
 		{
-			if (!add_export(variable, (process->cmd)[i]))
-				exit_code = 1;
+			exit_code = add_export(variable, (process->cmd)[i]);
+			if (exit_code > 0)
+				break ;
 			i++;
 		}
 	}

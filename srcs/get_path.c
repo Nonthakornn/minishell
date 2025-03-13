@@ -38,7 +38,7 @@ static char	*check_path_command(char *command)
 	}
 	if (access(command, F_OK) == 0)
 		return (slice(command, 0, ft_strlen(command)));
-	display_error_access(command);
+	error_access(command);
 	return (NULL);
 }
 
@@ -50,10 +50,7 @@ static char	*find_accessible_path(char *path_str, char *command)
 	int		i;
 
 	if (ft_strlen(path_str) <= 5)
-	{
-		display_error_path(command);
-		return (display_error_path(command), NULL);
-	}
+		return (error_path(command), NULL);
 	env_path = slice(path_str, 5, ft_strlen(path_str));
 	if (!env_path)
 		return (NULL);
@@ -95,13 +92,13 @@ char	*get_path(char *env[], char *command)
 	path_index = get_path_index(env);
 	if (path_index == -1)
 	{
-		display_error_path(command);
+		error_path(command);
 		return (NULL);
 	}
 	accessible_path = find_accessible_path(env[path_index], command);
 	if (!accessible_path)
 	{
-		display_error_no_command(command);
+		error_no_command(command);
 		return (NULL);
 	}
 	return (accessible_path);

@@ -48,7 +48,7 @@ int main(int ac, char *av[], char *env[])
 	variable = get_parent_variable(env);
 	variable = add_str_arr(variable, slice("$a=", 0, ft_strlen("$a=")));
 
-	char *cmd1[] = {"export", "b=",NULL};
+	char *cmd1[] = {"ls", NULL};
 	redir_1 = create_redir_lst(WRITE_FILE, "gen_export");
 	// addback_redir_lst(&redir_1, create_redir_lst(HERE_DOC, "EOF"));
 	// addback_redir_lst(&redir_1, create_redir_lst(WRITE_FILE, "out"));

@@ -4,7 +4,8 @@ SRC_DIR = srcs
 BUILD_DIR = obj
 
 SRC_FILES = main.c token_utils.c close_free.c linklist_redirect.c \
-			linklist_process.c exec_heredoc.c redirect.c error.c \
+			error_exec.c error_export.c error_unset.c \
+			linklist_process.c exec_heredoc.c redirect.c \
 			split_pipe.c lexical.c \
 			exec_process.c get_path.c linklist_token.c \
 			process_variable.c get_process_variable.c \
