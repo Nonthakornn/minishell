@@ -43,17 +43,20 @@ int	count_variable(char *env[])
 	return (c);
 }
 
-void	print_variable(char **variable)
+static char	**set_pwd(char ***variable)
 {
-	int	i;
+	int		pwd_idx;
+	int		opwd_idx;
+	char	**temp;
 
-	i = 0;
-	while (variable && variable[i])
-	{
-		if (find_index(variable[i], '=') != -1)
-			print_str(1, variable[i]);
-		i++;
-	}
+	pwd_idx = get_variable_index(*variable, "PWD");
+	opwd_idx = get_variable_index(*variable, "OLDPWD");
+	temp = *variable;
+	if (pwd_idx < 0)
+		temp = add_str_arr(temp, getcwd_variable("PWD="));
+	if (opwd_idx < 0)
+		temp = add_str_arr(temp, slice("OLDPWD", 0, 6));
+	return (temp);
 }
 
 char	**inherited_variable(char *env[])
@@ -65,8 +68,8 @@ char	**inherited_variable(char *env[])
 	var_len = count_variable(env);
 	if (var_len == 0)
 		return (NULL);
-	str_arr = malloc(sizeof(char *) * (var_len + 3));
-	init_str_array(str_arr, var_len + 2);
+	str_arr = malloc(sizeof(char *) * (var_len + 2));
+	init_str_array(str_arr, var_len + 1);
 	i = 0;
 	while (env[i])
 	{
@@ -78,6 +81,6 @@ char	**inherited_variable(char *env[])
 		i++;
 	}
 	str_arr[i] = getcwd_variable("@PWD=");
-	str_arr[i + 1] = getcwd_variable("@OLDPWD=");
+	str_arr = set_pwd(&str_arr);
 	return (str_arr);
 }

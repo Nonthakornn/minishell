@@ -46,6 +46,8 @@ int	exec_process(t_process *head, t_process *process, char ***variable)
 		return (exec_export(head, process, variable));
 	if (is_equal("pwd", (process->cmd)[0]))
 		return (exec_pwd(head, process, variable));
+	if (is_equal("cd", (process->cmd)[0]))
+		return (exec_cd(head, process, variable));
 	return (exec_command(head, process, (*variable)));
 }
 
