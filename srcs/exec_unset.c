@@ -1,13 +1,55 @@
 #include "minishell.h"
 
+static int	remove_number(char **variable, char *key)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (variable && variable[i])
+	{
+		if (key_exist(variable[i], key))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+static char	**remove_variable(char **var, char *key)
+{
+	char	**new_arr;
+	int		old_len;
+	int		i;
+	int		j;
+
+	old_len = count_str_array(var);
+	if (old_len == 0 || remove_number(var, key) == 0)
+		return (var);
+	new_arr = malloc(sizeof(char *) * (old_len - 1 + remove_number(var, key)));
+	init_str_array(new_arr, old_len - remove_number(var, key));
+	i = 0;
+	j = 0;
+	while (var[i])
+	{
+		if (key_exist(var[i], key))
+			free(var[i]);
+		else
+		{
+			new_arr[j] = var[i];
+			j++;
+		}
+		i++;
+	}
+	return (free(var), new_arr);
+}
+
 int	exec_unset(t_process *head, t_process *process, char ***variable)
 {
 	int	i;
-	int	remove_index;
 	int	exit_code;
 
 	i = 1;
-	remove_index = -1;
 	exit_code = 0;
 	while (process->cmd[i])
 	{
@@ -16,9 +58,7 @@ int	exec_unset(t_process *head, t_process *process, char ***variable)
 			exit_code = error_unset_option(process->cmd[i]);
 			break ;
 		}
-		remove_index = get_variable_index((*variable), process->cmd[i]);
-		if (remove_index >= 0)
-			(*variable) = remove_str_arr((*variable), remove_index);
+		(*variable) = remove_variable(*variable, process->cmd[i]);
 		i++;
 	}
 	free_process_and_redir(head);

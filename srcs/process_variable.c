@@ -65,8 +65,8 @@ char	**inherited_variable(char *env[])
 	var_len = count_variable(env);
 	if (var_len == 0)
 		return (NULL);
-	str_arr = malloc(sizeof(char *) * (var_len + 1));
-	init_str_array(str_arr, var_len);
+	str_arr = malloc(sizeof(char *) * (var_len + 3));
+	init_str_array(str_arr, var_len + 2);
 	i = 0;
 	while (env[i])
 	{
@@ -77,5 +77,7 @@ char	**inherited_variable(char *env[])
 			return (free_str_arr(str_arr), NULL);
 		i++;
 	}
+	str_arr[i] = getcwd_variable("@PWD=");
+	str_arr[i + 1] = getcwd_variable("@OLDPWD=");
 	return (str_arr);
 }

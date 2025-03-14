@@ -126,6 +126,7 @@ int			error_no_command(char *command);
 int			error_path(char *command);
 int			error_unset_option(char *name);
 int			error_export_option(char *key, char *value);
+int			error_pwd_option(char *name);
 int			error_export_name(char *key, char *value);
 
 //lexical
@@ -146,6 +147,10 @@ int			exec_unset(t_process *head, t_process *process, char ***variable);
 //export
 int			exec_export(t_process *head, t_process *process, char ***variable);
 int			add_export(char ***variable, char *str);
+
+//cd pwd
+char		*getcwd_variable(char *key);
+int			exec_pwd(t_process *head, t_process *process, char ***variable);
 
 //display for dubugging
 void		display_process_lst(t_process *head);

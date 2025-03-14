@@ -38,7 +38,8 @@ static void	show_export(char **variable)
 	while (sort_variable[i])
 	{
 		if (startwith(sort_variable[i], "_=") || \
-		startwith(sort_variable[i], "$"))
+		startwith(sort_variable[i], "$") || \
+		startwith(sort_variable[i], "@"))
 		{
 			i++;
 			continue ;
