@@ -46,9 +46,8 @@ int main(int ac, char *av[], char *env[])
 	char	**variable;
 
 	variable = get_parent_variable(env);
-	variable = add_str_arr(variable, slice("$PWD=test", 0, ft_strlen("$PWD=test")));
 
-	char *cmd1[] = {"unset", "OLDPWD", NULL};
+	char *cmd1[] = { "cd", ".", NULL };
 	redir_1 = create_redir_lst(WRITE_FILE, "get_unset");
 	// addback_redir_lst(&redir_1, create_redir_lst(HERE_DOC, "EOF"));
 	// addback_redir_lst(&redir_1, create_redir_lst(WRITE_FILE, "out"));

@@ -27,7 +27,7 @@ int	exec_env(t_process *head, t_process *process, char **variable)
 	cmd_count = count_str_array(process->cmd);
 	if (cmd_count != 1)
 	{
-		put_strerror("env", "too many arguments\n");
+		put_strerror("env", "too many arguments");
 		free_process_and_redir(head);
 		return (1);
 	}

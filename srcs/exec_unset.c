@@ -58,6 +58,11 @@ int	exec_unset(t_process *head, t_process *process, char ***variable)
 			exit_code = error_unset_option(process->cmd[i]);
 			break ;
 		}
+		if (process->cmd[i][0] == '@')
+		{
+			i++;
+			continue ;
+		}
 		(*variable) = remove_variable(*variable, process->cmd[i]);
 		i++;
 	}

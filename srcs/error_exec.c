@@ -13,6 +13,7 @@ void	put_strerror(char *name, char *strerr)
 	free(cmd_str);
 	puterror(full_str);
 	free(full_str);
+	write(2, "\n", 1);
 }
 
 int	error_access(char *access_name)
@@ -23,15 +24,15 @@ int	error_access(char *access_name)
 
 int	error_no_command(char *command)
 {
-	put_strerror(command, "command not found\n");
+	put_strerror(command, "command not found");
 	return (1);
 }
 
 int	error_path(char *command)
 {
 	if (ft_strlen(command) == 1 && command[0] == '/')
-		put_strerror(command, "Is a directory\n");
+		put_strerror(command, "Is a directory");
 	else
-		put_strerror(command, "No such file or directory\n");
+		put_strerror(command, "No such file or directory");
 	return (1);
 }
