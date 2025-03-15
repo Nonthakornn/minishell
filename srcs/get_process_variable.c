@@ -53,7 +53,6 @@ char	**get_parent_variable(char *env[])
 	variable = inherited_variable(env);
 	if (!variable)
 		return (NULL);
-	variable =  add_str_arr(variable, slice("$a=1", 0, 4));
 	variable = clear_local_var(variable);
 	shlvl_idx = get_variable_index(variable, "SHLVL");
 	if (shlvl_idx == -1)
