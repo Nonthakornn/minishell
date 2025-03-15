@@ -1,5 +1,48 @@
 #include "minishell.h"
 
+static int	count_pub_var(char **var)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (var && var[i])
+	{
+		if (var[i][0] != '$')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+static char **clear_local_var(char **var)
+{
+	char	**new_var;
+	int		n;
+	int		i;
+	int		j;
+
+	n = count_pub_var(var);
+	new_var = malloc(sizeof(char *) * (n + 1));
+	init_str_array(new_var, n);
+	i = 0;
+	j = 0;
+	while (var && var[i])
+	{
+		if (var[i][0] == '$')
+			free(var[i]);
+		else
+		{
+			new_var[j] = var[i];
+			j++;
+		}
+		i++;
+	}
+	free(var);
+	return (new_var);
+}
+
 char	**get_parent_variable(char *env[])
 {
 	char	**variable;
@@ -10,6 +53,8 @@ char	**get_parent_variable(char *env[])
 	variable = inherited_variable(env);
 	if (!variable)
 		return (NULL);
+	variable =  add_str_arr(variable, slice("$a=1", 0, 4));
+	variable = clear_local_var(variable);
 	shlvl_idx = get_variable_index(variable, "SHLVL");
 	if (shlvl_idx == -1)
 	{
