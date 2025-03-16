@@ -1,10 +1,11 @@
 #include "minishell.h"
 
-int main(void)
+int main(int ac, char *av[], char *env[])
 {
 	char		*input;
 	t_token		*tokens;
-	// t_process	*proc; 
+	t_process	*proc; 
+	int exit_code;
 
 	while (1)
 	{
@@ -17,19 +18,23 @@ int main(void)
 			free(input);
 			continue;
 		}
-		//TODO
+		//! lexical 
 		tokens = tokenize(input); //lexical
+		// display_token_lst(tokens);
 
-		//! Debug: Display tokens
-		display_token_lst(tokens);
+		//! syntax
+		proc = syntax(tokens); //Syntax
+		// display_process_lst(proc);
 
-		// proc = parse(tokens); //Syntax
+		//!execution
+		pipe_process_lst(&proc);
+		exec_heredoc(proc);
+		fork_process(proc, env);
+		wait_process(proc, &exit_code);
 
-		//! Debug: Display process
-		//display_process_lst(proc)
-
-		//TODO Clean up
+		//! clean up 
 		free_token(tokens);
+		free_process_and_redir(proc);
 	}
 	rl_clear_history();
 	return (EXIT_SUCCESS);

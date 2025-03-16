@@ -2,24 +2,12 @@
 
 t_process	*create_process_lst(char **cmd, t_redirect *redir)
 {
-	int			i;
 	t_process	*new_node;
 
-	i = 0;
-	while (cmd[i])
-		i++;
 	new_node = malloc(sizeof(t_process));
 	if (!new_node)
 		return (NULL);
-	new_node->cmd = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (cmd[i])
-	{
-		new_node->cmd[i] = malloc(ft_strlen(cmd[i]) + 1);
-		ft_strcpy(new_node->cmd[i], cmd[i]);
-		i++;
-	}
-	new_node->cmd[i] = NULL;
+	new_node->cmd = cmd;
 	new_node->redirect = redir;
 	new_node->pipe_in = NULL;
 	new_node->pipe_out = NULL;
@@ -28,6 +16,35 @@ t_process	*create_process_lst(char **cmd, t_redirect *redir)
 	new_node->pid = -1;
 	return (new_node);
 }
+
+// t_process	*create_process_lst(char **cmd, t_redirect *redir)
+// {
+// 	int			i;
+// 	t_process	*new_node;
+
+// 	i = 0;
+// 	while (cmd[i])
+// 		i++;
+// 	new_node = malloc(sizeof(t_process));
+// 	if (!new_node)
+// 		return (NULL);
+// 	new_node->cmd = malloc(sizeof(char *) * (i + 1));
+// 	i = 0;
+// 	while (cmd[i])
+// 	{
+// 		new_node->cmd[i] = malloc(ft_strlen(cmd[i]) + 1);
+// 		ft_strcpy(new_node->cmd[i], cmd[i]);
+// 		i++;
+// 	}
+// 	new_node->cmd[i] = NULL;
+// 	new_node->redirect = redir;
+// 	new_node->pipe_in = NULL;
+// 	new_node->pipe_out = NULL;
+// 	new_node->here_doc = NULL;
+// 	new_node->next = NULL;
+// 	new_node->pid = -1;
+// 	return (new_node);
+// }
 
 t_process	*lastnode_process_lst(t_process *head)
 {
@@ -89,12 +106,12 @@ void	display_process_lst(t_process *head)
 	int	cmd_num;
 
 	cmd_num = 0;
-	printf(PURPLE"Pipe Command List:\n"RST);
-	printf(PURPLE"-----------------------------\n"RST);
+	printf(CYAN"Pipe Command List:\n"RST);
+	printf(CYAN"-----------------------------\n"RST);
 	while (head)
 	{
 		i = 0;
-		printf(PURPLE"[Command %d]\n"RST, cmd_num++);
+		printf(CYAN"[Command %d]\n"RST, cmd_num++);
 		while (head->cmd[i])
 		{
 			printf("cmd[%d]: \"%s\"\n", i, head->cmd[i]);
@@ -112,5 +129,5 @@ void	display_process_lst(t_process *head)
 			printf("NULL\n");
 		head = head->next;
 	}
-	printf(RED"-----------------------------\n"RST);
+	printf(RED"-----------------------------"RST"\n");
 }

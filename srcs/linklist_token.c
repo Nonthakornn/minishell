@@ -59,5 +59,5 @@ void	display_token_lst(t_token *head)
 		tmp = tmp->next;
 		i++;
 	}
-	printf(CYAN"----------------------------\n"RST);
+	printf(CYAN"-----------------------------"RST"\n");
 }

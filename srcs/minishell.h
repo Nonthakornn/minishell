@@ -129,6 +129,9 @@ int			handle_operator(char *str, int *i , t_token **head);
 int			handle_quote(char *str, int *i, t_token **head, t_quote_state *state);
 int			handle_normal_word(char *str, int *i, t_token **head);
 
+//syntax
+t_process	*syntax(t_token *tokens);
+
 //display for dubugging
 void		display_process_lst(t_process *head);
 void 		display_redir_lst(t_redirect *head);

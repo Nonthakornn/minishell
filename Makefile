@@ -6,7 +6,7 @@ BUILD_DIR = obj
 SRC_FILES = main.c token_utils.c close_free.c linklist_redirect.c \
 			linklist_process.c exec_heredoc.c redirect.c error.c \
 			split_pipe.c exec_process.c get_path.c linklist_token.c \
-			lexical.c lexical2.c
+			lexical.c lexical2.c syntax.c
 
 HEADERS = srcs/minishell.h
 
@@ -17,7 +17,8 @@ LIBS = -L$(LIB_PATH) -lft
 OBJS = $(SRC_FILES:%.c=$(BUILD_DIR)/%.o)
 
 CC = cc 
-CFLAGS =  -Wall -Wextra -Werror -g
+#CFLAGS =  -Wall -Wextra -Werror -g
+CFLAGS =  -Wall -g
 RM = rm -rf
 LDFLAGS = -lreadline
 VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all \
