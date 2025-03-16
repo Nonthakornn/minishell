@@ -29,6 +29,7 @@ int main(void)
 		//display_process_lst(proc)
 
 		//TODO Clean up
+		free_token(tokens);
 	}
 	rl_clear_history();
 	return (EXIT_SUCCESS);

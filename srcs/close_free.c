@@ -50,6 +50,20 @@ void free_token(t_token *head)
 	}
 }
 
+void free_token_exit(t_token *head)
+{
+	t_token *tmp;
+
+	while (head)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp->value);
+		free(tmp);
+	}
+	exit(127);
+}
+
 void	close_fd(t_process *head)
 {
 	int	i;
