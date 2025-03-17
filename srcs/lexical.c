@@ -79,6 +79,6 @@ t_token	*tokenize(char *input)
 			i++;
 	}
 	if (state != NORMAL)
-		free_token_exit(head);
+		free_token_return(head);
 	return (head);
 }

@@ -4,8 +4,8 @@ int main(int ac, char *av[], char *env[])
 {
 	char		*input;
 	t_token		*tokens;
-	t_process	*proc; 
-	int exit_code;
+	// t_process	*proc; 
+	// int			exit_code;
 
 	while (1)
 	{
@@ -22,19 +22,26 @@ int main(int ac, char *av[], char *env[])
 		tokens = tokenize(input); //lexical
 		// display_token_lst(tokens);
 
-		//! syntax
-		proc = syntax(tokens); //Syntax
-		// display_process_lst(proc);
+		if (!check_syntax_err(tokens))
+		{
+			printf("Syntax Error\n");
+			free_token(tokens);
+		}
+		// printf("OK\n");
 
-		//!execution
-		pipe_process_lst(&proc);
-		exec_heredoc(proc);
-		fork_process(proc, env);
-		wait_process(proc, &exit_code);
+		// //! syntax
+		// proc = syntax(tokens); //Syntax
+		// // display_process_lst(proc);
 
-		//! clean up 
-		free_token(tokens);
-		free_process_and_redir(proc);
+		// //!execution
+		// pipe_process_lst(&proc);
+		// exec_heredoc(proc);
+		// fork_process(proc, env);
+		// wait_process(proc, &exit_code);
+
+		// //! clean up 
+		// free_token(tokens);
+		// free_process_and_redir(proc);
 	}
 	rl_clear_history();
 	return (EXIT_SUCCESS);

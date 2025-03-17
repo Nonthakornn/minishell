@@ -105,7 +105,7 @@ void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
 void		close_fd(t_process *process);
 void		free_token(t_token *head);
-void		free_token_exit(t_token *head);
+void		free_token_return(t_token *head);
 
 //heredoc
 void		exec_heredoc(t_process *process);
@@ -130,6 +130,7 @@ int			handle_quote(char *str, int *i, t_token **head, t_quote_state *state);
 int			handle_normal_word(char *str, int *i, t_token **head);
 
 //syntax
+bool		check_syntax_err(t_token *tokens);
 t_process	*syntax(t_token *tokens);
 
 //display for dubugging
