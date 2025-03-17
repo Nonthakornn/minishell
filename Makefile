@@ -6,7 +6,7 @@ BUILD_DIR = obj
 SRC_FILES = main.c token_utils.c close_free.c linklist_redirect.c \
 			linklist_process.c exec_heredoc.c redirect.c error.c \
 			split_pipe.c exec_process.c get_path.c linklist_token.c \
-			lexical.c lexical2.c syntax.c
+			lexical.c lexical2.c syntax.c free_return.c
 
 HEADERS = srcs/minishell.h
 
