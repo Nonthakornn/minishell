@@ -79,6 +79,7 @@ typedef struct s_redirect_store
 
 //token utils
 char		*get_str_token(t_token_type type);
+int			command_count(t_token *token);
 
 //linklist_token
 t_token *create_token_lst(t_token_type type, char *value);
@@ -131,6 +132,7 @@ int			handle_normal_word(char *str, int *i, t_token **head);
 
 //syntax
 bool		check_syntax_err(t_token *tokens);
+bool		check_redir_type(t_token *tokens);
 t_process	*syntax(t_token *tokens);
 
 //display for dubugging

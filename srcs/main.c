@@ -4,8 +4,7 @@ int main(int ac, char *av[], char *env[])
 {
 	char		*input;
 	t_token		*tokens;
-	// t_process	*proc; 
-	// int			exit_code;
+	t_process	*proc; 
 
 	while (1)
 	{
@@ -18,26 +17,29 @@ int main(int ac, char *av[], char *env[])
 			free(input);
 			continue;
 		}
-		//! lexical 
-		tokens = tokenize(input); //lexical
+		tokens = tokenize(input);
 		// display_token_lst(tokens);
 
 		if (!check_syntax_err(tokens))
 		{
 			printf("Syntax Error\n");
 			free_token(tokens);
+			continue;
 		}
-		// printf("OK\n");
 
 		// //! syntax
-		// proc = syntax(tokens); //Syntax
-		// // display_process_lst(proc);
-
+		proc = syntax(tokens); //Syntax
+		display_process_lst(proc);
+		if (!proc)
+		{
+			free_token(tokens);
+			continue;
+		}
 		// //!execution
-		// pipe_process_lst(&proc);
-		// exec_heredoc(proc);
-		// fork_process(proc, env);
-		// wait_process(proc, &exit_code);
+		pipe_process_lst(&proc);
+		exec_heredoc(proc);
+		fork_process(proc, env);
+		wait_process(proc, NULL);
 
 		// //! clean up 
 		// free_token(tokens);
@@ -47,6 +49,7 @@ int main(int ac, char *av[], char *env[])
 	return (EXIT_SUCCESS);
 }
 
+// < Makefile  < test  cat < Makefile
 
 // int main(int ac, char *av[], char *env[])
 // {

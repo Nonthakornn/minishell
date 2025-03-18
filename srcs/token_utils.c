@@ -22,3 +22,18 @@ char	*get_str_token(t_token_type type)
 		return (NULL);
 	}
 }
+
+int	command_count(t_token *token)
+{
+	t_token	*temp;
+	int		cmd_count;
+
+	cmd_count = 0;
+	temp = token;
+	while (temp && temp->token_type == CMD)
+	{
+		cmd_count++;
+		temp = temp->next;
+	}
+	return (cmd_count);
+}
