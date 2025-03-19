@@ -4,10 +4,10 @@ SRC_DIR = srcs
 BUILD_DIR = obj
 
 SRC_FILES = main.c token_utils.c close_free.c linklist_redirect.c \
+			linklist_process.c exec_heredoc.c redirect.c  \
+			split_pipe.c exec_process.c get_path.c linklist_token.c \
+			lexical.c lexical2.c syntax.c syntax2.c free_return.c \
 			error_exec.c error_export.c error_option.c \
-			linklist_process.c exec_heredoc.c redirect.c \
-			split_pipe.c lexical.c \
-			exec_process.c get_path.c linklist_token.c \
 			process_variable.c get_process_variable.c \
 			exec_env.c exec_unset.c exec_export.c exec_export_add.c \
 			exec_pwd.c exec_cd.c exec_chdir.c
@@ -21,7 +21,8 @@ LIBS = -L$(LIB_PATH) -lft
 OBJS = $(SRC_FILES:%.c=$(BUILD_DIR)/%.o)
 
 CC = cc 
-CFLAGS =  -Wall -Wextra -Werror -g
+#CFLAGS =  -Wall -Wextra -Werror -g
+CFLAGS =  -Wall -g
 RM = rm -rf
 LDFLAGS = -lreadline
 VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all \

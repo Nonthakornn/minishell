@@ -55,9 +55,9 @@ void	display_token_lst(t_token *head)
 	{
 		printf("Token[%d]:\n", i);
 		printf(" Type: %s\n", get_str_token(tmp->token_type));
-		printf(" Value: \"%s\"\n", tmp->value);
+		printf(" Value: %s\n", tmp->value);
 		tmp = tmp->next;
 		i++;
 	}
-	printf(CYAN"----------------------------\n"RST);
+	printf(CYAN"-----------------------------"RST"\n");
 }

@@ -79,6 +79,7 @@ typedef struct s_redirect_store
 
 //token utils
 char		*get_str_token(t_token_type type);
+int			command_count(t_token *token);
 
 //linklist_token
 t_token		*create_token_lst(t_token_type type, char *value);
@@ -105,6 +106,7 @@ void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
 void		close_fd(t_process *process);
 void		free_token(t_token *head);
+void		free_token_return(t_token *head);
 
 //heredoc
 void		exec_heredoc(t_process *process);
@@ -131,6 +133,14 @@ int			error_export_name(char *key, char *value);
 
 //lexical
 t_token		*tokenize(char *input);
+int			handle_operator(char *str, int *i , t_token **head);
+int			handle_quote(char *str, int *i, t_token **head, t_quote_state *state);
+int			handle_normal_word(char *str, int *i, t_token **head);
+
+//syntax
+bool		check_syntax_err(t_token *tokens);
+bool		check_redir_type(t_token *tokens);
+t_process	*syntax(t_token *tokens);
 
 //env
 int			key_exist(char *var_str, char *key);

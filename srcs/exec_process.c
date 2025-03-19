@@ -53,7 +53,6 @@ int	exec_process(t_process *head, t_process *process, char ***variable)
 void	fork_process(t_process *head, char ***variable)
 {
 	t_process	*process;
-	char		**child_variable;
 	int			exit_code;
 
 	process = head;
@@ -62,9 +61,8 @@ void	fork_process(t_process *head, char ***variable)
 		process->pid = fork();
 		if (process->pid == 0)
 		{
-			child_variable = get_child_variable((*variable));
-			exit_code = exec_process(head, process, &child_variable);
-			free_str_arr(child_variable);
+			exit_code = exec_process(head, process, variable);
+			free_str_arr(*variable);
 			exit(exit_code);
 		}
 		process = process->next;

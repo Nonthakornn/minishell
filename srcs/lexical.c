@@ -1,12 +1,66 @@
 #include "minishell.h"
 
+static int	handle_pipe(char *str, int *i, t_token **head)
+{
+	if (str[*i] == '|')
+	{
+		addback_token_lst(head, create_token_lst(PIPE, "|"));
+		(*i)++ ;
+		return (1);
+	}
+	return (0);
+}
+
+static int	handle_redirect_in(char *str, int *i, t_token **head)
+{
+	if (str[*i] == '<' && str[*i + 1] == '<')
+	{
+		addback_token_lst(head, create_token_lst(HERE_DOC, "<<"));
+		(*i) += 2 ;
+		return (1);
+	}
+	else if (str[*i] == '<')
+	{
+		addback_token_lst(head, create_token_lst(READ_FILE, "<"));
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
+static int	handle_redirect_out(char *str, int *i, t_token **head)
+{
+	if (str[*i] == '>' && str[*i + 1] == '>')
+	{
+		addback_token_lst(head, create_token_lst(APPEND_FILE, ">>"));
+		(*i) += 2 ;
+		return (1);
+	}
+	else if (str[*i] == '>')
+	{
+		addback_token_lst(head, create_token_lst(WRITE_FILE, ">"));
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
+int	handle_operator(char *str, int *i, t_token **head)
+{
+	if (handle_pipe(str, i, head))
+		return (1);
+	if (handle_redirect_in(str, i, head))
+		return (1);
+	if (handle_redirect_out(str, i, head))
+		return (1);
+	return (0);
+}
+
 t_token	*tokenize(char *input)
 {
 	int				i;
 	t_token			*head;
 	t_quote_state	state;
-	int				start;
-	char			*word;
 
 	i = 0;
 	head = NULL;
@@ -14,109 +68,17 @@ t_token	*tokenize(char *input)
 	while (input[i])
 	{
 		if (state == NORMAL && is_space(input[i]))
-		{
 			i++;
-			continue;
-		}
-		//Handle operator in NORMAL STATE
-		if (state == NORMAL)
-		{
-			if (input[i] == '|')
-			{
-				addback_token_lst(&head, create_token_lst(PIPE, "|"));
-				i++;
-				continue;
-			}
-			else if (input[i] == '<' && input[i + 1] == '<')
-			{
-				addback_token_lst(&head, create_token_lst(HERE_DOC, "<<"));
-				i+=2;
-				continue;
-			}
-			else if (input[i] == '>' && input[i + 1] == '>')
-			{
-				addback_token_lst(&head, create_token_lst(APPEND_FILE, ">>"));
-				i+=2;
-				continue;
-			}
-			else if (input[i] == '<')
-			{
-				addback_token_lst(&head, create_token_lst(READ_FILE, "<"));
-				i++;
-				continue;
-			}
-			else if (input[i] == '>')
-			{
-				addback_token_lst(&head, create_token_lst(WRITE_FILE, ">"));
-				i++;
-				continue;
-			}
-		}
-		//Handle quotes
-		if ((input[i] == '\'' || input[i] == '\"') && state == NORMAL)
-		{
-			char quote_char;
-
-			quote_char = input[i];
-			if (quote_char == '\'')
-				state = SINGLE_QUOTE;
-			else
-				state = DOUBLE_QUOTE;
-			start = i;
-			i++; //skip opening quote
-			//Find closing quote
-			while (input[i] && input[i] != quote_char)
-				i++;
-			if (input[i] == quote_char)
-			{
-				int len = i - start - 1;
-				int j = 0;
-				word = malloc(len + 1);
-				while (j < len)
-				{
-					word[j] = input[start + j + 1];
-					j++;
-				}
-				word[j] = '\0';
-				addback_token_lst(&head, create_token_lst(CMD, word));
-				free(word);
-				i++;
-				state = NORMAL;
-				continue;
-			}
-			else
-				break;
-		}
-		if (state == NORMAL)
-		{
-			start = i;
-			while (input[i] && !is_space(input[i]) &&
-				input[i] != '|' && input[i] != '<' && input[i] != '>' &&
-				input[i] != '\'' && input[i] != '\"')
-				i++;
-			if (i > start)
-			{
-				int len = i - start;
-				int j = 0;
-				word = malloc(len + 1);
-				while (j < len)
-				{
-					word[j] = input[start + j];
-					j++;
-				}
-				word[j] = '\0';
-				addback_token_lst(&head, create_token_lst(CMD, word));
-				free(word);
-				continue;
-			}
-		}
+		else if (state == NORMAL && handle_operator(input, &i, &head))
+			continue ;
+		else if (handle_quote(input, &i, &head, &state))
+			continue ;
+		else if (state == NORMAL && handle_normal_word(input, &i, &head))
+			continue ;
 		else
 			i++;
 	}
 	if (state != NORMAL)
-	{
-		printf(RED"Check your quote propery!\n"RST);
-		return (head);
-	}
+		free_token_return(head);
 	return (head);
 }
