@@ -49,7 +49,7 @@ char	**get_parent_variable(char *env[])
 	int		shlvl_idx;
 	int		shlvl_value;
 	char	*new_shlvl;
-
+	
 	variable = inherited_variable(env);
 	if (!variable)
 		return (NULL);

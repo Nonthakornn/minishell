@@ -47,7 +47,7 @@ int main(int ac, char *av[], char *env[])
 
 	variable = get_parent_variable(env);
 
-	char *cmd1[] = { "cd", ".", NULL };
+	char *cmd1[] = { " ",  NULL };
 	redir_1 = create_redir_lst(WRITE_FILE, "get_unset");
 	// addback_redir_lst(&redir_1, create_redir_lst(HERE_DOC, "EOF"));
 	// addback_redir_lst(&redir_1, create_redir_lst(WRITE_FILE, "out"));

@@ -6,9 +6,8 @@ int	exec_command(t_process *head, t_process *process, char **variable)
 
 	if (!(process->cmd) || !(process->cmd)[0])
 	{
-		error_no_command(" ");
 		free_process_and_redir(head);
-		return (127);
+		return (0);
 	}
 	if (ft_strlen((process->cmd)[0]) == 1 && (process->cmd)[0][0] == '/')
 	{
