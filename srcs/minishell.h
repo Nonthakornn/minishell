@@ -82,9 +82,9 @@ char		*get_str_token(t_token_type type);
 int			command_count(t_token *token);
 
 //linklist_token
-t_token *create_token_lst(t_token_type type, char *value);
-t_token *lastnode_token_lst(t_token *head);
-void	addback_token_lst(t_token **head, t_token *new_node);
+t_token		*create_token_lst(t_token_type type, char *value);
+t_token		*lastnode_token_lst(t_token *head);
+void		addback_token_lst(t_token **head, t_token *new_node);
 
 //linklist_redirect
 void		display_redir_lst(t_redirect *head);
@@ -115,14 +115,21 @@ void		exec_heredoc(t_process *process);
 int			process_redirect(t_process *process);
 
 // exec_process
+int			exec_command(t_process *head, t_process *process, char **variable);
+int			exec_process(t_process *head, t_process *process, char ***variable);
 void		wait_process(t_process *head, int *exit_code);
-void		fork_process(t_process *head, char *env[]);
-char		*ft_get_path(char *env[], char *command);
+void		fork_process(t_process *head, char ***variable);
+char		*get_path(char *env[], char *command);
 
 // error
-int			display_error_access(char *access_name);
-int			display_error_no_command(char *command);
-int			display_error_path(char *command);
+void		put_strerror(char *name, char *strerr);
+int			error_access(char *access_name);
+int			error_no_command(char *command);
+int			error_path(char *command);
+int			error_unset_option(char *name);
+int			error_export_option(char *key, char *value);
+int			error_pwd_option(char *name);
+int			error_export_name(char *key, char *value);
 
 //lexical
 t_token		*tokenize(char *input);
@@ -135,9 +142,31 @@ bool		check_syntax_err(t_token *tokens);
 bool		check_redir_type(t_token *tokens);
 t_process	*syntax(t_token *tokens);
 
+//env
+int			key_exist(char *var_str, char *key);
+int			get_variable_index(char **variable, char *key);
+int			count_variable(char *env[]);
+char		**inherited_variable(char *env[]);
+char		**get_parent_variable(char *env[]);
+char		**get_child_variable(char **parent_variable);
+int			exec_env(t_process *head, t_process *process, char **variable);
+
+//unset
+int			exec_unset(t_process *head, t_process *process, char ***variable);
+
+//export
+int			exec_export(t_process *head, t_process *process, char ***variable);
+int			add_export(char ***variable, char *str);
+
+//cd pwd
+char		*getcwd_variable(char *key);
+int			exec_pwd(t_process *head, t_process *process, char ***variable);
+int			exec_chdir(t_process *process, char **var);
+int			exec_cd(t_process *head, t_process *process, char ***variable);
+
 //display for dubugging
 void		display_process_lst(t_process *head);
-void 		display_redir_lst(t_redirect *head);
+void		display_redir_lst(t_redirect *head);
 void		display_token_lst(t_token *head);
 void		display_redir_lst(t_redirect *head);
 

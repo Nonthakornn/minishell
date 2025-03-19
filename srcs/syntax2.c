@@ -61,7 +61,7 @@ static char	**extract_cmd(t_token **token, t_redirect **redirect)
 	cmd = malloc(sizeof(char *) * (cmd_count + 1));
 	while (i < cmd_count && *token)
 	{
-		cmd[i] = ft_slice((*token)->value, 0, ft_strlen((*token)->value));
+		cmd[i] = slice((*token)->value, 0, ft_strlen((*token)->value));
 		i++;
 		(*token) = (*token)->next;
 	}
@@ -111,10 +111,14 @@ t_process	*syntax(t_token *tokens)
 	{
 		new_proc = process_cmd_segment(&current);
 		if (!new_proc)
+		{
+			free_token(tokens);
 			return (free_process_and_redir(head), NULL);
+		}
 		addback_process_lst(&head, new_proc);
 		if (current && current->token_type == PIPE)
 			current = current->next;
 	}
+	free_token(tokens);
 	return (head);
 }
