@@ -1,34 +1,40 @@
 #include "minishell.h"
 
-int	exec_command(t_process *head, t_process *process, char **variable)
+void	exec_command(t_process *head, t_process *process, char **variable)
 {
 	char	*exec_path;
 
 	if (!(process->cmd) || !(process->cmd)[0])
 	{
 		free_process_and_redir(head);
-		return (0);
+		free_str_arr(variable);
+		exit (0);
 	}
 	if (ft_strlen((process->cmd)[0]) == 1 && (process->cmd)[0][0] == '/')
 	{
 		error_path("/");
 		free_process_and_redir(head);
-		return (126);
+		free_str_arr(variable);
+		exit (126);
 	}
 	exec_path = get_path(variable, (process->cmd)[0]);
 	if (!exec_path)
 	{
 		free_process_and_redir(head);
-		return (127);
+		free_str_arr(variable);
+		exit (127);
 	}
 	execve(exec_path, process->cmd, variable);
 	free_process_and_redir(head);
-	return (127);
+	free_str_arr(variable);
+	exit (127);
 }
 
 int	exec_process(t_process *head, t_process *process, char ***variable)
 {
 	int	redir_result;
+	int	exit_code;
+	int	pid;
 
 	redir_result = process_redirect(process);
 	close_fd(head);
@@ -47,7 +53,13 @@ int	exec_process(t_process *head, t_process *process, char ***variable)
 		return (exec_pwd(head, process, variable));
 	if (is_equal("cd", (process->cmd)[0]))
 		return (exec_cd(head, process, variable));
-	return (exec_command(head, process, (*variable)));
+	pid = fork();
+	if (pid == 0)
+	{
+		exec_command(head, process, (*variable));
+	}
+	wait(&exit_code);
+	return (exit_code >> 8);
 }
 
 void	fork_process(t_process *head, char ***variable)
@@ -71,16 +83,28 @@ void	fork_process(t_process *head, char ***variable)
 
 void	wait_process(t_process *head, int *exit_code)
 {
+	int		code;
+	pid_t	last_pid;
+	t_process	*temp;
+
 	close_fd(head);
-	while (head)
+	temp = head;
+	while (temp)
 	{
-		if (head->pid > 0)
+		if (!temp->next)
 		{
-			if (head->next)
-				waitpid(head->pid, NULL, 0);
-			else
-				waitpid(head->pid, exit_code, 0);
+			last_pid = temp->pid;
 		}
-		head = head->next;
+		temp = temp->next;
+	}
+	temp = head;
+	while (temp)
+	{
+		if (wait(&code) == last_pid)
+		{
+			*exit_code = code;
+		}
+		temp = temp->next;
 	}
 }
+

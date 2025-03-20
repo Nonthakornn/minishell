@@ -115,7 +115,7 @@ void		exec_heredoc(t_process *process);
 int			process_redirect(t_process *process);
 
 // exec_process
-int			exec_command(t_process *head, t_process *process, char **variable);
+void		exec_command(t_process *head, t_process *process, char **variable);
 int			exec_process(t_process *head, t_process *process, char ***variable);
 void		wait_process(t_process *head, int *exit_code);
 void		fork_process(t_process *head, char ***variable);
