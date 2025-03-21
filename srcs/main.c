@@ -33,7 +33,10 @@ int main(int ac, char *av[], char *env[])
 		// display_process_lst(proc);
 		pipe_process_lst(&proc);
 		exec_heredoc(proc);
-		fork_process(proc, &variable);
+		if (proc->next)
+			fork_process(proc, &variable);
+		else
+			exit_code = exec_process(proc, proc, &variable) << 8;
 		wait_process(proc, &exit_code);
 		free_process_and_redir(proc);
 	}

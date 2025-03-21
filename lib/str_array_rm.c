@@ -1,17 +1,16 @@
 #include "libft.h"
 
-char	**remove_str_arr(char **str_arr, int removed_index)
+char	**rm_str_arr(char **str_arr, int removed_index)
 {
 	char	**new_arr;
 	int		old_arr_len;
 	int		i;
 	int		j;
 
-	old_arr_len = count_str_array(str_arr);
+	old_arr_len = count_str_arr(str_arr);
 	if (old_arr_len == 0 || removed_index < 0 || removed_index >= old_arr_len)
 		return (str_arr);
-	new_arr = malloc(sizeof(char *) * old_arr_len);
-	init_str_array(new_arr, old_arr_len - 1);
+	new_arr = new_str_arr(old_arr_len);
 	i = 0;
 	j = 0;
 	while (str_arr[i])

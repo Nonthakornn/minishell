@@ -33,7 +33,7 @@ static void	show_export(char **variable)
 	int		i;
 	char	**sort_variable;
 
-	sort_variable = sort_arr(variable);
+	sort_variable = sort_str_arr(variable);
 	i = 0;
 	while (sort_variable[i])
 	{
@@ -57,7 +57,7 @@ int	exec_export(t_process *head, t_process *process, char ***variable)
 
 	exit_code = 0;
 	i = 1;
-	if (count_str_array(process->cmd) == 1)
+	if (count_str_arr(process->cmd) == 1)
 		show_export(*variable);
 	else
 	{

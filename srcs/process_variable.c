@@ -68,8 +68,7 @@ char	**inherited_variable(char *env[])
 	var_len = count_variable(env);
 	if (var_len == 0)
 		return (NULL);
-	str_arr = malloc(sizeof(char *) * (var_len + 2));
-	init_str_array(str_arr, var_len + 1);
+	str_arr = new_str_arr(var_len + 2);
 	i = 0;
 	while (env[i])
 	{

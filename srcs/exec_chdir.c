@@ -66,7 +66,7 @@ int	exec_chdir(t_process *process, char **var)
 	int		cmd_number;
 	char	*arg;
 
-	cmd_number = count_str_array(process->cmd);
+	cmd_number = count_str_arr(process->cmd);
 	if (cmd_number > 2)
 		return (put_strerror("cd", "too many arguments"), 1);
 	if (cmd_number == 1)

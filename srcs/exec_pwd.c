@@ -5,8 +5,7 @@ char	*getcwd_variable(char *key)
 	char	*buff;
 	char	*var;
 
-	buff = malloc(sizeof(char) * 1024);
-	init_str(buff, 1023);
+	buff = new_str(1024);
 	getcwd(buff, 1023);
 	var = str_join(key, buff);
 	free(buff);
