@@ -1,21 +1,5 @@
 #include "libft.h"
 
-int	startwith(char *str, char *word)
-{
-	size_t	i;
-
-	if (!str || !word || ft_strlen(str) < ft_strlen(word))
-		return (0);
-	i = 0;
-	while (i < ft_strlen(word))
-	{
-		if (str[i] != word[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	is_equal(char *s1, char *s2)
 {
 	int	i;
@@ -34,13 +18,6 @@ int	is_equal(char *s1, char *s2)
 	return (1);
 }
 
-bool	is_space(int c)
-{
-	if (c == ' ' || (c >= 9 && c <= 13))
-		return (true);
-	return (false);
-}
-
 int	is_include(char *str, char c)
 {
 	int	i;
@@ -55,4 +32,27 @@ int	is_include(char *str, char c)
 		i++;
 	}
 	return (0);
+}
+
+bool	is_space(int c)
+{
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (true);
+	return (false);
+}
+
+int	startwith(char *str, char *word)
+{
+	size_t	i;
+
+	if (!str || !word || ft_strlen(str) < ft_strlen(word))
+		return (0);
+	i = 0;
+	while (i < ft_strlen(word))
+	{
+		if (str[i] != word[i])
+			return (0);
+		i++;
+	}
+	return (1);
 }

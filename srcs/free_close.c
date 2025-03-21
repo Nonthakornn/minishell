@@ -50,7 +50,7 @@ void	free_token(t_token *head)
 	}
 }
 
-void	close_fd(t_process *head)
+void	close_pipe(t_process *head)
 {
 	int	i;
 
