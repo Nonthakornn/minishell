@@ -1,5 +1,5 @@
 #include "libft.h"
-#include <stdio.h>
+
 int	is_equal(char *s1, char *s2)
 {
 	int	i;
