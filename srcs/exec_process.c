@@ -37,7 +37,7 @@ int	exec_process(t_process *head, t_process *process, char ***variable)
 	int	pid;
 
 	redir_result = process_redirect(process);
-	close_fd(head);
+	close_pipe(head);
 	if (redir_result != 0)
 	{
 		free_process_and_redir(head);
@@ -87,7 +87,7 @@ void	wait_process(t_process *head, int *exit_code)
 	pid_t	last_pid;
 	t_process	*temp;
 
-	close_fd(head);
+	close_pipe(head);
 	temp = head;
 	while (temp)
 	{

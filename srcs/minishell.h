@@ -104,7 +104,7 @@ char		**split_by_pipes(char *str);
 //Close & free
 void		free_redirects(t_redirect *head);
 void		free_process_and_redir(t_process *head);
-void		close_fd(t_process *process);
+void		close_pipe(t_process *process);
 void		free_token(t_token *head);
 void		free_token_return(t_token *head);
 
