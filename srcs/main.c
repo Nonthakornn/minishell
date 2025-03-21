@@ -43,7 +43,6 @@ int main(int ac, char *av[], char *env[])
 		else
 			code = exec_process(proc, proc, &variable);
 		free_process_and_redir(proc);
-		printf("%d\n", code);
 	}
 	free_str_arr(variable);
 	rl_clear_history();

@@ -32,6 +32,5 @@ int	exec_env(t_process *head, t_process *process, char **variable)
 		return (1);
 	}
 	print_variable(variable);
-	free_process_and_redir(head);
 	return (0);
 }
