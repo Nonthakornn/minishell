@@ -115,11 +115,12 @@ void		exec_heredoc(t_process *process);
 int			process_redirect(t_process *process);
 
 // exec_process
-void		exec_command(t_process *head, t_process *process, char **variable);
+void		exec_execve(t_process *head, t_process *process, char **variable);
 int			exec_process(t_process *head, t_process *process, char ***variable);
 void		wait_process(t_process *head, int *exit_code);
 void		fork_process(t_process *head, char ***variable);
 char		*get_path(char *env[], char *command);
+void		terminate_process(t_process *head, char **var, int code);
 
 // error
 void		put_strerror(char *name, char *strerr);

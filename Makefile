@@ -3,9 +3,9 @@ LIB_PATH = lib
 SRC_DIR = srcs
 BUILD_DIR = obj
 
-SRC_FILES = main.c token_utils.c close_free.c linklist_redirect.c \
+SRC_FILES = main.c token_utils.c free_close.c linklist_redirect.c \
 			linklist_process.c exec_heredoc.c redirect.c  \
-			split_pipe.c exec_process.c get_path.c linklist_token.c \
+			split_pipe.c exec_process.c exec_processes.c get_path.c linklist_token.c \
 			lexical.c lexical2.c syntax.c syntax2.c free_return.c \
 			error_exec.c error_export.c error_option.c \
 			process_variable.c get_process_variable.c \

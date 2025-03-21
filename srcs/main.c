@@ -2,7 +2,7 @@
 
 int main(int ac, char *av[], char *env[])
 {
-	int			exit_code = 0;
+	int			code = 0;
 	char		**variable;
 	char		*input;
 	t_token		*tokens;
@@ -36,13 +36,16 @@ int main(int ac, char *av[], char *env[])
 		pipe_process_lst(&proc);
 		exec_heredoc(proc);
 		if (proc->next)
+		{
 			fork_process(proc, &variable);
+			wait_process(proc, &code);
+		}
 		else
-			exit_code = exec_process(proc, proc, &variable) << 8;
-		wait_process(proc, &exit_code);
+			code = exec_process(proc, proc, &variable);
 		free_process_and_redir(proc);
+		printf("%d\n", code);
 	}
 	free_str_arr(variable);
 	rl_clear_history();
-	return (exit_code >> 8);
+	return (code >> 8);
 }

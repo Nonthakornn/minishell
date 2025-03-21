@@ -1,33 +1,21 @@
 #include "minishell.h"
 
-void	exec_command(t_process *head, t_process *process, char **variable)
+void	exec_execve(t_process *head, t_process *process, char **var)
 {
 	char	*exec_path;
 
 	if (!(process->cmd) || !(process->cmd)[0])
-	{
-		free_process_and_redir(head);
-		free_str_arr(variable);
-		exit (0);
-	}
+		terminate_process(head, var, 0);
 	if (ft_strlen((process->cmd)[0]) == 1 && (process->cmd)[0][0] == '/')
 	{
 		error_path("/");
-		free_process_and_redir(head);
-		free_str_arr(variable);
-		exit (126);
+		terminate_process(head, var, 126);
 	}
-	exec_path = get_path(variable, (process->cmd)[0]);
+	exec_path = get_path(var, (process->cmd)[0]);
 	if (!exec_path)
-	{
-		free_process_and_redir(head);
-		free_str_arr(variable);
-		exit (127);
-	}
-	execve(exec_path, process->cmd, variable);
-	free_process_and_redir(head);
-	free_str_arr(variable);
-	exit (127);
+		terminate_process(head, var, 127);
+	execve(exec_path, process->cmd, var);
+	terminate_process(head, var, 127);
 }
 
 int	exec_process(t_process *head, t_process *process, char ***variable)
@@ -39,10 +27,7 @@ int	exec_process(t_process *head, t_process *process, char ***variable)
 	redir_result = process_redirect(process);
 	close_pipe(head);
 	if (redir_result != 0)
-	{
-		free_process_and_redir(head);
 		return (1);
-	}
 	if (is_equal("env", (process->cmd)[0]))
 		return (exec_env(head, process, (*variable)));
 	if (is_equal("unset", (process->cmd)[0]))
@@ -55,56 +40,7 @@ int	exec_process(t_process *head, t_process *process, char ***variable)
 		return (exec_cd(head, process, variable));
 	pid = fork();
 	if (pid == 0)
-	{
-		exec_command(head, process, (*variable));
-	}
+		exec_execve(head, process, (*variable));
 	wait(&exit_code);
 	return (exit_code >> 8);
 }
-
-void	fork_process(t_process *head, char ***variable)
-{
-	t_process	*process;
-	int			exit_code;
-
-	process = head;
-	while (process)
-	{
-		process->pid = fork();
-		if (process->pid == 0)
-		{
-			exit_code = exec_process(head, process, variable);
-			free_str_arr(*variable);
-			exit(exit_code);
-		}
-		process = process->next;
-	}
-}
-
-void	wait_process(t_process *head, int *exit_code)
-{
-	int		code;
-	pid_t	last_pid;
-	t_process	*temp;
-
-	close_pipe(head);
-	temp = head;
-	while (temp)
-	{
-		if (!temp->next)
-		{
-			last_pid = temp->pid;
-		}
-		temp = temp->next;
-	}
-	temp = head;
-	while (temp)
-	{
-		if (wait(&code) == last_pid)
-		{
-			*exit_code = code;
-		}
-		temp = temp->next;
-	}
-}
-
