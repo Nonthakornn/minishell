@@ -65,6 +65,5 @@ int	exec_unset(t_process *head, t_process *process, char ***variable)
 		(*variable) = remove_variable(*variable, process->cmd[i]);
 		i++;
 	}
-	free_process_and_redir(head);
 	return (exit_code);
 }

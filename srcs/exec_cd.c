@@ -70,6 +70,5 @@ int	exec_cd(t_process *head, t_process *process, char ***variable)
 		return (free_process_and_redir(head), exit_code);
 	update_opwd(variable);
 	update_pwd(variable);
-	free_process_and_redir(head);
 	return (exit_code);
 }

@@ -69,6 +69,5 @@ int	exec_export(t_process *head, t_process *process, char ***variable)
 			i++;
 		}
 	}
-	free_process_and_redir(head);
 	return (exit_code);
 }

@@ -47,6 +47,5 @@ int	exec_pwd(t_process *head, t_process *process, char ***variable)
 		i++;
 	}
 	print_pwd(*variable);
-	free_process_and_redir(head);
 	return (0);
 }
