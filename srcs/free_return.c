@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void free_token_return(t_token *head) 
+t_token	*free_token_return(t_token *head)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	while (head)
 	{
@@ -11,6 +11,6 @@ void free_token_return(t_token *head)
 		free(tmp->value);
 		free(tmp);
 	}
-	printf("Quote Error\n");
-	return ;
+	printf("Syntax Error: Unclose quote\n");
+	return (NULL);
 }
