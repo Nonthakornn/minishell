@@ -22,14 +22,16 @@ int main(int ac, char *av[], char *env[])
 		}
 		tokens = tokenize(input);
 		// display_token_lst(tokens);
+		free(input);
+		if (!tokens)
+			continue;
 		if (!check_syntax_err(tokens))
 		{
 			printf("Syntax Error\n");
 			free_token(tokens);
 			continue;
 		}
-		// //! syntax
-		proc = syntax(tokens); //Syntax
+		proc = syntax(tokens);
 		// display_process_lst(proc);
 		pipe_process_lst(&proc);
 		exec_heredoc(proc);
