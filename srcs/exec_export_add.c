@@ -13,7 +13,7 @@ static void	add_key_value(char ***variable, char *key, char *value)
 	{
 		if ((*variable)[target_index][0] == '$')
 		{
-			(*variable) = remove_str_arr(*variable, target_index);
+			(*variable) = rm_str_arr(*variable, target_index);
 			(*variable) = add_str_arr(*variable, temp);
 		}
 		else
@@ -38,7 +38,7 @@ static void	add_only_key(char ***variable, char *key)
 		if (target_str[0] == '$')
 		{
 			temp = slice(target_str, 1, ft_strlen(target_str));
-			(*variable) = remove_str_arr(*variable, target_index);
+			(*variable) = rm_str_arr(*variable, target_index);
 			(*variable) = add_str_arr(*variable, temp);
 		}
 	}

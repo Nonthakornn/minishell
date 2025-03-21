@@ -1,15 +1,18 @@
 #include "libft.h"
 
-void	init_str(char *str, int len)
+char	*new_str(int len)
 {
-	int	i;
+	char	*str;
+	int		i;
 
+	str = malloc(sizeof(char) * len);
 	i = 0;
-	while (i <= len)
+	while (i < len)
 	{
 		str[i] = '\0';
 		i++;
 	}
+	return (str);
 }
 
 void	ft_strcpy(char *dst, char *src)

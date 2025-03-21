@@ -1,18 +1,21 @@
 #include "libft.h"
 
-void	init_str_array(char *arr[], int arr_len)
+char	**new_str_arr(int len)
 {
-	int	i;
+	char	**arr;
+	int		i;
 
+	arr = malloc(sizeof(char *) * len);
 	i = 0;
-	while (i <= arr_len)
+	while (i < len)
 	{
 		arr[i] = NULL;
 		i++;
 	}
+	return (arr);
 }
 
-int	count_str_array(char *arr[])
+int	count_str_arr(char *arr[])
 {
 	int	i;
 
@@ -43,7 +46,7 @@ void	edit_str_arr(char **str_arr, int edited_index, char *new_str)
 	str_arr[edited_index] = new_str;
 }
 
-void	print_str_array(char **str_arr)
+void	print_str_arr(char **str_arr)
 {
 	int	i;
 

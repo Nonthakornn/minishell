@@ -23,11 +23,10 @@ static char	**remove_variable(char **var, char *key)
 	int		i;
 	int		j;
 
-	old_len = count_str_array(var);
+	old_len = count_str_arr(var);
 	if (old_len == 0 || remove_number(var, key) == 0)
 		return (var);
-	new_arr = malloc(sizeof(char *) * (old_len - 1 + remove_number(var, key)));
-	init_str_array(new_arr, old_len - remove_number(var, key));
+	new_arr = new_str_arr(old_len - 1 + remove_number(var, key));
 	i = 0;
 	j = 0;
 	while (var[i])

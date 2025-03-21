@@ -24,8 +24,7 @@ static char **clear_local_var(char **var)
 	int		j;
 
 	n = count_pub_var(var);
-	new_var = malloc(sizeof(char *) * (n + 1));
-	init_str_array(new_var, n);
+	new_var = new_str_arr(n + 1);
 	i = 0;
 	j = 0;
 	while (var && var[i])
