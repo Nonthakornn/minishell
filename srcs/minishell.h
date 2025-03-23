@@ -165,6 +165,9 @@ int			exec_pwd(t_process *head, t_process *process, char ***variable);
 int			exec_chdir(t_process *process, char **var);
 int			exec_cd(t_process *head, t_process *process, char ***variable);
 
+//expand
+void		expand_token(t_token **token, char **variable);
+
 //display for dubugging
 void		display_process_lst(t_process *head);
 void		display_redir_lst(t_redirect *head);
