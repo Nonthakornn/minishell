@@ -45,6 +45,6 @@ int main(int ac, char *av[], char *env[])
 		free_process_and_redir(proc);
 	}
 	free_str_arr(variable);
-	rl_clear_history();
+	clear_history();
 	return (code >> 8);
 }
