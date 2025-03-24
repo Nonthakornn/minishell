@@ -24,7 +24,6 @@ static char	*fill_segment(int start, int end, char *str)
 	char	*segment;
 	int		i;	
 
-	//trim space
 	while (start < end && is_space(str[start]))
 		start++;
 	while (end > start && is_space(str[end - 1]))
@@ -34,12 +33,12 @@ static char	*fill_segment(int start, int end, char *str)
 	if (!segment)
 		return (NULL);
 	while (start < end)
-		segment[i++] =str[start++];
+		segment[i++] = str[start++];
 	segment[i] = '\0';
 	return (segment);
 }
 
-char **split_by_pipes(char *str)
+char	**split_by_pipes(char *str)
 {
 	int		i;
 	char	**pipe_segment;
@@ -54,7 +53,7 @@ char **split_by_pipes(char *str)
 	i = 0;
 	start = 0;
 	end = 0;
-	while (i <  pipe_count(str))
+	while (i < pipe_count(str))
 	{
 		start = end;
 		while (str[end] && str[end] != '|')
@@ -68,13 +67,11 @@ char **split_by_pipes(char *str)
 	return (pipe_segment);
 }
 
-void display_process_segment(char **process_segment)
+void	display_process_segment(char **process_segment)
 {
-	int i;
-	// int	j;
+	int	i;
 
 	i = 0;
-	// j = 1;
 	if (!process_segment[0][0])
 	{
 		printf("(empty string)\n");
@@ -84,7 +81,6 @@ void display_process_segment(char **process_segment)
 	{
 		printf("\"%s\",\n", process_segment[i]);
 		i++;
-		// j++;
 	}
 	printf("NULL\n");
 }

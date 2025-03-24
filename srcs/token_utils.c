@@ -37,3 +37,10 @@ int	command_count(t_token *token)
 	}
 	return (cmd_count);
 }
+
+int valid_to_expand(char *result, int i)
+{
+	return (result[i] == '$' && result[i + 1]
+			&& (ft_isalnum(result[i + 1])
+			|| result[i + 1] == '_'));
+}

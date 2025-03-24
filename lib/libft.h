@@ -4,6 +4,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <stdio.h>
 
 char	*itoa(int n);
 int		ft_atoi(char *nstr);
@@ -30,4 +31,8 @@ int		is_equal(char *s1, char *s2);
 int		is_include(char *str, char c);
 bool	is_space(int c);
 int		startwith(char *str, char *word);
+char	*ft_strchr(char *s, int c);
+char	*ft_strdup(char *s1);
+int		ft_isalnum(int c);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 #endif
