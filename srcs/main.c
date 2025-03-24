@@ -1,54 +1,64 @@
 #include "minishell.h"
 
+void	excute(t_process **head, char ***var, int *code)
+{
+	pipe_process_lst(head);
+	exec_heredoc(*head);
+	if ((*head)->next)
+	{
+		fork_process(*head, var);
+		wait_process(*head, code);
+	}
+	else
+		*code = exec_process(*head, *head, var);
+	free_process_and_redir(*head);
+}
+
+t_process *get_process(char *input)
+{
+	t_token		*tokens;
+	t_process	*proc;
+
+	add_history(input);
+	if (input[0] == '\0')
+	{
+		free(input);
+		return (NULL);
+	}
+	tokens = tokenize(input);
+	free(input);
+	if (!tokens)
+		return (NULL);
+	if (!check_syntax_err(tokens))
+	{
+		printf("Syntax Error\n");
+		free_token(tokens);
+		return (NULL);
+	}
+	proc = syntax(tokens);
+	return (proc);
+}
+
 int main(int ac, char *av[], char *env[])
 {
-	int			code = 0;
+	int			code;
 	char		**variable;
 	char		*input;
-	t_token		*tokens;
 	t_process	*proc;
 
 	(void) ac;
 	(void) av;
+	code = 0;
 	variable = get_parent_variable(env);
 	while (1)
 	{
 		input = readline("minishell $> ");
 		if (!input)
 			break ;
-		add_history(input);
-		if (input[0] == '\0')
-		{
-			free(input);
+		proc = get_process(input);
+		if (!proc)
 			continue;
-		}
-		tokens = tokenize(input);
-		// printf(CYAN"[BEFORE EXPAND]\n"RST);
-		// display_token_lst(tokens);
-		// printf(CYAN"[AFTER EXPAND]\n"RST);
-		expand_token(&tokens, variable);
-		// display_token_lst(tokens);
-		free(input);
-		if (!tokens)
-			continue;
-		if (!check_syntax_err(tokens))
-		{
-			printf("Syntax Error\n");
-			free_token(tokens);
-			continue;
-		}
-		proc = syntax(tokens);
-		// display_process_lst(proc);
-		pipe_process_lst(&proc);
-		exec_heredoc(proc);
-		if (proc->next)
-		{
-			fork_process(proc, &variable);
-			wait_process(proc, &code);
-		}
-		else
-			code = exec_process(proc, proc, &variable);
-		free_process_and_redir(proc);
+		excute(&proc, &variable, &code);
 	}
 	free_str_arr(variable);
 	rl_clear_history();

@@ -1,26 +1,26 @@
 #include "minishell.h"
 
-static void	print_variable(char **variable)
+static void	print_variable(char **var)
 {
 	int	i;
 
 	i = 0;
-	while (variable && variable[i])
+	while (var && var[i])
 	{
-		if (startwith(variable[i], "_="))
+		if (startwith(var[i], "_="))
 		{
 			print_str(1, "_=/usr/bin/env");
 			i++;
 			continue ;
 		}
-		if (is_include(variable[i], '=') && \
-		!startwith(variable[i], "$") && !startwith(variable[i], "@"))
-			print_str(1, variable[i]);
+		if (is_include(var[i], '=') && \
+		!startwith(var[i], "$") && !startwith(var[i], "@"))
+			print_str(1, var[i]);
 		i++;
 	}
 }
 
-int	exec_env(t_process *process, char **variable)
+int	exec_env(t_process *process, char **var)
 {
 	int	cmd_count;
 
@@ -30,6 +30,6 @@ int	exec_env(t_process *process, char **variable)
 		put_strerror("env", "too many arguments");
 		return (1);
 	}
-	print_variable(variable);
+	print_variable(var);
 	return (0);
 }

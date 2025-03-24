@@ -28,29 +28,29 @@ static void	printf_export_str(char *str)
 	write(1, "\"\n", 2);
 }
 
-static void	show_export(char **variable)
+static void	show_export(char **var)
 {
 	int		i;
-	char	**sort_variable;
+	char	**sort_var;
 
-	sort_variable = sort_str_arr(variable);
+	sort_var = sort_str_arr(var);
 	i = 0;
-	while (sort_variable[i])
+	while (sort_var[i])
 	{
-		if (startwith(sort_variable[i], "_=") || \
-		startwith(sort_variable[i], "$") || \
-		startwith(sort_variable[i], "@"))
+		if (startwith(sort_var[i], "_=") || \
+		startwith(sort_var[i], "$") || \
+		startwith(sort_var[i], "@"))
 		{
 			i++;
 			continue ;
 		}
-		printf_export_str(sort_variable[i]);
+		printf_export_str(sort_var[i]);
 		i++;
 	}
-	free_str_arr(sort_variable);
+	free_str_arr(sort_var);
 }
 
-int	exec_export(t_process *process, char ***variable)
+int	exec_export(t_process *process, char ***var)
 {
 	int	exit_code;
 	int	i;
@@ -58,12 +58,12 @@ int	exec_export(t_process *process, char ***variable)
 	exit_code = 0;
 	i = 1;
 	if (count_str_arr(process->cmd) == 1)
-		show_export(*variable);
+		show_export(*var);
 	else
 	{
 		while ((process->cmd)[i])
 		{
-			exit_code = add_export(variable, (process->cmd)[i]);
+			exit_code = add_export(var, (process->cmd)[i]);
 			if (exit_code > 0)
 				break ;
 			i++;
