@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	*getopwd_str(char ***variable)
+static char	*getopwd_str(char ***var)
 {
 	int		pwd_idx;
 	char	*pwd_str;
@@ -8,10 +8,10 @@ static char	*getopwd_str(char ***variable)
 	char	*path;
 	char	*opwd;
 
-	pwd_idx = get_variable_index(*variable, "PWD");
+	pwd_idx = get_variable_index(*var, "PWD");
 	if (pwd_idx < 0)
 		return (slice("OLDPWD", 0, 6));
-	pwd_str = (*variable)[pwd_idx];
+	pwd_str = (*var)[pwd_idx];
 	eq_idx = find_index(pwd_str, '=');
 	if (eq_idx == -1)
 		return (slice("OLDPWD", 0, 6));
@@ -21,54 +21,54 @@ static char	*getopwd_str(char ***variable)
 	return (opwd);
 }
 
-static void	update_opwd(char ***variable)
+static void	update_opwd(char ***var)
 {
 	char	*str;
 	int		idx;
 
-	str = getopwd_str(variable);
-	idx = get_variable_index(*variable, "OLDPWD");
+	str = getopwd_str(var);
+	idx = get_variable_index(*var, "OLDPWD");
 	if (idx < 0)
-		(*variable) = add_str_arr(*variable, str_join("$", str));
+		(*var) = add_str_arr(*var, str_join("$", str));
 	else
 	{
-		if ((*variable)[idx][0] == '$')
-			edit_str_arr(*variable, idx, str_join("$", str));
+		if ((*var)[idx][0] == '$')
+			edit_str_arr(*var, idx, str_join("$", str));
 		else
-			edit_str_arr(*variable, idx, slice(str, 0, ft_strlen(str)));
+			edit_str_arr(*var, idx, slice(str, 0, ft_strlen(str)));
 	}
 	free(str);
 }
 
-static void	update_pwd(char ***variable)
+static void	update_pwd(char ***var)
 {
 	int	target_index;
 
-	target_index = get_variable_index(*variable, "PWD");
+	target_index = get_variable_index(*var, "PWD");
 	if (target_index < 0)
-		(*variable) = add_str_arr(*variable, getcwd_variable("$PWD="));
+		(*var) = add_str_arr(*var, getcwd_variable("$PWD="));
 	else
 	{
-		if ((*variable)[target_index][0] == '$')
-			edit_str_arr(*variable, target_index, getcwd_variable("$PWD="));
+		if ((*var)[target_index][0] == '$')
+			edit_str_arr(*var, target_index, getcwd_variable("$PWD="));
 		else
-			edit_str_arr(*variable, target_index, getcwd_variable("PWD="));
+			edit_str_arr(*var, target_index, getcwd_variable("PWD="));
 	}
-	target_index = get_variable_index(*variable, "@PWD");
+	target_index = get_variable_index(*var, "@PWD");
 	if (target_index == -1)
-		(*variable) = add_str_arr(*variable, getcwd_variable("@PWD="));
+		(*var) = add_str_arr(*var, getcwd_variable("@PWD="));
 	else
-		edit_str_arr(*variable, target_index, getcwd_variable("@PWD="));
+		edit_str_arr(*var, target_index, getcwd_variable("@PWD="));
 }
 
-int	exec_cd(t_process *process, char ***variable)
+int	exec_cd(t_process *process, char ***var)
 {
 	int	exit_code;
 
-	exit_code = exec_chdir(process, *variable);
+	exit_code = exec_chdir(process, *var);
 	if (exit_code != 0)
 		return (exit_code);
-	update_opwd(variable);
-	update_pwd(variable);
+	update_opwd(var);
+	update_pwd(var);
 	return (exit_code);
 }

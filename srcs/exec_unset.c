@@ -1,15 +1,15 @@
 #include "minishell.h"
 
-static int	remove_number(char **variable, char *key)
+static int	remove_number(char **var, char *key)
 {
 	int	i;
 	int	count;
 
 	i = 0;
 	count = 0;
-	while (variable && variable[i])
+	while (var && var[i])
 	{
-		if (key_exist(variable[i], key))
+		if (key_exist(var[i], key))
 			count++;
 		i++;
 	}
@@ -43,7 +43,7 @@ static char	**remove_variable(char **var, char *key)
 	return (free(var), new_arr);
 }
 
-int	exec_unset(t_process *process, char ***variable)
+int	exec_unset(t_process *process, char ***var)
 {
 	int	i;
 	int	exit_code;
@@ -62,7 +62,7 @@ int	exec_unset(t_process *process, char ***variable)
 			i++;
 			continue ;
 		}
-		(*variable) = remove_variable(*variable, process->cmd[i]);
+		(*var) = remove_variable(*var, process->cmd[i]);
 		i++;
 	}
 	return (exit_code);

@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+void	excute(t_process **head, char ***var, int *code)
+{
+	pipe_process_lst(head);
+	exec_heredoc(*head);
+	if ((*head)->next)
+	{
+		fork_process(*head, var);
+		wait_process(*head, code);
+	}
+	else
+		*code = exec_process(*head, *head, var);
+	free_process_and_redir(*head);
+}
+
 int main(int ac, char *av[], char *env[])
 {
 	int			code = 0;
@@ -35,18 +49,11 @@ int main(int ac, char *av[], char *env[])
 		}
 		proc = syntax(tokens);
 		// display_process_lst(proc);
-		pipe_process_lst(&proc);
-		exec_heredoc(proc);
-		if (proc->next)
-		{
-			fork_process(proc, &variable);
-			wait_process(proc, &code);
-		}
-		else
-			code = exec_process(proc, proc, &variable);
-		free_process_and_redir(proc);
+		excute(&proc, &variable, &code);
 	}
 	free_str_arr(variable);
 	rl_clear_history();
 	return (code >> 8);
 }
+
+

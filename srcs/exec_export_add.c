@@ -1,45 +1,45 @@
 #include "minishell.h"
 
-static void	add_key_value(char ***variable, char *key, char *value)
+static void	add_key_value(char ***var, char *key, char *value)
 {
 	int		target_index;
 	char	*temp;
 
-	target_index = get_variable_index(*variable, key);
+	target_index = get_variable_index(*var, key);
 	temp = str_join(key, value);
 	if (target_index < 0)
-		(*variable) = add_str_arr(*variable, temp);
+		(*var) = add_str_arr(*var, temp);
 	else
 	{
-		if ((*variable)[target_index][0] == '$')
+		if ((*var)[target_index][0] == '$')
 		{
-			(*variable) = rm_str_arr(*variable, target_index);
-			(*variable) = add_str_arr(*variable, temp);
+			(*var) = rm_str_arr(*var, target_index);
+			(*var) = add_str_arr(*var, temp);
 		}
 		else
-			edit_str_arr(*variable, target_index, temp);
+			edit_str_arr(*var, target_index, temp);
 	}
 	free(key);
 	free(value);
 }
 
-static void	add_only_key(char ***variable, char *key)
+static void	add_only_key(char ***var, char *key)
 {
 	int		target_index;
 	char	*target_str;
 	char	*temp;
 
-	target_index = get_variable_index(*variable, key);
+	target_index = get_variable_index(*var, key);
 	if (target_index < 0)
-		(*variable) = add_str_arr(*variable, slice(key, 0, ft_strlen(key)));
+		(*var) = add_str_arr(*var, slice(key, 0, ft_strlen(key)));
 	else
 	{
-		target_str = (*variable)[target_index];
+		target_str = (*var)[target_index];
 		if (target_str[0] == '$')
 		{
 			temp = slice(target_str, 1, ft_strlen(target_str));
-			(*variable) = rm_str_arr(*variable, target_index);
-			(*variable) = add_str_arr(*variable, temp);
+			(*var) = rm_str_arr(*var, target_index);
+			(*var) = add_str_arr(*var, temp);
 		}
 	}
 	free(key);
@@ -73,7 +73,7 @@ static int	is_valid_key(char *key)
 	return (1);
 }
 
-int	add_export(char ***variable, char *str)
+int	add_export(char ***var, char *str)
 {
 	int		eq_index;
 	char	*key;
@@ -94,8 +94,8 @@ int	add_export(char ***variable, char *str)
 	else if (!is_valid_key(key))
 		return (error_export_name(key, value));
 	else if (!value)
-		add_only_key(variable, key);
+		add_only_key(var, key);
 	else
-		add_key_value(variable, key, value);
+		add_key_value(var, key, value);
 	return (0);
 }

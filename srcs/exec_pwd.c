@@ -12,17 +12,17 @@ char	*getcwd_variable(char *key)
 	return (var);
 }
 
-static void	print_pwd(char **variable)
+static void	print_pwd(char **var)
 {
 	char	buff[1024];
 	int		i;
 	
 	i = 0;
-	while (variable && variable[i])
+	while (var && var[i])
 	{
-		if (startwith(variable[i], "@PWD="))
+		if (startwith(var[i], "@PWD="))
 		{
-			print_str(1, variable[i] + 5);
+			print_str(1, var[i] + 5);
 			return ;
 		}
 		i++;
@@ -31,7 +31,7 @@ static void	print_pwd(char **variable)
 	print_str(1, buff);
 }
 
-int	exec_pwd(t_process *process, char ***variable)
+int	exec_pwd(t_process *process, char ***var)
 {
 	int	i;
 
@@ -45,6 +45,6 @@ int	exec_pwd(t_process *process, char ***variable)
 		}
 		i++;
 	}
-	print_pwd(*variable);
+	print_pwd(*var);
 	return (0);
 }
