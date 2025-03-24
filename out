@@ -1,12 +1,9 @@
-{
-   ignore_readline_leaks
-   Memcheck:Leak
-   ...
-   fun:readline
-}
-{
-   ignore_add_history_leaks
-   Memcheck:Leak
-   ...
-   fun:add_history
-}
+lib
+Makefile
+minishell
+obj
+ou
+out
+readline.supp
+README.md
+srcs

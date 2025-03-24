@@ -4,6 +4,7 @@ void	exec_execve(t_process *head, t_process *process, char **var, int stdfd[2])
 {
 	char	*exec_path;
 
+
 	if (!(process->cmd) || !(process->cmd)[0])
 	{
 		recover_stdfd(stdfd);
@@ -21,8 +22,9 @@ void	exec_execve(t_process *head, t_process *process, char **var, int stdfd[2])
 		recover_stdfd(stdfd);
 		terminate_process(head, var, 127);
 	}
+	close(stdfd[0]);
+	close(stdfd[1]);
 	execve(exec_path, process->cmd, var);
-	recover_stdfd(stdfd);
 	terminate_process(head, var, 127);
 }
 
@@ -41,25 +43,29 @@ int	is_buildin(char *cmd)
 	return (0);
 }
 
-int	run_buildin(t_process *head, t_process *process, char ***var)
+int	run_buildin(t_process *process, char ***var)
 {
 	if (is_equal("env", (process->cmd)[0]))
-		return (exec_env(head, process, (*var)));
+		return (exec_env(process, (*var)));
 	if (is_equal("unset", (process->cmd)[0]))
-		return (exec_unset(head, process, var));
+		return (exec_unset(process, var));
 	if (is_equal("export", (process->cmd)[0]))
-		return (exec_export(head, process, var));
+		return (exec_export(process, var));
 	if (is_equal("pwd", (process->cmd)[0]))
-		return (exec_pwd(head, process, var));
+		return (exec_pwd(process, var));
 	if (is_equal("cd", (process->cmd)[0]))
-		return (exec_cd(head, process, var));
+		return (exec_cd(process, var));
 	return (0);
 }
 
 void	recover_stdfd(int stdfd[2])
 {
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	dup2(stdfd[0], STDIN_FILENO);
 	dup2(stdfd[1], STDOUT_FILENO);
+	close(stdfd[0]);
+	close(stdfd[1]);
 }
 
 int	exec_process(t_process *head, t_process *process, char ***var)
@@ -77,7 +83,7 @@ int	exec_process(t_process *head, t_process *process, char ***var)
 		return (recover_stdfd(stdfd), 1);
 	if (is_buildin((process->cmd)[0]))
 	{
-		exit_code = run_buildin(head, process, var);
+		exit_code = run_buildin(process, var);
 		return (recover_stdfd(stdfd), exit_code);
 	}
 	pid = fork();

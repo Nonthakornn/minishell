@@ -8,6 +8,8 @@ int main(int ac, char *av[], char *env[])
 	t_token		*tokens;
 	t_process	*proc;
 
+	(void) ac;
+	(void) av;
 	variable = get_parent_variable(env);
 	while (1)
 	{
@@ -45,6 +47,6 @@ int main(int ac, char *av[], char *env[])
 		free_process_and_redir(proc);
 	}
 	free_str_arr(variable);
-	clear_history();
+	rl_clear_history();
 	return (code >> 8);
 }

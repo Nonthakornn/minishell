@@ -19,7 +19,6 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-# include <string.h>
 # include "libft.h"
 
 typedef enum e_token_type
@@ -151,21 +150,21 @@ int			get_variable_index(char **variable, char *key);
 int			count_variable(char *env[]);
 char		**inherited_variable(char *env[]);
 char		**get_parent_variable(char *env[]);
-int			exec_env(t_process *head, t_process *process, char **var);
+int			exec_env(t_process *process, char **var);
 
 
 //unset
-int			exec_unset(t_process *head, t_process *process, char ***variable);
+int			exec_unset(t_process *process, char ***variable);
 
 //export
-int			exec_export(t_process *head, t_process *process, char ***variable);
+int			exec_export(t_process *process, char ***variable);
 int			add_export(char ***variable, char *str);
 
 //cd pwd
 char		*getcwd_variable(char *key);
-int			exec_pwd(t_process *head, t_process *process, char ***variable);
+int			exec_pwd(t_process *process, char ***variable);
 int			exec_chdir(t_process *process, char **var);
-int			exec_cd(t_process *head, t_process *process, char ***variable);
+int			exec_cd(t_process *process, char ***variable);
 
 //display for dubugging
 void		display_process_lst(t_process *head);
