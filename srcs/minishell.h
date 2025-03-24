@@ -36,8 +36,7 @@ typedef enum e_quote_state
 {
 	NORMAL,
 	SINGLE_QUOTE,
-	DOUBLE_QUOTE
-
+	DOUBLE_QUOTE,
 }	t_quote_state;
 
 typedef struct s_token
@@ -115,7 +114,8 @@ void		exec_heredoc(t_process *process);
 int			process_redirect(t_process *process);
 
 // exec_process
-void		exec_execve(t_process *head, t_process *process, char **var, int stdfd[2]);
+void		exec_execve(t_process *head, t_process *process, \
+			char **var, int stdfd[2]);
 int			exec_process(t_process *head, t_process *process, char ***var);
 void		wait_process(t_process *head, int *exit_code);
 void		fork_process(t_process *head, char ***var);
@@ -134,8 +134,9 @@ int			error_export_name(char *key, char *value);
 
 //lexical
 t_token		*tokenize(char *input);
-int			handle_operator(char *str, int *i , t_token **head);
-int			handle_quote(char *str, int *i, t_token **head, t_quote_state *state);
+int			handle_operator(char *str, int *i, t_token **head);
+int			handle_quote(char *str, int *i, \
+			t_token **head, t_quote_state *state);
 int			handle_normal_word(char *str, int *i, t_token **head);
 
 //syntax
@@ -150,7 +151,6 @@ int			count_variable(char *env[]);
 char		**inherited_variable(char *env[]);
 char		**get_parent_variable(char *env[]);
 int			exec_env(t_process *process, char **var);
-
 
 //unset
 int			exec_unset(t_process *process, char ***var);

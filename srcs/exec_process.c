@@ -10,7 +10,8 @@ static void	recover_stdfd(int stdfd[2])
 	close(stdfd[1]);
 }
 
-void	exec_execve(t_process *head, t_process *process, char **var, int stdfd[2])
+void	exec_execve(t_process *head, t_process *process, \
+		char **var, int stdfd[2])
 {
 	char	*exec_path;
 

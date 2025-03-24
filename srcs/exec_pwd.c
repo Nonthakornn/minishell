@@ -16,7 +16,7 @@ static void	print_pwd(char **var)
 {
 	char	buff[1024];
 	int		i;
-	
+
 	i = 0;
 	while (var && var[i])
 	{

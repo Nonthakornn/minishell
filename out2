@@ -2,8 +2,6 @@ lib
 Makefile
 minishell
 obj
-ou
-out
 out2
 readline.supp
 README.md

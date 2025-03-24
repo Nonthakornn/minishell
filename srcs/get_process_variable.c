@@ -16,7 +16,7 @@ static int	count_pub_var(char **var)
 	return (count);
 }
 
-static char **clear_local_var(char **var)
+static char	**clear_local_var(char **var)
 {
 	char	**new_var;
 	int		n;
@@ -48,7 +48,7 @@ char	**get_parent_variable(char *env[])
 	int		shlvl_idx;
 	int		shlvl_value;
 	char	*new_shlvl;
-	
+
 	var = inherited_variable(env);
 	if (!var)
 		return (NULL);
