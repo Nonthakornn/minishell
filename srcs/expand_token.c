@@ -1,63 +1,86 @@
 #include "minishell.h"
 
+static int valid_to_expand(char *result, int i)
+{
+	return (result[i] == '$' && result[i + 1]
+			&& (ft_isalnum(result[i + 1])
+			|| result[i + 1] == '_'));
+}
+
 static char *handle_dollar(char *str, char **variable)
 {
-	char	*behind_dollar;
+	char	*result;
 	int		i;
-	int 	count;
+	int		var_start;
+	int		var_end;
+	char	*var_name;
 	int		var_index;
 	char	*var_value;
-	char	*temp;
 
-	i = 0;
-	count = 0;
-	var_index = 0;
-	behind_dollar = NULL;
-	temp = NULL;
-	while (is_space(str[i]))
-		i++;
-	if (str[i] == '$' && !(str[i + 1]))
+	//return original string if no $
+	if (!ft_strchr(str, '$'))
 		return (str);
-	if (str[i] == '$')
+	result = ft_strdup(str);
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (result[i])
 	{
-		i++;
-		count = i;
-		while (str[count])
-			count++;
-		behind_dollar = malloc(count + 2); //For && NULL
-		count = 0;
-		while (str[i])
-			behind_dollar[count++] = str[i++];
-		behind_dollar[count] = '=';
-		behind_dollar[count + 1] = '\0';
-
-		var_index = (get_variable_index(variable, behind_dollar));
-		printf("Behind Dollar: %s\n", behind_dollar);
-		printf("variable index: %d\n", var_index);
-
-		if (var_index != - 1)
+		if (valid_to_expand(result, i))
 		{
-			var_value = ft_strchr(variable[var_index], '=');
-			if (var_value)
+			var_start = i;
+			i++; // skip $
+			var_end = i;
+			while (result[var_end] && (ft_isalnum(result[var_end]) || result[var_end] == '_'))
+				var_end++;
+			var_name = ft_substr(result, i, var_end - 1);
+			if (!var_name)
+				return (result);
+			var_index = get_variable_index(variable, var_name);
+			printf("Variable name: %s\n", var_name);
+			printf("Variable index: %d\n", var_index);
+
+			if (var_index != -1)
 			{
-				var_value++;
-				temp = ft_strdup(var_value);
-				if (temp)
+				var_value = ft_strchr(variable[var_index], '=');
+				if (var_value)
 				{
-					printf("value: %s\n", temp);
-					free(behind_dollar);
-					return (temp);
+					var_value++; // skip '=;
+					char *before = ft_substr(result, 0, var_start);
+                    char *after = ft_strdup(result + var_end);
+                    char *temp = str_join(before, var_value);
+                    char *new_result = str_join(temp, after);
+                    free(before);
+                    free(after);
+                    free(temp);
+                    free(result);
+                    result = new_result;
+                    i = var_start + ft_strlen(var_value) - 1; // Adjust position
 				}
 			}
-			return (temp);
+			else
+			{
+				char *before = ft_substr(result, 0, var_start);
+				char *after = ft_strdup(result + var_end);
+				char *new_result = str_join(before, after);
+				free(before);
+				free(after);
+				free(result);
+				result = new_result;
+				i = var_start - 1; // Adjust position
+			}
+			free(var_name);
 		}
+		i++;
 	}
-	return (str);
+	return (result);
 }
 
 void expand_token(t_token **token, char **variable)
 {
 	t_token *head;
+	// t_token	*current;
+	// t_token	*token;
 
 	head = *token;
 	print_str_arr(variable);

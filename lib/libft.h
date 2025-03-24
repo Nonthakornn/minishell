@@ -33,4 +33,6 @@ bool	is_space(int c);
 int		startwith(char *str, char *word);
 char	*ft_strchr(char *s, int c);
 char	*ft_strdup(char *s1);
+int		ft_isalnum(int c);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 #endif
