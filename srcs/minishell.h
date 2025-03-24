@@ -178,6 +178,9 @@ int			exec_cd(t_process *process, char ***variable);
 void		expand_token(t_token **token, char **variable);
 char		*handle_dollar(char *str, char **variable);
 
+//echo
+int			exec_echo(t_process *process, char **variable);
+
 //display for dubugging
 void		display_process_lst(t_process *head);
 void		display_redir_lst(t_redirect *head);

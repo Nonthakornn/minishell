@@ -30,6 +30,8 @@ void	exec_execve(t_process *head, t_process *process, char **var, int stdfd[2])
 
 int	is_buildin(char *cmd)
 {
+	if (is_equal("echo", cmd))
+		return (1);
 	if (is_equal("env", cmd))
 		return (1);
 	if (is_equal("unset", cmd))
@@ -45,6 +47,8 @@ int	is_buildin(char *cmd)
 
 int	run_buildin(t_process *process, char ***var)
 {
+	if (is_equal("echo", (process->cmd)[0]))
+		return (exec_echo(process, (*var)));
 	if (is_equal("env", (process->cmd)[0]))
 		return (exec_env(process, (*var)));
 	if (is_equal("unset", (process->cmd)[0]))

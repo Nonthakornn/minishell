@@ -11,7 +11,7 @@ SRC_FILES = main.c token_utils.c free_close.c linklist_redirect.c \
 			process_variable.c get_process_variable.c \
 			exec_env.c exec_unset.c exec_export.c exec_export_add.c \
 			exec_pwd.c exec_cd.c exec_chdir.c expand_token.c \
-			expand_token2.c
+			expand_token2.c exec_echo.c
 
 HEADERS = srcs/minishell.h
 
@@ -22,8 +22,8 @@ LIBS = -L$(LIB_PATH) -lft
 OBJS = $(SRC_FILES:%.c=$(BUILD_DIR)/%.o)
 
 CC = cc 
-CFLAGS =  -Wall -Wextra -Werror -g
-# CFLAGS =  -Wall -g
+#CFLAGS =  -Wall -Wextra -Werror -g
+CFLAGS =  -Wall -g
 RM = rm -rf
 LDFLAGS = -lreadline
 VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all \
