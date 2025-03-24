@@ -8,6 +8,8 @@ int main(int ac, char *av[], char *env[])
 	t_token		*tokens;
 	t_process	*proc;
 
+	(void) ac;
+	(void) av;
 	variable = get_parent_variable(env);
 	while (1)
 	{

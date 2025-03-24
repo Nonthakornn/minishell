@@ -115,11 +115,12 @@ void		exec_heredoc(t_process *process);
 int			process_redirect(t_process *process);
 
 // exec_process
-void		exec_execve(t_process *head, t_process *process, char **variable);
+void		exec_execve(t_process *head, t_process *process, char **var, int stdfd[2]);
 int			exec_process(t_process *head, t_process *process, char ***variable);
 void		wait_process(t_process *head, int *exit_code);
 void		fork_process(t_process *head, char ***variable);
 char		*get_path(char *env[], char *command);
+void		recover_stdfd(int stdfd[2]);
 void		terminate_process(t_process *head, char **var, int code);
 
 // error
@@ -149,21 +150,21 @@ int			get_variable_index(char **variable, char *key);
 int			count_variable(char *env[]);
 char		**inherited_variable(char *env[]);
 char		**get_parent_variable(char *env[]);
-char		**get_child_variable(char **parent_variable);
-int			exec_env(t_process *head, t_process *process, char **variable);
+int			exec_env(t_process *process, char **var);
+
 
 //unset
-int			exec_unset(t_process *head, t_process *process, char ***variable);
+int			exec_unset(t_process *process, char ***variable);
 
 //export
-int			exec_export(t_process *head, t_process *process, char ***variable);
+int			exec_export(t_process *process, char ***variable);
 int			add_export(char ***variable, char *str);
 
 //cd pwd
 char		*getcwd_variable(char *key);
-int			exec_pwd(t_process *head, t_process *process, char ***variable);
+int			exec_pwd(t_process *process, char ***variable);
 int			exec_chdir(t_process *process, char **var);
-int			exec_cd(t_process *head, t_process *process, char ***variable);
+int			exec_cd(t_process *process, char ***variable);
 
 //display for dubugging
 void		display_process_lst(t_process *head);

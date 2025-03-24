@@ -61,13 +61,13 @@ static void	update_pwd(char ***variable)
 		edit_str_arr(*variable, target_index, getcwd_variable("@PWD="));
 }
 
-int	exec_cd(t_process *head, t_process *process, char ***variable)
+int	exec_cd(t_process *process, char ***variable)
 {
 	int	exit_code;
 
 	exit_code = exec_chdir(process, *variable);
 	if (exit_code != 0)
-		return (free_process_and_redir(head), exit_code);
+		return (exit_code);
 	update_opwd(variable);
 	update_pwd(variable);
 	return (exit_code);

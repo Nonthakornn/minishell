@@ -50,7 +50,7 @@ static void	show_export(char **variable)
 	free_str_arr(sort_variable);
 }
 
-int	exec_export(t_process *head, t_process *process, char ***variable)
+int	exec_export(t_process *process, char ***variable)
 {
 	int	exit_code;
 	int	i;
