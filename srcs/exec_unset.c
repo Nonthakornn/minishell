@@ -43,7 +43,7 @@ static char	**remove_variable(char **var, char *key)
 	return (free(var), new_arr);
 }
 
-int	exec_unset(t_process *head, t_process *process, char ***variable)
+int	exec_unset(t_process *process, char ***variable)
 {
 	int	i;
 	int	exit_code;

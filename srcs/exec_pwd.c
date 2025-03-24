@@ -31,7 +31,7 @@ static void	print_pwd(char **variable)
 	print_str(1, buff);
 }
 
-int	exec_pwd(t_process *head, t_process *process, char ***variable)
+int	exec_pwd(t_process *process, char ***variable)
 {
 	int	i;
 
@@ -41,7 +41,6 @@ int	exec_pwd(t_process *head, t_process *process, char ***variable)
 		if (process->cmd[i][0] == '-')
 		{
 			error_pwd_option(process->cmd[i]);
-			free_process_and_redir(head);
 			return (2);
 		}
 		i++;

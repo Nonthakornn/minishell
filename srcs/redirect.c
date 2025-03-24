@@ -45,6 +45,8 @@ static int	process_readfile(t_redir_store *store, \
 	}
 	if (store->infile_fd < 0)
 	{
+		if (store->outfile_fd > 2)
+			close(store->outfile_fd);
 		error_access(redir->value);
 		return (-1);
 	}
@@ -67,6 +69,8 @@ static int	process_writefile(t_redir_store *store, t_redirect *redir)
 	}
 	if (store->outfile_fd < 0)
 	{
+		if (store->infile_fd > 2 && store->cur_infile_type == READ_FILE)
+			close(store->infile_fd);
 		error_access(redir->value);
 		return (-1);
 	}
