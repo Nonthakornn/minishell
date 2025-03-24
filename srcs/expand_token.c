@@ -1,96 +1,68 @@
 #include "minishell.h"
 
-static int valid_to_expand(char *result, int i)
+static void	remove_token(t_token **head, t_token *prev,
+	t_token *current, t_token *next)
 {
-	return (result[i] == '$' && result[i + 1]
-			&& (ft_isalnum(result[i + 1])
-			|| result[i + 1] == '_'));
+	if (prev)
+		prev->next = next;
+	else
+		*head = next;
+	free(current->value);
+	free(current);
 }
 
-static char *handle_dollar(char *str, char **variable)
+static void	update_token_value(t_token *current, char *expanded_value)
 {
-	char	*result;
-	int		i;
-	int		var_start;
-	int		var_end;
-	char	*var_name;
-	int		var_index;
-	char	*var_value;
-
-	//return original string if no $
-	if (!ft_strchr(str, '$'))
-		return (str);
-	result = ft_strdup(str);
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (result[i])
+	if (expanded_value != current->value)
 	{
-		if (valid_to_expand(result, i))
-		{
-			var_start = i;
-			i++; // skip $
-			var_end = i;
-			while (result[var_end] && (ft_isalnum(result[var_end]) || result[var_end] == '_'))
-				var_end++;
-			var_name = ft_substr(result, i, var_end - 1);
-			if (!var_name)
-				return (result);
-			var_index = get_variable_index(variable, var_name);
-			printf("Variable name: %s\n", var_name);
-			printf("Variable index: %d\n", var_index);
-
-			if (var_index != -1)
-			{
-				var_value = ft_strchr(variable[var_index], '=');
-				if (var_value)
-				{
-					var_value++; // skip '=;
-					char *before = ft_substr(result, 0, var_start);
-                    char *after = ft_strdup(result + var_end);
-                    char *temp = str_join(before, var_value);
-                    char *new_result = str_join(temp, after);
-                    free(before);
-                    free(after);
-                    free(temp);
-                    free(result);
-                    result = new_result;
-                    i = var_start + ft_strlen(var_value) - 1; // Adjust position
-				}
-			}
-			else
-			{
-				char *before = ft_substr(result, 0, var_start);
-				char *after = ft_strdup(result + var_end);
-				char *new_result = str_join(before, after);
-				free(before);
-				free(after);
-				free(result);
-				result = new_result;
-				i = var_start - 1; // Adjust position
-			}
-			free(var_name);
-		}
-		i++;
+		free(current->value);
+		current->value = expanded_value;
 	}
-	return (result);
 }
 
-void expand_token(t_token **token, char **variable)
+/*
+Handle CMD token processing
+returns -> 1 if prev should be updated 0 if not
+*/
+static int	handle_cmd_expression(t_token **head, t_token *prev,
+	t_token *current, char **variable)
 {
-	t_token *head;
-	// t_token	*current;
-	// t_token	*token;
+	char	*expanded_value;
+
+	expanded_value = handle_dollar(current->value, variable);
+	if (expanded_value != NULL && expanded_value[0] == '\0')
+	{
+		if (expanded_value != current->value)
+			free(expanded_value);
+		remove_token(head, prev, current, current->next);
+		return (0);
+	}
+	update_token_value(current, expanded_value);
+	return (1);
+}
+
+void	expand_token(t_token **token, char **variable)
+{
+	t_token	*head;
+	t_token	*current;
+	t_token	*prev;
+	t_token	*next;
 
 	head = *token;
-	print_str_arr(variable);
-	while ((*token))
+	prev = NULL;
+	next = NULL;
+	current = head;
+	while (current)
 	{
-		if ((*token)->token_type == CMD)
+		next = current->next;
+		if (current->token_type == CMD)
 		{
-			(*token)->value = handle_dollar((*token)->value, variable);
+			if (handle_cmd_expression(&head, prev, current, variable))
+				prev = current;
 		}
-		(*token) = (*token)->next;
+		else
+			prev = current;
+		current = next;
 	}
-	(*token) = head;
+	*token = head;
 }

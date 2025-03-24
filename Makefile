@@ -10,7 +10,8 @@ SRC_FILES = main.c token_utils.c free_close.c linklist_redirect.c \
 			error_exec.c error_export.c error_option.c \
 			process_variable.c get_process_variable.c \
 			exec_env.c exec_unset.c exec_export.c exec_export_add.c \
-			exec_pwd.c exec_cd.c exec_chdir.c expand_token.c
+			exec_pwd.c exec_cd.c exec_chdir.c expand_token.c \
+			expand_token2.c
 
 HEADERS = srcs/minishell.h
 
