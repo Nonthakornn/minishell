@@ -77,9 +77,18 @@ typedef struct s_redirect_store
 
 }	t_redir_store;
 
+typedef struct s_var_info
+{
+	int		start;
+	int		end;
+	char	*name;
+	char	*value;
+}	t_var_info;
+
 //token utils
 char		*get_str_token(t_token_type type);
 int			command_count(t_token *token);
+int			valid_to_expand(char *result, int i);
 
 //linklist_token
 t_token		*create_token_lst(t_token_type type, char *value);
@@ -152,7 +161,6 @@ char		**inherited_variable(char *env[]);
 char		**get_parent_variable(char *env[]);
 int			exec_env(t_process *process, char **var);
 
-
 //unset
 int			exec_unset(t_process *process, char ***variable);
 
@@ -165,6 +173,10 @@ char		*getcwd_variable(char *key);
 int			exec_pwd(t_process *process, char ***variable);
 int			exec_chdir(t_process *process, char **var);
 int			exec_cd(t_process *process, char ***variable);
+
+//expand
+void		expand_token(t_token **token, char **variable);
+char		*handle_dollar(char *str, char **variable);
 
 //display for dubugging
 void		display_process_lst(t_process *head);

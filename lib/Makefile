@@ -6,7 +6,8 @@ AR		=	ar -rsc
 
 SRCS	=	num_itoa.c num_utils.c \
 			str_array_rm.c str_array_add.c str_array_utils.c str_array_sort.c \
-			str_join.c str_print.c str_split.c str_validate.c str_utils.c 
+			str_join.c str_print.c str_split.c str_validate.c str_utils.c \
+			ft_strchr.c ft_strdup.c ft_isalnum.c ft_strcat.c ft_substr.c
 
 OBJS	=	$(SRCS:.c=.o)
 
