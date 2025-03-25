@@ -27,8 +27,8 @@ void	fork_process(t_process *head, char ***var)
 
 void	wait_process(t_process *head, int *exit_code)
 {
-	int		code;
-	pid_t	last_pid;
+	int			code;
+	pid_t		last_pid;
 	t_process	*temp;
 
 	close_pipe(head);
@@ -51,4 +51,3 @@ void	wait_process(t_process *head, int *exit_code)
 		temp = temp->next;
 	}
 }
-

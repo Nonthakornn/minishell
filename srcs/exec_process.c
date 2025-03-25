@@ -1,9 +1,19 @@
 #include "minishell.h"
 
-void	exec_execve(t_process *head, t_process *process, char **var, int stdfd[2])
+static void	recover_stdfd(int stdfd[2])
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	dup2(stdfd[0], STDIN_FILENO);
+	dup2(stdfd[1], STDOUT_FILENO);
+	close(stdfd[0]);
+	close(stdfd[1]);
+}
+
+void	exec_execve(t_process *head, t_process *process, \
+		char **var, int stdfd[2])
 {
 	char	*exec_path;
-
 
 	if (!(process->cmd) || !(process->cmd)[0])
 	{
@@ -22,13 +32,12 @@ void	exec_execve(t_process *head, t_process *process, char **var, int stdfd[2])
 		recover_stdfd(stdfd);
 		terminate_process(head, var, 127);
 	}
-	close(stdfd[0]);
-	close(stdfd[1]);
 	execve(exec_path, process->cmd, var);
+	recover_stdfd(stdfd);
 	terminate_process(head, var, 127);
 }
 
-int	is_buildin(char *cmd)
+static int	is_buildin(char *cmd)
 {
 	if (is_equal("echo", cmd))
 		return (1);
@@ -45,7 +54,7 @@ int	is_buildin(char *cmd)
 	return (0);
 }
 
-int	run_buildin(t_process *process, char ***var)
+static int	run_buildin(t_process *process, char ***var)
 {
 	if (is_equal("echo", (process->cmd)[0]))
 		return (exec_echo(process, (*var)));
@@ -60,16 +69,6 @@ int	run_buildin(t_process *process, char ***var)
 	if (is_equal("cd", (process->cmd)[0]))
 		return (exec_cd(process, var));
 	return (0);
-}
-
-void	recover_stdfd(int stdfd[2])
-{
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	dup2(stdfd[0], STDIN_FILENO);
-	dup2(stdfd[1], STDOUT_FILENO);
-	close(stdfd[0]);
-	close(stdfd[1]);
 }
 
 int	exec_process(t_process *head, t_process *process, char ***var)

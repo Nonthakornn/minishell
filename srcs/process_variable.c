@@ -13,14 +13,14 @@ int	key_exist(char *var_str, char *key)
 	return (0);
 }
 
-int	get_variable_index(char **variable, char *key)
+int	get_variable_index(char **var, char *key)
 {
 	int	i;
 
 	i = 0;
-	while (variable && variable[i])
+	while (var && var[i])
 	{
-		if (key_exist(variable[i], key))
+		if (key_exist(var[i], key))
 			return (i);
 		i++;
 	}
@@ -43,15 +43,15 @@ int	count_variable(char *env[])
 	return (c);
 }
 
-static char	**set_pwd(char ***variable)
+static char	**set_pwd(char ***var)
 {
 	int		pwd_idx;
 	int		opwd_idx;
 	char	**temp;
 
-	pwd_idx = get_variable_index(*variable, "PWD");
-	opwd_idx = get_variable_index(*variable, "OLDPWD");
-	temp = *variable;
+	pwd_idx = get_variable_index(*var, "PWD");
+	opwd_idx = get_variable_index(*var, "OLDPWD");
+	temp = *var;
 	if (pwd_idx < 0)
 		temp = add_str_arr(temp, getcwd_variable("PWD="));
 	if (opwd_idx < 0)

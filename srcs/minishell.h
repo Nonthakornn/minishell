@@ -35,7 +35,7 @@ typedef enum e_quote_state
 {
 	NORMAL,
 	SINGLE_QUOTE,
-	DOUBLE_QUOTE
+	DOUBLE_QUOTE,
 }	t_quote_state;
 
 typedef struct s_token
@@ -124,14 +124,12 @@ void		exec_heredoc(t_process *process);
 int			process_redirect(t_process *process);
 
 // exec_process
-void		exec_execve(t_process *head, t_process *process,
-				char **var, int stdfd[2]);
-int			exec_process(t_process *head, t_process *process,
-				char ***variable);
+void		exec_execve(t_process *head, t_process *process, \
+			char **var, int stdfd[2]);
+int			exec_process(t_process *head, t_process *process, char ***var);
 void		wait_process(t_process *head, int *exit_code);
-void		fork_process(t_process *head, char ***variable);
+void		fork_process(t_process *head, char ***var);
 char		*get_path(char *env[], char *command);
-void		recover_stdfd(int stdfd[2]);
 void		terminate_process(t_process *head, char **var, int code);
 
 // error
@@ -143,12 +141,13 @@ int			error_unset_option(char *name);
 int			error_export_option(char *key, char *value);
 int			error_pwd_option(char *name);
 int			error_export_name(char *key, char *value);
+int			error_argument(char *cmd, char *arg);
 
 //lexical
 t_token		*tokenize(char *input);
 int			handle_operator(char *str, int *i, t_token **head);
-int			handle_quote(char *str, int *i,
-				t_token **head, t_quote_state *state);
+int			handle_quote(char *str, int *i, \
+			t_token **head, t_quote_state *state);
 int			handle_normal_word(char *str, int *i, t_token **head);
 
 //syntax
@@ -158,24 +157,24 @@ t_process	*syntax(t_token *tokens);
 
 //env
 int			key_exist(char *var_str, char *key);
-int			get_variable_index(char **variable, char *key);
+int			get_variable_index(char **var, char *key);
 int			count_variable(char *env[]);
 char		**inherited_variable(char *env[]);
 char		**get_parent_variable(char *env[]);
 int			exec_env(t_process *process, char **var);
 
 //unset
-int			exec_unset(t_process *process, char ***variable);
+int			exec_unset(t_process *process, char ***var);
 
 //export
-int			exec_export(t_process *process, char ***variable);
-int			add_export(char ***variable, char *str);
+int			exec_export(t_process *process, char ***var);
+int			add_export(char ***var, char *str);
 
 //cd pwd
 char		*getcwd_variable(char *key);
-int			exec_pwd(t_process *process, char ***variable);
+int			exec_pwd(t_process *process, char ***var);
 int			exec_chdir(t_process *process, char **var);
-int			exec_cd(t_process *process, char ***variable);
+int			exec_cd(t_process *process, char ***var);
 
 //expand
 void		expand_token(t_token **token, char **variable);

@@ -30,9 +30,23 @@ int	error_no_command(char *command)
 
 int	error_path(char *command)
 {
+	puterror("bash: sed: No such file or directory\n");
 	if (ft_strlen(command) == 1 && command[0] == '/')
 		put_strerror(command, "Is a directory");
 	else
 		put_strerror(command, "No such file or directory");
+	return (1);
+}
+
+int	error_argument(char *cmd, char *arg)
+{
+	char	*init_str;
+	char	*cmd_str;
+
+	init_str = str_join(cmd, ": ");
+	cmd_str = str_join(init_str, arg);
+	free(init_str);
+	put_strerror(cmd_str , strerror(errno));
+	free(cmd_str);
 	return (1);
 }
