@@ -14,8 +14,6 @@ char	*get_str_token(t_token_type type)
 		return ("APPEND_FILE");
 	else if (type == PIPE)
 		return ("PIPE");
-	else if (type == ENV_VAR)
-		return ("ENV_VAR");
 	else
 	{
 		printf("Type is not defined\n");
@@ -38,9 +36,14 @@ int	command_count(t_token *token)
 	return (cmd_count);
 }
 
-int valid_to_expand(char *result, int i)
+int	valid_to_expand(char *result, int i)
 {
 	return (result[i] == '$' && result[i + 1]
-			&& (ft_isalnum(result[i + 1])
-			|| result[i + 1] == '_'));
+		&& (ft_isalnum(result[i + 1]) || result[i + 1] == '_'));
+}
+
+bool	is_normal_char(char c)
+{
+	return (!is_space(c) && c != '|' && c != '>' && c != '<'
+		&& c != '\'' && c != '\"');
 }
