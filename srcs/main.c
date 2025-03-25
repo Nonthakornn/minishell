@@ -23,9 +23,6 @@ int main(int ac, char *av[], char *env[])
 			continue;
 		}
 		tokens = tokenize(input);
-		// printf(CYAN"[BEFORE EXPAND]\n"RST);
-		// display_token_lst(tokens);
-		// printf(CYAN"[AFTER EXPAND]\n"RST);
 		expand_token(&tokens, variable);
 		// display_token_lst(tokens);
 		free(input);

@@ -22,8 +22,7 @@ LIBS = -L$(LIB_PATH) -lft
 OBJS = $(SRC_FILES:%.c=$(BUILD_DIR)/%.o)
 
 CC = cc 
-#CFLAGS =  -Wall -Wextra -Werror -g
-CFLAGS =  -Wall -g
+CFLAGS =  -Wall -Wextra -Werror -g
 RM = rm -rf
 LDFLAGS = -lreadline
 VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all \

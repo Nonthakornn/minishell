@@ -29,7 +29,6 @@ typedef enum e_token_type
 	WRITE_FILE, // >
 	APPEND_FILE, // >>
 	PIPE, // |
-	ENV_VAR, // env variable like $PATH
 }	t_token_type;
 
 typedef enum e_quote_state
@@ -37,12 +36,12 @@ typedef enum e_quote_state
 	NORMAL,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE
-
 }	t_quote_state;
 
 typedef struct s_token
 {
 	t_token_type			token_type;
+	t_quote_state			quote_type;
 	char					*value;
 	struct s_token			*next;
 
@@ -89,6 +88,7 @@ typedef struct s_var_info
 char		*get_str_token(t_token_type type);
 int			command_count(t_token *token);
 int			valid_to_expand(char *result, int i);
+bool		is_normal_char(char c);
 
 //linklist_token
 t_token		*create_token_lst(t_token_type type, char *value);
@@ -124,8 +124,10 @@ void		exec_heredoc(t_process *process);
 int			process_redirect(t_process *process);
 
 // exec_process
-void		exec_execve(t_process *head, t_process *process, char **var, int stdfd[2]);
-int			exec_process(t_process *head, t_process *process, char ***variable);
+void		exec_execve(t_process *head, t_process *process,
+				char **var, int stdfd[2]);
+int			exec_process(t_process *head, t_process *process,
+				char ***variable);
 void		wait_process(t_process *head, int *exit_code);
 void		fork_process(t_process *head, char ***variable);
 char		*get_path(char *env[], char *command);
@@ -144,8 +146,9 @@ int			error_export_name(char *key, char *value);
 
 //lexical
 t_token		*tokenize(char *input);
-int			handle_operator(char *str, int *i , t_token **head);
-int			handle_quote(char *str, int *i, t_token **head, t_quote_state *state);
+int			handle_operator(char *str, int *i, t_token **head);
+int			handle_quote(char *str, int *i,
+				t_token **head, t_quote_state *state);
 int			handle_normal_word(char *str, int *i, t_token **head);
 
 //syntax
@@ -186,5 +189,4 @@ void		display_process_lst(t_process *head);
 void		display_redir_lst(t_redirect *head);
 void		display_token_lst(t_token *head);
 void		display_redir_lst(t_redirect *head);
-
 #endif

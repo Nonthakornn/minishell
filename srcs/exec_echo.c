@@ -1,36 +1,64 @@
 #include "minishell.h"
 
-bool    check_n(char *cmd)
+static bool	check_n(char *cmd)
 {
-    if (cmd[0] == '-')
-        return (true);
-    return (false);
+	int	i;
+
+	i = 0;
+	while (is_space(cmd[i]))
+		i++;
+	if (cmd[i] != '-')
+		return (false);
+	i++;
+	while (cmd[i] == 'n')
+		i++;
+	if (!cmd[i])
+		return (true);
+	return (false);
 }
 
-
-int    exec_echo(t_process *process, char **variable)
+static void	process_flag_n(char **cmd, int start_index)
 {
-    int    i;
-    int first_word;
-    char **cmd;
+	int	i;
+	int	first_word;
 
-    i = 1;
-    first_word = 1;
-    cmd = process->cmd;
-    // if (check_n(cmd[1]))
-    // {
-    //     printf("OK");
-    // }
+	i = start_index;
+	first_word = 1;
+	while (cmd[i])
+	{
+		if (!first_word)
+			printf(" ");
+		else
+			first_word = 0;
+		printf("%s", cmd[i]);
+		i++;
+	}
+}
 
-    while (cmd[i])
-    {
-        if (!first_word)
-            printf(" ");
-        else
-            first_word = 0;
-        printf("%s", cmd[i]);
-        i++;
-    }
-    printf("\n");
-    return (0);
+int	exec_echo(t_process *process, char **variable)
+{
+	int		i;
+	int		first_word;
+	char	**cmd;
+
+	(void)variable;
+	i = 1;
+	first_word = 1;
+	cmd = process->cmd;
+	if (cmd[1] && check_n(cmd[1]))
+	{
+		process_flag_n(cmd, 2);
+		return (0);
+	}
+	while (cmd[i])
+	{
+		if (!first_word)
+			printf(" ");
+		else
+			first_word = 0;
+		printf("%s", cmd[i]);
+		i++;
+	}
+	printf("\n");
+	return (0);
 }

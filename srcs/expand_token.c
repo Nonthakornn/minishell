@@ -29,6 +29,8 @@ static int	handle_cmd_expression(t_token **head, t_token *prev,
 {
 	char	*expanded_value;
 
+	if (current->quote_type == SINGLE_QUOTE)
+		return (1);
 	expanded_value = handle_dollar(current->value, variable);
 	if (expanded_value != NULL && expanded_value[0] == '\0')
 	{
