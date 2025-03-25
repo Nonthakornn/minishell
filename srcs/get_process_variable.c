@@ -53,12 +53,10 @@ char	**get_parent_variable(char *env[])
 	if (!var)
 		return (NULL);
 	var = clear_local_var(var);
+	var = add_str_arr(var, slice("$?=0", 0, 4));
 	shlvl_idx = get_variable_index(var, "SHLVL");
 	if (shlvl_idx == -1)
-	{
-		var = add_str_arr(var, \
-		slice("SHLVL=1", 0, ft_strlen("SHLVL=1")));
-	}
+		var = add_str_arr(var, slice("SHLVL=1", 0, 7));
 	else
 	{
 		shlvl_value = ft_atoi(var[shlvl_idx] + 6) + 1;

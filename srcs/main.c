@@ -1,16 +1,30 @@
 #include "minishell.h"
 
-void	excute(t_process **head, char ***var, int *code)
+void	excute(t_process **head, char ***var)
 {
+	int		code;
+	int		idx;
+	char	*new_code;
+
+	code = 0;
 	pipe_process_lst(head);
 	exec_heredoc(*head);
 	if ((*head)->next)
 	{
 		fork_process(*head, var);
-		wait_process(*head, code);
+		wait_process(*head, &code);
 	}
 	else
-		*code = exec_process(*head, *head, var);
+		code = exec_process(*head, *head, var);
+	idx = get_variable_index(*var, "?");
+	if (idx < 0)
+		*var = add_str_arr(*var, slice("$?=0", 0, 4));
+	else
+	{
+		new_code = itoa(code);
+		edit_str_arr(*var, idx, str_join("$?=", new_code));
+		free(new_code);
+	}
 	free_process_and_redir(*head);
 }
 
@@ -59,7 +73,8 @@ int main(int ac, char *av[], char *env[])
 		proc = get_process(input, variable);
 		if (!proc)
 			continue;
-		excute(&proc, &variable, &code);
+		excute(&proc, &variable);
+		print_str_arr(variable);
 	}
 	free_str_arr(variable);
 	rl_clear_history();
