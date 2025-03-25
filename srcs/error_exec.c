@@ -37,3 +37,16 @@ int	error_path(char *command)
 		put_strerror(command, "No such file or directory");
 	return (1);
 }
+
+int	error_argument(char *cmd, char *arg)
+{
+	char	*init_str;
+	char	*cmd_str;
+
+	init_str = str_join(cmd, ": ");
+	cmd_str = str_join(init_str, arg);
+	free(init_str);
+	put_strerror(cmd_str , strerror(errno));
+	free(cmd_str);
+	return (1);
+}
