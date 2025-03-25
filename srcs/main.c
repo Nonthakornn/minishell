@@ -14,7 +14,7 @@ void	excute(t_process **head, char ***var, int *code)
 	free_process_and_redir(*head);
 }
 
-t_process *get_process(char *input)
+t_process *get_process(char *input, char **var)
 {
 	t_token		*tokens;
 	t_process	*proc;
@@ -29,6 +29,7 @@ t_process *get_process(char *input)
 	free(input);
 	if (!tokens)
 		return (NULL);
+	expand_token(&tokens, var);
 	if (!check_syntax_err(tokens))
 	{
 		printf("Syntax Error\n");
@@ -55,12 +56,12 @@ int main(int ac, char *av[], char *env[])
 		input = readline("minishell $> ");
 		if (!input)
 			break ;
-		proc = get_process(input);
+		proc = get_process(input, variable);
 		if (!proc)
 			continue;
 		excute(&proc, &variable, &code);
 	}
 	free_str_arr(variable);
 	rl_clear_history();
-	return (code >> 8);
+	return (code);
 }
