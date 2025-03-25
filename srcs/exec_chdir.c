@@ -79,6 +79,6 @@ int	exec_chdir(t_process *process, char **var)
 	if (is_equal(arg, "~"))
 		return (chdir_to_home(var));
 	if (chdir(arg) < 0)
-		return (put_strerror(arg, strerror(errno)), 1);
+		return (error_argument("cd", arg));
 	return (0);
 }

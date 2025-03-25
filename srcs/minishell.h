@@ -140,6 +140,7 @@ int			error_unset_option(char *name);
 int			error_export_option(char *key, char *value);
 int			error_pwd_option(char *name);
 int			error_export_name(char *key, char *value);
+int			error_argument(char *cmd, char *arg);
 
 //lexical
 t_token		*tokenize(char *input);
