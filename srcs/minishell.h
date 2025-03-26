@@ -195,6 +195,12 @@ char			*handle_dollar(char *str, char **variable);
 //echo
 int				exec_echo(t_process *process, char **variable);
 
+//syntax utils
+int				count_commands(t_token *seg_start, t_token *seg_end);
+t_token			*find_seg_end(t_token *start);
+int				is_filename_for_redirection(t_token *seg_start,
+					t_token *current);
+
 //display for dubugging
 void			display_process_lst(t_process *head);
 void			display_redir_lst(t_redirect *head);

@@ -40,6 +40,7 @@ t_process *get_process(char *input, char **var)
 		return (NULL);
 	}
 	tokens = tokenize(input);
+	// display_token_lst(tokens);
 	free(input);
 	if (!tokens)
 		return (NULL);
@@ -51,6 +52,7 @@ t_process *get_process(char *input, char **var)
 		return (NULL);
 	}
 	proc = syntax(tokens);
+	// display_process_lst(proc);
 	return (proc);
 }
 
