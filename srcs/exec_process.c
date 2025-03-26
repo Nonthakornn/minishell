@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	recover_stdfd(int stdfd[2])
+void	recover_stdfd(int stdfd[2])
 {
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
@@ -8,33 +8,6 @@ static void	recover_stdfd(int stdfd[2])
 	dup2(stdfd[1], STDOUT_FILENO);
 	close(stdfd[0]);
 	close(stdfd[1]);
-}
-
-void	exec_execve(t_process *head, t_process *process, \
-		char **var, int stdfd[2])
-{
-	char	*exec_path;
-
-	if (!(process->cmd) || !(process->cmd)[0])
-	{
-		recover_stdfd(stdfd);
-		terminate_process(head, var, 0);
-	}
-	if (ft_strlen((process->cmd)[0]) == 1 && (process->cmd)[0][0] == '/')
-	{
-		error_path("/");
-		recover_stdfd(stdfd);
-		terminate_process(head, var, 126);
-	}
-	exec_path = get_path(var, (process->cmd)[0]);
-	if (!exec_path)
-	{
-		recover_stdfd(stdfd);
-		terminate_process(head, var, 127);
-	}
-	execve(exec_path, process->cmd, var);
-	recover_stdfd(stdfd);
-	terminate_process(head, var, 127);
 }
 
 static int	is_buildin(char *cmd)

@@ -29,19 +29,6 @@ static char	*join_dir(char *dir, char *cmd)
 	return (new_str);
 }
 
-static char	*check_path_command(char *command)
-{
-	if (ft_strlen(command) == 1)
-	{
-		puterror("bash: /: Is a directory\n");
-		return (NULL);
-	}
-	if (access(command, F_OK) == 0)
-		return (slice(command, 0, ft_strlen(command)));
-	error_access(command);
-	return (NULL);
-}
-
 static char	*find_accessible_path(char *path_str, char *command)
 {
 	char	**split_path;
@@ -49,8 +36,8 @@ static char	*find_accessible_path(char *path_str, char *command)
 	char	*cmd_path;
 	int		i;
 
-	if (ft_strlen(path_str) <= 5)
-		return (error_path(command), NULL);
+	if (!startwith(path_str, "PATH="))
+		return (NULL);
 	env_path = slice(path_str, 5, ft_strlen(path_str));
 	if (!env_path)
 		return (NULL);
@@ -87,12 +74,10 @@ char	*get_path(char *env[], char *command)
 	int		path_index;
 	char	*accessible_path;
 
-	if (find_index(command, '/') != -1)
-		return (check_path_command(command));
 	path_index = get_path_index(env);
 	if (path_index == -1)
 	{
-		error_path(command);
+		error_no_path(command);
 		return (NULL);
 	}
 	accessible_path = find_accessible_path(env[path_index], command);

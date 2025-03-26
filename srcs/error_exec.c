@@ -24,17 +24,17 @@ int	error_access(char *access_name)
 
 int	error_no_command(char *command)
 {
-	put_strerror(command, "command not found");
+	char	*cmd_str;
+
+	cmd_str = str_join(command, ": command not found\n");
+	puterror(cmd_str);
+	free(cmd_str);
 	return (1);
 }
 
-int	error_path(char *command)
+int	error_no_path(char *command)
 {
-	puterror("bash: sed: No such file or directory\n");
-	if (ft_strlen(command) == 1 && command[0] == '/')
-		put_strerror(command, "Is a directory");
-	else
-		put_strerror(command, "No such file or directory");
+	put_strerror(command, "No such file or directory");
 	return (1);
 }
 

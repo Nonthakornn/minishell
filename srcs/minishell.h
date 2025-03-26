@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+#include <dirent.h>
 # include "libft.h"
 
 typedef enum e_token_type
@@ -140,12 +141,13 @@ void			wait_process(t_process *head, int *exit_code);
 void			fork_process(t_process *head, char ***var);
 char			*get_path(char *env[], char *command);
 void			terminate_process(t_process *head, char **var, int code);
+void			recover_stdfd(int stdfd[2]);
 
 // error
 void			put_strerror(char *name, char *strerr);
 int				error_access(char *access_name);
 int				error_no_command(char *command);
-int				error_path(char *command);
+int				error_no_path(char *command);
 int				error_unset_option(char *name);
 int				error_export_option(char *key, char *value);
 int				error_pwd_option(char *name);
@@ -184,6 +186,7 @@ char			*getcwd_variable(char *key);
 int				exec_pwd(t_process *process, char ***var);
 int				exec_chdir(t_process *process, char **var);
 int				exec_cd(t_process *process, char ***var);
+int				is_dir(char *path);
 
 //expand
 void			expand_token(t_token **token, char **variable);
