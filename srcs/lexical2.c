@@ -1,40 +1,31 @@
 #include "minishell.h"
 
-static char	*extract_quote(char *str, int *i, char quote_char)
+static int	process_quoted_token(t_token **head, char *word,
+				t_quote_state quote_type, int *i);
+
+int	handle_normal_word(char *str, int *i, t_token **head)
 {
 	char	*word;
 	int		start;
 	int		len;
-	int		j;
-
-	word = NULL;
-	len = 0;
-	j = 0;
-	start = *i;
-	while (str[*i] && str[*i] != quote_char)
-		(*i)++;
-	if (str[*i] == quote_char)
-	{
-		len = *i - start;
-		word = malloc(len + 1);
-		while (j < len)
-		{
-			word[j] = str[start + j];
-			j++;
-		}
-		word[j] = '\0';
-		return (word);
-	}
-	return (NULL);
-}
-
-static t_token	*process_quoted_word(char *word, t_quote_state quote_type)
-{
 	t_token	*new_token;
+	t_token	*last;
 
+	start = *i;
+	word = extract_normal_word(str, i, &len);
+	if (!word)
+		return (0);
+	if (start > 0 && !is_space(str[start - 1]) && *head)
+	{
+		last = lastnode_token_lst(*head);
+		if (last && last->token_type == CMD)
+			return (ft_combine(last, word));
+	}
 	new_token = create_token_lst(CMD, word);
-	new_token->quote_type = quote_type;
-	return (new_token);
+	new_token->quote_type = NORMAL;
+	addback_token_lst(head, new_token);
+	free(word);
+	return (1);
 }
 
 int	handle_quote(char *str, int *i, t_token **head, t_quote_state *state)
@@ -43,21 +34,22 @@ int	handle_quote(char *str, int *i, t_token **head, t_quote_state *state)
 	char			*word;
 	t_quote_state	quote_type;
 
-	if ((str[*i] == '\'' || str[*i] == '\"') && *state == NORMAL)
+	if (check_quote_and_state(str, *i, *state))
 	{
 		quote_char = str[*i];
-		if (quote_char == '\'')
-			quote_type = SINGLE_QUOTE;
-		else
-			quote_type = DOUBLE_QUOTE;
+		quote_type = assign_quote_type(quote_char);
 		*state = quote_type;
 		(*i)++;
 		word = extract_quote(str, i, quote_char);
 		if (word)
 		{
-			addback_token_lst(head, process_quoted_word(word, quote_type));
-			free(word);
-			(*i)++;
+			if (is_ok_to_join(str, *i, word))
+				process_quoted_token(head, word, quote_type, i);
+			else
+			{
+				addback_token_lst(head, process_quoted_word(word, quote_type));
+				(*i)++;
+			}
 			*state = NORMAL;
 			return (1);
 		}
@@ -65,31 +57,39 @@ int	handle_quote(char *str, int *i, t_token **head, t_quote_state *state)
 	return (0);
 }
 
-int	handle_normal_word(char *str, int *i, t_token **head)
+static int	process_quoted_token(t_token **head, char *word,
+	t_quote_state quote_type, int *i)
 {
-	char	*word;
-	int		start;
-	int		len;
-	int		j;
-	t_token	*new_token;
+	int	joined;
 
-	word = NULL;
-	start = *i;
-	len = 0;
-	j = 0;
-	while (str[*i] && is_normal_char(str[*i]))
-		(*i)++ ;
-	len = *i - start;
-	word = malloc(len + 1);
-	while (j < len)
-	{
-		word[j] = str[start + j];
-		j++;
-	}
-	word[j] = '\0';
-	new_token = create_token_lst(CMD, word);
-	new_token->quote_type = NORMAL;
-	addback_token_lst(head, new_token);
-	free(word);
+	joined = join_with_previous(head, word);
+	if (!joined)
+		addback_token_lst(head, process_quoted_word(word, quote_type));
+	else
+		free(word);
+	(*i)++;
 	return (1);
 }
+
+
+/*
+handle_quote Flow
+Is this a quote character and are we in NORMAL state?
+	No -> Return 0 (no quote handled)
+	yes:
+		1. Set quote_char to current character
+		2. Determine quote_type (SINGLE_QUOTE or DOUBLE_QUOTE)
+		3. Update state to the quote_type
+		4. Move to next character (i++)
+		5. Extract quoted content into 'word'
+		6. Was extraction successful?
+			No -> Return 0 (extraction failed)
+			Yes:
+			Should this be joined with previous token?
+			Yes -> Process quoted token (join with previous)
+			No -> Add as new token and move to next character
+	Reset state to NORMAL
+     │
+     └─ Return 1 (successfully handled quote)
+End handle_quote
+*/

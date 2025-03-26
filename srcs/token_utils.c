@@ -39,12 +39,22 @@ int	command_count(t_token *token)
 int	valid_to_expand(char *result, int i)
 {
 	return (result[i] == '$' && result[i + 1]
-		&& (ft_isalnum(result[i + 1]) || result[i + 1] == '_' 
-		|| result[i + 1] == '?'));
+		&& (ft_isalnum(result[i + 1]) || result[i + 1] == '_'
+			|| result[i + 1] == '?'));
 }
 
 bool	is_normal_char(char c)
 {
 	return (!is_space(c) && c != '|' && c != '>' && c != '<'
 		&& c != '\'' && c != '\"');
+}
+
+char	*create_empty_string(void)
+{
+	char	*word;
+
+	word = malloc(1);
+	if (word)
+		word[0] = '\0';
+	return (word);
 }
