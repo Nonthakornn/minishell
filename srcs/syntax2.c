@@ -42,11 +42,14 @@ static void	add_command_to_array(char **cmd_array, int *index, t_token *current,
 static void	process_redirection(t_redirect **redirect, t_token **current)
 {
 	t_redirect	*new_redir;
+	char		*temp_value;	
 
+	temp_value = NULL;
 	if (check_redir_type(*current) && (*current)->next)
 	{
-		new_redir = create_redir_lst((*current)->token_type,
-				ft_strdup((*current)->next->value));
+		temp_value = ft_strdup((*current)->next->value);
+		new_redir = create_redir_lst((*current)->token_type, temp_value);
+		free(temp_value);
 		if (!*redirect)
 			*redirect = new_redir;
 		else
