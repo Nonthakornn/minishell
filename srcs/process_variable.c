@@ -68,7 +68,7 @@ char	**inherited_variable(char *env[])
 	var_len = count_variable(env);
 	if (var_len == 0)
 		return (NULL);
-	str_arr = new_str_arr(var_len + 2);
+	str_arr = new_str_arr(var_len + 3);
 	i = 0;
 	while (env[i])
 	{
@@ -80,6 +80,7 @@ char	**inherited_variable(char *env[])
 		i++;
 	}
 	str_arr[i] = getcwd_variable("@PWD=");
+
 	str_arr = set_pwd(&str_arr);
 	return (str_arr);
 }
