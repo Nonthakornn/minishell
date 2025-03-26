@@ -12,7 +12,7 @@ static int	chdir_to_home_env(char **var)
 		put_strerror(var[home_index] + 5, strerror(errno));
 		return (1);
 	}
-	return (chdir(var[home_index] + 5), 1);
+	return (0);
 }
 
 static char	*get_home_path(char *pwd_path)

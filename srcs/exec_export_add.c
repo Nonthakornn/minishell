@@ -5,7 +5,9 @@ static void	add_key_value(char ***var, char *key, char *value)
 	int		target_index;
 	char	*temp;
 
+	print_str_arr(*var);
 	target_index = get_variable_index(*var, key);
+	printf("%d\n", target_index);
 	temp = str_join(key, value);
 	if (target_index < 0)
 		(*var) = add_str_arr(*var, temp);

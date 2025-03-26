@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+static void	end_quote(int found)
+{
+	if (found)
+		write(1, "\"\n", 2);
+	else
+		write(1, "\n", 1);
+}
+
 static void	printf_export_str(char *str)
 {
 	int		i;
@@ -25,7 +33,7 @@ static void	printf_export_str(char *str)
 		}
 		i++;
 	}
-	write(1, "\"\n", 2);
+	end_quote(found);
 }
 
 static void	show_export(char **var)
