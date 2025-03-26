@@ -17,48 +17,28 @@ static bool	check_n(char *cmd)
 	return (false);
 }
 
-static void	process_flag_n(char **cmd, int start_index)
+static void	print_args(char **cmd, int start, bool add_newline)
 {
 	int	i;
-	int	first_word;
 
-	i = start_index;
-	first_word = 1;
+	i = start;
+	if (cmd[i])
+		printf("%s", cmd[i++]);
 	while (cmd[i])
-	{
-		if (!first_word)
-			printf(" ");
-		else
-			first_word = 0;
-		printf("%s", cmd[i]);
-		i++;
-	}
+		printf(" %s", cmd[i++]);
+	if (add_newline)
+		printf("\n");
 }
 
 int	exec_echo(t_process *process, char **variable)
 {
-	int		i;
-	int		first_word;
 	char	**cmd;
 
 	(void)variable;
-	i = 1;
-	first_word = 1;
 	cmd = process->cmd;
 	if (cmd[1] && check_n(cmd[1]))
-	{
-		process_flag_n(cmd, 2);
-		return (0);
-	}
-	while (cmd[i])
-	{
-		if (!first_word)
-			printf(" ");
-		else
-			first_word = 0;
-		printf("%s", cmd[i]);
-		i++;
-	}
-	printf("\n");
+		print_args(cmd, 2, false);
+	else
+		print_args(cmd, 1, true);
 	return (0);
 }
