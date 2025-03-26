@@ -5,7 +5,8 @@ static char	*extract_var_name(char *str, int start, int *end)
 	int	var_end;
 
 	var_end = start;
-	while (str[var_end] && (ft_isalnum(str[var_end]) || str[var_end] == '_'))
+	while (str[var_end] && (ft_isalnum(str[var_end]) || str[var_end] == '_'
+		|| str[var_end] == '?'))
 		var_end++;
 	*end = var_end;
 	return (ft_substr(str, start, var_end - start));

@@ -74,7 +74,6 @@ int main(int ac, char *av[], char *env[])
 		if (!proc)
 			continue;
 		excute(&proc, &variable);
-		print_str_arr(variable);
 	}
 	free_str_arr(variable);
 	rl_clear_history();
