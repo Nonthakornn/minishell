@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-static char			**extract_cmd(t_token **token, t_redirect **redirect);
-static t_process	*process_cmd_segment(t_token **token);
-t_process			*syntax(t_token *tokens);
-t_redirect			*parse_redirect(t_token **token);
-
 t_redirect	*parse_redirect(t_token **token)
 {
 	t_redirect	*head;
@@ -34,91 +29,94 @@ t_redirect	*parse_redirect(t_token **token)
 	return (head);
 }
 
-static void	handle_more_redirect(t_token **token, t_redirect **redirect)
+static void	add_command_to_array(char **cmd_array, int *index, t_token *current,
+					t_token *seg_start)
 {
-	t_redirect	*more_redirect;
-	t_redirect	*last;
-
-	more_redirect = parse_redirect(token);
-	if (more_redirect)
+	if (current->token_type == CMD)
 	{
-		last = *redirect;
-		while (last->next)
-			last = last->next;
-		last->next = more_redirect;
+		if (!is_filename_for_redirection(seg_start, current))
+			cmd_array[(*index)++] = ft_strdup(current->value);
 	}
 }
 
-static char	**extract_cmd(t_token **token, t_redirect **redirect)
+static void	process_redirection(t_redirect **redirect, t_token **current)
 {
-	char	**cmd;
-	int		cmd_count;
-	int		i;
+	t_redirect	*new_redir;
 
-	cmd = NULL;
-	i = 0;
-	cmd_count = command_count(*token);
-	cmd = malloc(sizeof(char *) * (cmd_count + 1));
-	while (i < cmd_count && *token)
+	if (check_redir_type(*current) && (*current)->next)
 	{
-		cmd[i] = slice((*token)->value, 0, ft_strlen((*token)->value));
-		i++;
-		(*token) = (*token)->next;
+		new_redir = create_redir_lst((*current)->token_type,
+				ft_strdup((*current)->next->value));
+		if (!*redirect)
+			*redirect = new_redir;
+		else
+			addback_redir_lst(redirect, new_redir);
+		*current = (*current)->next;
+	}
+}
+
+static t_token	*process_command_seg(t_token *seg_start, t_process **head)
+{
+	t_token		*seg_end;
+	t_token		*current;
+	char		**cmd;
+	t_redirect	*redirect;
+	int			i;
+
+	seg_end = find_seg_end(seg_start);
+	cmd = malloc_array(count_commands(seg_start, seg_end));
+	if (!cmd)
+		return (NULL);
+	redirect = NULL;
+	i = 0;
+	current = seg_start;
+	while (current && current->token_type != PIPE)
+	{
+		add_command_to_array(cmd, &i, current, seg_start);
+		process_redirection(&redirect, &current);
+		current = current->next;
 	}
 	cmd[i] = NULL;
-	if (!(*redirect))
-		*redirect = parse_redirect(token);
-	else
-		handle_more_redirect(token, redirect);
-	return (cmd);
-}
-
-static t_process	*process_cmd_segment(t_token **token)
-{
-	char		**cmd;
-	t_token		*tmp_token;
-	t_redirect	*redirect;
-
-	tmp_token = *token;
-	cmd = NULL;
-	redirect = NULL;
-	if (tmp_token && check_redir_type(tmp_token))
-	{
-		redirect = parse_redirect(&tmp_token);
-		if (!redirect)
-			return (NULL);
-		*token = tmp_token;
-	}
-	cmd = extract_cmd(token, &redirect);
-	if (!cmd)
-	{
-		free_redirects(redirect);
-		return (NULL);
-	}
-	return (create_process_lst(cmd, redirect));
+	addback_process_lst(head, create_process_lst(cmd, redirect));
+	return (current);
 }
 
 t_process	*syntax(t_token *tokens)
 {
 	t_process	*head;
-	t_process	*new_proc;
 	t_token		*current;
 
 	head = NULL;
-	new_proc = NULL;
 	current = tokens;
 	while (current)
 	{
-		new_proc = process_cmd_segment(&current);
-		if (!new_proc)
-		{
-			free_token(tokens);
-			return (free_process_and_redir(head), NULL);
-		}
-		addback_process_lst(&head, new_proc);
+		current = process_command_seg(current, &head);
 		if (current && current->token_type == PIPE)
 			current = current->next;
 	}
 	free_token(tokens);
 	return (head);
 }
+/*
+syntax Flow:
+Start with token list and NULL head
+While current token exists:
+1. Call process_command_segment with current token and head reference
+	process_command_segment Flow
+2. Find segment end (end of the pipe)
+3. Count commands in segment
+4. Allocate memory for command array
+5. Set redirect to NULL and index to 0
+6. Process each token until pipe or end:
+	If token is CMD:
+		Is it a filename for redirection?
+			No -> Add to command array at index i++
+7. If token is redirection type and has next token:
+Create new redirection node
+	Add to redirection list
+	Skip the filename token
+8. Set cmd[i] = NULL
+9. Create process with commands and redirections
+10. Add process to list
+11. Return current token after segment
+*/

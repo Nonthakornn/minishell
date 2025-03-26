@@ -36,5 +36,5 @@ char	*ft_strdup(char *s1);
 int		ft_isalnum(int c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strcat(char *dst, char *src);
-
+char	**malloc_array(int cmd_count);
 #endif
