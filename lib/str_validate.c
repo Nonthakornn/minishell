@@ -27,7 +27,7 @@ int	is_include(char *str, char c)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] != c)
+		if (str[i] == c)
 			return (1);
 		i++;
 	}

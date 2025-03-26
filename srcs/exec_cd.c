@@ -72,3 +72,14 @@ int	exec_cd(t_process *process, char ***var)
 	update_pwd(var);
 	return (exit_code);
 }
+
+int	is_dir(char *path)
+{
+	DIR *d;
+
+	d = opendir(path);
+	if (!d)
+		return (0);
+	closedir(d);
+	return (1);
+}

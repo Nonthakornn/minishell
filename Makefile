@@ -7,7 +7,7 @@ SRC_FILES = main.c token_utils.c free_close.c linklist_redirect.c \
 			linklist_process.c exec_heredoc.c redirect.c  \
 			split_pipe.c exec_process.c exec_processes.c get_path.c linklist_token.c \
 			lexical.c lexical2.c syntax.c syntax2.c free_return.c \
-			error_exec.c error_export.c error_option.c \
+			error_exec.c error_export.c error_option.c exec_execve.c \
 			process_variable.c get_process_variable.c \
 			exec_env.c exec_unset.c exec_export.c exec_export_add.c \
 			exec_pwd.c exec_cd.c exec_chdir.c expand_token.c \
