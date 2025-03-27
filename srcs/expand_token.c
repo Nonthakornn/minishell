@@ -43,7 +43,7 @@ static int	handle_cmd_expression(t_token **head, t_token *prev,
 	return (1);
 }
 
-void	expand_token(t_token **token, char **variable)
+bool	expand_token(t_token **token, char **variable)
 {
 	t_token	*head;
 	t_token	*current;
@@ -67,4 +67,7 @@ void	expand_token(t_token **token, char **variable)
 		current = next;
 	}
 	*token = head;
+	if (head == NULL)
+		return (false);
+	return (true);
 }

@@ -40,3 +40,19 @@ t_quote_state	assign_quote_type(char quote_char)
 	else
 		return (DOUBLE_QUOTE);
 }
+
+bool	process_token(t_token **tokens, char **var)
+{
+	if (!expand_token(tokens, var))
+	{
+		free_token(*tokens);
+		return (false);
+	}
+	if (!check_syntax_err(*tokens))
+	{
+		printf("Syntax Error\n");
+		free_token(*tokens);
+		return (false);
+	}
+	return (true);
+}
