@@ -17,7 +17,7 @@ static bool	check_n(char *cmd)
 	return (false);
 }
 
-static void	print_no_nl(int fd, char *str)
+static void	echo_str(int fd, char *str)
 {
 	int	i;
 
@@ -35,11 +35,14 @@ static void	print_args(char **cmd, int start, bool add_newline)
 
 	i = start;
 	if (cmd[i])
-		print_no_nl(1, cmd[i++]);
+		echo_str(1, cmd[i++]);
 	while (cmd[i])
-		print_no_nl(1, cmd[i++]);
+	{
+		echo_str(1, " ");
+		echo_str(1, cmd[i++]);
+	}
 	if (add_newline)
-		print_no_nl(1, "\n");
+		echo_str(1, "\n");
 }
 
 int	exec_echo(t_process *process, char **variable)

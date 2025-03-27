@@ -44,14 +44,8 @@ t_process *get_process(char *input, char **var)
 	free(input);
 	if (!tokens)
 		return (NULL);
-	(void) var;
-	expand_token(&tokens, var);
-	if (!check_syntax_err(tokens))
-	{
-		printf("Syntax Error\n");
-		free_token(tokens);
+	if (!process_token(&tokens, var))
 		return (NULL);
-	}
 	proc = syntax(tokens);
 	// display_process_lst(proc);
 	return (proc);

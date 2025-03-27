@@ -19,7 +19,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-#include <dirent.h>
+# include <dirent.h>
 # include "libft.h"
 
 typedef enum e_token_type
@@ -99,6 +99,7 @@ int				check_quote_and_state(char *str, int i, t_quote_state state);
 int				is_ok_to_join(char *str, int i, char *word);
 int				ft_combine(t_token *last, char *word);
 t_quote_state	assign_quote_type(char quote_char);
+bool			process_token(t_token **tokens, char **variable);
 
 //linklist_token
 t_token			*create_token_lst(t_token_type type, char *value);
@@ -189,7 +190,7 @@ int				exec_cd(t_process *process, char ***var);
 int				is_dir(char *path);
 
 //expand
-void			expand_token(t_token **token, char **variable);
+bool			expand_token(t_token **token, char **variable);
 char			*handle_dollar(char *str, char **variable);
 
 //echo
