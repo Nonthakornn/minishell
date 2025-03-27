@@ -28,7 +28,7 @@ void	excute(t_process **head, char ***var)
 	free_process_and_redir(*head);
 }
 
-t_process *get_process(char *input, char **var)
+t_process	*get_process(char *input, char **var)
 {
 	t_token		*tokens;
 	t_process	*proc;
@@ -40,27 +40,51 @@ t_process *get_process(char *input, char **var)
 		return (NULL);
 	}
 	tokens = tokenize(input);
-	// display_token_lst(tokens);
 	free(input);
 	if (!tokens)
 		return (NULL);
 	if (!process_token(&tokens, var))
 		return (NULL);
 	proc = syntax(tokens);
-	// display_process_lst(proc);
 	return (proc);
 }
 
-int main(int ac, char *av[], char *env[])
+void	check_argv(int argc, char *argv[])
+{
+	if (argc > 1)
+	{
+		if (is_dir(argv[1]))
+		{
+			put_strerror(argv[1], "Is a directory");
+			exit(126);
+		}
+		if (access(argv[1], F_OK) == -1)
+		{
+			put_strerror(argv[1], "No such file or directory");
+			exit(127);
+		}
+		if (access(argv[1], X_OK) == -1)
+		{
+			put_strerror(argv[1], "Permission denied");
+			exit(126);
+		}
+		if (is_equal(argv[1], "./minishell") || is_equal(argv[1], "minishell"))
+		{
+			put_strerror(argv[1], "cannot execute binary file");
+			exit(126);
+		}
+	}
+}
+
+int main(int argc, char *argv[], char *env[])
 {
 	int			code;
 	char		**variable;
 	char		*input;
 	t_process	*proc;
 
-	(void) ac;
-	(void) av;
 	code = 0;
+	check_argv(argc, argv);
 	variable = get_parent_variable(env);
 	while (1)
 	{

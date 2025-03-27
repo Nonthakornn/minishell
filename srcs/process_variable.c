@@ -78,7 +78,6 @@ char	**inherited_variable(char *env[])
 		i++;
 	}
 	str_arr[i] = getcwd_variable("@PWD=");
-
 	str_arr = set_pwd(&str_arr);
 	return (str_arr);
 }
