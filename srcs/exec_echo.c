@@ -17,17 +17,29 @@ static bool	check_n(char *cmd)
 	return (false);
 }
 
+static void	print_no_nl(int fd, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(fd, &str[i], 1);
+		i++;
+	}
+}
+
 static void	print_args(char **cmd, int start, bool add_newline)
 {
 	int	i;
 
 	i = start;
 	if (cmd[i])
-		printf("%s", cmd[i++]);
+		print_no_nl(1, cmd[i++]);
 	while (cmd[i])
-		printf(" %s", cmd[i++]);
+		print_no_nl(1, cmd[i++]);
 	if (add_newline)
-		printf("\n");
+		print_no_nl(1, "\n");
 }
 
 int	exec_echo(t_process *process, char **variable)

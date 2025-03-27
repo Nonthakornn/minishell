@@ -53,10 +53,13 @@ void	exec_execve(t_process *head, t_process *process, \
 {
 	if (!(process->cmd) || !(process->cmd)[0])
 		no_command_execve(head, var, stdfd);
-	if (is_dir((process->cmd)[0]))
-		command_is_dir(head, process, var, stdfd);
 	if (is_include((process->cmd)[0], '/'))
-		command_withpath(head, process, var, stdfd);
+	{
+		if (is_dir((process->cmd)[0]))
+			command_is_dir(head, process, var, stdfd);
+		else
+			command_withpath(head, process, var, stdfd);
+	}
 	else
 		command_nopath(head, process, var, stdfd);
 }
