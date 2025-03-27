@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	excute(t_process **head, char ***var)
+static void	excute(t_process **head, char ***var)
 {
 	int		code;
 	int		idx;
@@ -28,7 +28,7 @@ void	excute(t_process **head, char ***var)
 	free_process_and_redir(*head);
 }
 
-t_process	*get_process(char *input, char **var)
+static t_process	*get_process(char *input, char **var)
 {
 	t_token		*tokens;
 	t_process	*proc;
@@ -49,7 +49,7 @@ t_process	*get_process(char *input, char **var)
 	return (proc);
 }
 
-void	check_argv(int argc, char *argv[])
+static void	check_argv(int argc, char *argv[])
 {
 	if (argc > 1)
 	{
@@ -76,7 +76,7 @@ void	check_argv(int argc, char *argv[])
 	}
 }
 
-int main(int argc, char *argv[], char *env[])
+int	main(int argc, char *argv[], char *env[])
 {
 	int			code;
 	char		**variable;
@@ -93,7 +93,7 @@ int main(int argc, char *argv[], char *env[])
 			break ;
 		proc = get_process(input, variable);
 		if (!proc)
-			continue;
+			continue ;
 		excute(&proc, &variable);
 	}
 	free_str_arr(variable);
