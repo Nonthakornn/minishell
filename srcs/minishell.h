@@ -20,6 +20,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <dirent.h>
+# include <limits.h>
 # include "libft.h"
 
 typedef enum e_token_type
@@ -127,6 +128,7 @@ void			free_redirects(t_redirect *head);
 void			free_process_and_redir(t_process *head);
 void			close_pipe(t_process *process);
 void			free_token(t_token *head);
+void			free_everything(t_process *proc, char **var, int std[2]);
 
 //heredoc
 void			exec_heredoc(t_process *process);
@@ -195,6 +197,11 @@ char			*handle_dollar(char *str, char **variable);
 
 //echo
 int				exec_echo(t_process *process, char **variable);
+
+//exit
+int				exec_exit(t_process *process, char **var, int std[2]);
+bool			handle_overflow(long long result, int sign, int *status);
+int				count_arg(t_process	*proc);
 
 //syntax utils
 int				count_commands(t_token *seg_start, t_token *seg_end);

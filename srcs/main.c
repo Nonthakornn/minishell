@@ -72,6 +72,7 @@ int main(int ac, char *av[], char *env[])
 			continue;
 		excute(&proc, &variable);
 	}
+	// code = get_exit_code(variable);
 	free_str_arr(variable);
 	rl_clear_history();
 	return (code);
