@@ -75,7 +75,7 @@ int	exec_cd(t_process *process, char ***var)
 
 int	is_dir(char *path)
 {
-	DIR *d;
+	DIR	*d;
 
 	d = opendir(path);
 	if (!d)
