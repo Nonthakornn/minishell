@@ -8,7 +8,6 @@
 
 char	*itoa(int n);
 int		ft_atoi(char *nstr);
-
 char	**add_str_arr(char **str_arr, char *new_str);
 char	**rm_str_arr(char **str_arr, int removed_index);
 char	**sort_str_arr(char **str);
@@ -34,6 +33,10 @@ int		startwith(char *str, char *word);
 char	*ft_strchr(char *s, int c);
 char	*ft_strdup(char *s1);
 int		ft_isalnum(int c);
+int		ft_isalnum2(char *str);
+int		ft_isalnum(int c);
+int		ft_isnum2(char *str);
+void	print_no_nl(int fd, char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strcat(char *dst, char *src);
 char	**malloc_array(int cmd_count);

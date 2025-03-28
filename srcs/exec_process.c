@@ -12,6 +12,8 @@ void	recover_stdfd(int stdfd[2])
 
 static int	is_buildin(char *cmd)
 {
+	if (is_equal("exit", cmd))
+		return (1);
 	if (is_equal("echo", cmd))
 		return (1);
 	if (is_equal("env", cmd))
@@ -27,8 +29,10 @@ static int	is_buildin(char *cmd)
 	return (0);
 }
 
-static int	run_buildin(t_process *process, char ***var)
+static int	run_buildin(t_process *process, char ***var, int std[2])
 {
+	if (is_equal("exit", (process->cmd)[0]))
+		return (exec_exit(process, (*var), std));
 	if (is_equal("echo", (process->cmd)[0]))
 		return (exec_echo(process, (*var)));
 	if (is_equal("env", (process->cmd)[0]))
@@ -59,7 +63,7 @@ int	exec_process(t_process *head, t_process *process, char ***var)
 		return (recover_stdfd(stdfd), 1);
 	if (is_buildin((process->cmd)[0]))
 	{
-		exit_code = run_buildin(process, var);
+		exit_code = run_buildin(process, var, stdfd);
 		return (recover_stdfd(stdfd), exit_code);
 	}
 	pid = fork();

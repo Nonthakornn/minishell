@@ -17,3 +17,15 @@ void	puterror(char *str)
 {
 	write(2, str, ft_strlen(str));
 }
+
+void	print_no_nl(int fd, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(fd, &str[i], 1);
+		i++;
+	}
+}
