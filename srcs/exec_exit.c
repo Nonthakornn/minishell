@@ -34,6 +34,7 @@ static void	not_number_exit(t_process *proc, char **var, int std[2])
 	print_no_nl(2, proc->cmd[1]);
 	print_str(2, ": numeric argument required");
 	free_everything(proc, var, std);
+	rl_clear_history();
 	exit(2);
 }
 
@@ -42,6 +43,16 @@ static int	too_many_args_return(void)
 	print_no_nl(2, "bash: exit: ");
 	print_str(2, "too many arguments");
 	return (1);
+}
+
+static void	one_arg_exit(t_process *proc, char **var, int std[2])
+{
+	int	exit_code;
+
+	exit_code = get_exit_code(var);
+	free_everything(proc, var, std);
+	rl_clear_history();
+	exit(exit_code);
 }
 
 int	exec_exit(t_process *proc, char **var, int std[2])
@@ -54,10 +65,7 @@ int	exec_exit(t_process *proc, char **var, int std[2])
 	args_count = count_arg(proc);
 	print_str(1, "exit");
 	if (args_count == 1)
-	{
-		free_everything(proc, var, std);
-		exit(0);
-	}
+		one_arg_exit(proc, var, std);
 	if (args_count >= 2)
 	{
 		if (!ft_isnum2(proc->cmd[1]))

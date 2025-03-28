@@ -6,7 +6,7 @@
 /*   By: nchencha <nchencha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 11:05:30 by nchencha          #+#    #+#             */
-/*   Updated: 2025/03/28 11:49:21 by nchencha         ###   ########.fr       */
+/*   Updated: 2025/03/28 12:09:13 by nchencha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int main(int ac, char *av[], char *env[])
 			continue;
 		excute(&proc, &variable);
 		code = get_exit_code(variable);
-		// printf("Exit Code: %d\n", code);
 	}
 	free_str_arr(variable);
 	rl_clear_history();
