@@ -90,7 +90,10 @@ int	main(int argc, char *argv[], char *env[])
 	{
 		input = readline("minishell $> ");
 		if (!input)
+		{
+			write(STDOUT_FILENO, "exit\n", 5);
 			break ;
+		}
 		proc = get_process(input, variable);
 		if (!proc)
 			continue ;
