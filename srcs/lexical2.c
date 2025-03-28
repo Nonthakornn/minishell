@@ -71,7 +71,6 @@ static int	process_quoted_token(t_token **head, char *word,
 	return (1);
 }
 
-
 /*
 handle_quote Flow
 Is this a quote character and are we in NORMAL state?

@@ -46,7 +46,7 @@ int	error_argument(char *cmd, char *arg)
 	init_str = str_join(cmd, ": ");
 	cmd_str = str_join(init_str, arg);
 	free(init_str);
-	put_strerror(cmd_str , strerror(errno));
+	put_strerror(cmd_str, strerror(errno));
 	free(cmd_str);
 	return (1);
 }
