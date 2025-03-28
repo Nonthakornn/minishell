@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nchencha <nchencha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/28 11:05:30 by nchencha          #+#    #+#             */
+/*   Updated: 2025/03/28 11:49:21 by nchencha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	excute(t_process **head, char ***var)
@@ -71,8 +83,9 @@ int main(int ac, char *av[], char *env[])
 		if (!proc)
 			continue;
 		excute(&proc, &variable);
+		code = get_exit_code(variable);
+		// printf("Exit Code: %d\n", code);
 	}
-	// code = get_exit_code(variable);
 	free_str_arr(variable);
 	rl_clear_history();
 	return (code);

@@ -22,3 +22,19 @@ int	count_arg(t_process	*proc)
 		i++;
 	return (i);
 }
+
+int get_exit_code(char **var)
+{
+	char	*value;
+	int		idx;
+	int		code;
+
+	idx = get_variable_index(var, "?=");
+	// print_str_arr(var);
+	// printf("%d\n", idx);
+	if (idx < 0)
+		return (0);
+	value = var[idx];
+	code = ft_atoi(value + 3);
+	return (code);
+}

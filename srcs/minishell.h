@@ -202,6 +202,7 @@ int				exec_echo(t_process *process, char **variable);
 int				exec_exit(t_process *process, char **var, int std[2]);
 bool			handle_overflow(long long result, int sign, int *status);
 int				count_arg(t_process	*proc);
+int				get_exit_code(char **var);
 
 //syntax utils
 int				count_commands(t_token *seg_start, t_token *seg_end);
