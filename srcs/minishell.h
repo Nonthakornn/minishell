@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define _POSIX_C_SOURCE 200809L
 # define RST	"\033[0m"
 # define RED	"\033[0;31m"
 # define GREEN	"\033[0;32m"
@@ -21,6 +22,7 @@
 # include <sys/stat.h>
 # include <dirent.h>
 # include <limits.h>
+# include <signal.h>
 # include "libft.h"
 
 typedef enum e_token_type
