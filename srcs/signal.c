@@ -1,8 +1,10 @@
 #include "minishell.h"
 
+//CTRL-C
 void handle_sigint(int signum)
 {
 	(void)signum;
+	print_str(1, "Receive Signal: Ctrl-C");
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -11,46 +13,12 @@ void handle_sigint(int signum)
 
 void handle_sigquit(int signum)
 {
-	printf("Receive sigquit %d\n", signum);
+	(void)signum;
 }
 
-/*
-SIGINT(2) - Ctrl-C
-SIGQUIT(3) - Ctrl-\ 
-Ctrl-D is not signal but it is EOF (send NULL)
-extern volatile sig_atomic_t	g_signal;;
-volatile sig_atomic_t	g_signal;
-*/
-
-int main()
+void	setup_signal(void)
 {
-	char *input;
-	struct sigaction sa_int;
-	sa_int.sa_handler = handle_sigint;
-    sigemptyset(&sa_int.sa_mask);
-    sa_int.sa_flags = 0;
-    sigaction(SIGINT, &sa_int, NULL);
+	print_str(1, "Setup Signal");
+	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-
-	// signal(SIGINT, handle_sigint);
-	// signal(SIGQUIT, SIG_IGN);
-
-	while (1)
-	{
-		input = readline("prompt> ");
-		if (!input)
-			break;
-	}
-	return (0);
 }
-
-/*
-rl_on_new_line - Tell readline to start a new line
-rl_replace_line - Clear the current input line
-rl_redisplay - Redisplay prompt
-signal,
-sigaction
-sigemptyset
-sigaddset
-kill
-*/

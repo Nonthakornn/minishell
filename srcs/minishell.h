@@ -25,6 +25,12 @@
 # include <signal.h>
 # include "libft.h"
 
+/*
+extern indicates that variable has external linkage
+and can access across multiplefile
+*/
+extern volatile sig_atomic_t	g_signal;
+
 typedef enum e_token_type
 {
 	CMD,
@@ -211,6 +217,16 @@ int				count_commands(t_token *seg_start, t_token *seg_end);
 t_token			*find_seg_end(t_token *start);
 int				is_filename_for_redirection(t_token *seg_start,
 					t_token *current);
+
+//process
+t_process		*get_process(char *input, char **var);
+void			check_argv(int argc, char *argv[]);
+void			excute(t_process **head, char ***var);
+
+//signal
+void			setup_signal(void);
+void			handle_sigint(int signum);
+void			handle_sigquit(int signum);
 
 //display for dubugging
 void			display_process_lst(t_process *head);
