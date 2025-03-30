@@ -1,7 +1,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define _POSIX_C_SOURCE 200809L
 # define RST	"\033[0m"
 # define RED	"\033[0;31m"
 # define GREEN	"\033[0;32m"
@@ -23,6 +22,7 @@
 # include <dirent.h>
 # include <limits.h>
 # include <signal.h>
+# include <termios.h>
 # include "libft.h"
 
 /*
@@ -147,6 +147,7 @@ int				process_redirect(t_process *process);
 // exec_process
 void			exec_execve(t_process *head, t_process *process, \
 				char **var, int stdfd[2]);
+// int				exec_process(t_process *head, t_process *process, char ***var, int do_it);
 int				exec_process(t_process *head, t_process *process, char ***var);
 void			wait_process(t_process *head, int *exit_code);
 void			fork_process(t_process *head, char ***var);
@@ -227,6 +228,11 @@ void			excute(t_process **head, char ***var);
 void			setup_signal(void);
 void			handle_sigint(int signum);
 void			handle_sigquit(int signum);
+// void			setup_signal_heredoc(void);
+// void			handle_sigint_heredoc(int signum);
+// void			setup_signal_fork(void);
+// void			setup_signal_fork(t_process *proc);
+// void			reset_signal(void);
 
 //display for dubugging
 void			display_process_lst(t_process *head);

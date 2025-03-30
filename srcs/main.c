@@ -1,34 +1,43 @@
 #include "minishell.h"
 
-volatile sig_atomic_t g_signal;
+volatile sig_atomic_t g_signal = 0;
 
-int	main(int argc, char *argv[], char *env[])
+static void prompt(char **variable)
 {
-	int			code;
-	char		**variable;
 	char		*input;
 	t_process	*proc;
+	char		*new_exit_code;
 
-	code = 0;
-	check_argv(argc, argv);
-	variable = get_parent_variable(env);
-	g_signal = 0;
 	while (1)
 	{
 		setup_signal();
 		input = readline("minishell $> ");
+		if (g_signal == 1)
+        {
+            int idx = get_variable_index(variable, "?");
+            if (idx >= 0)
+            {
+                new_exit_code = itoa(130);
+                edit_str_arr(variable, idx, str_join("$?=", new_exit_code));
+                free(new_exit_code);
+            }
+            g_signal = 0;
+        }
 		if (!input)
-		{
-			write(STDOUT_FILENO, "exit\n", 5);
-			break ;
-		}
+			input = ft_strdup("exit");
 		proc = get_process(input, variable);
 		if (!proc)
 			continue ;
 		excute(&proc, &variable);
-		code = get_exit_code(variable);
 	}
-	free_str_arr(variable);
-	rl_clear_history();
-	return (code);
+}
+
+int	main(int argc, char *argv[], char *env[])
+{
+	char		**variable;
+
+	check_argv(argc, argv);
+	variable = get_parent_variable(env);
+	prompt(variable);
+	return (0);
 }
