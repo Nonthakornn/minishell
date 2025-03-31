@@ -52,7 +52,7 @@ bool	process_token(t_token **tokens, char **var)
 	{
 		print_str(2,"Syntax Error");
 		free_token(*tokens);
-		return (false);
+		exit (2);
 	}
 	return (true);
 }
