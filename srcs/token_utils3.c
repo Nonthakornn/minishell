@@ -50,7 +50,7 @@ bool	process_token(t_token **tokens, char **var)
 	}
 	if (!check_syntax_err(*tokens))
 	{
-		printf("Syntax Error\n");
+		print_str(2,"Syntax Error");
 		free_token(*tokens);
 		return (false);
 	}
