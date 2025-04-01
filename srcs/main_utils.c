@@ -21,23 +21,18 @@ t_process	*get_process(char *input, char **var)
 	return (proc);
 }
 
-void	excute(t_process **head, char ***var)
+static void	set_var_exit(int code, char ***var)
 {
-	int		code;
 	int		idx;
+	int		*sig_code;
 	char	*new_code;
 
-	code = 0;
-	pipe_process_lst(head);
-	exec_heredoc(*head);
-	if ((*head)->next)
+	sig_code = get_sig_code();
+	if (*sig_code > 0)
 	{
-		fork_process(*head, var);
-		setup_signal_parent();
-		wait_process(*head, &code);
+		code = *sig_code;
+		set_sig_code(0);
 	}
-	else
-		code = exec_process(*head, *head, var);
 	idx = get_variable_index(*var, "?");
 	if (idx < 0)
 		*var = add_str_arr(*var, slice("$?=0", 0, 4));
@@ -47,6 +42,24 @@ void	excute(t_process **head, char ***var)
 		edit_str_arr(*var, idx, str_join("$?=", new_code));
 		free(new_code);
 	}
+}
+
+void	excute(t_process **head, char ***var)
+{
+	int		code;
+
+	code = 0;
+	pipe_process_lst(head);
+	exec_heredoc(*head);
+	setup_signal_parent();
+	if ((*head)->next)
+	{
+		fork_process(*head, var);
+		wait_process(*head, &code);
+	}
+	else
+		code = exec_process(*head, *head, var);
+	set_var_exit(code, var);
 	free_process_and_redir(*head);
 }
 

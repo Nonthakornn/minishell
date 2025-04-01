@@ -36,3 +36,17 @@ int	get_exit_code(char **var)
 	code = ft_atoi(value + 3);
 	return (code);
 }
+
+void	set_exit_code(char ***var, int exit_code)
+{
+	int		idx;
+	char	*exit_str;
+
+	idx = get_variable_index(*var, "?");
+	exit_str = itoa(exit_code);
+	if (idx >= 0)
+		edit_str_arr(*var, idx, str_join("$?=", exit_str));
+	else
+		*var = add_str_arr(*var, exit_str);
+	free(exit_str);
+}
