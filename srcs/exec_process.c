@@ -67,13 +67,11 @@ int	exec_process(t_process *head, t_process *process, char ***var)
 		exit_code = run_buildin(process, var, stdfd);
 		return (recover_stdfd(stdfd), exit_code);
 	}
-	// dprintf(1,"Pass: Only one command\n");
 	pid = fork();
 	if (pid == 0)
 	{
-		setup_signal_child();
+		// setup_signal_child();
 		exec_execve(head, process, (*var), stdfd);
-		dprintf(1, "exitcode: %d", exit_code);
 		exit (exit_code);
 	}
 	else

@@ -35,7 +35,6 @@ void	excute(t_process **head, char ***var)
 		fork_process(*head, var);
 		setup_signal_parent();
 		wait_process(*head, &code);
-		dprintf(1,"Exit code (execure funciton): %d\n", code);
 	}
 	else
 		code = exec_process(*head, *head, var);

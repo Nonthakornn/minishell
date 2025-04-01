@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-static void handle_mom(int signum);
 
 //CTRL-C
 static void new_prompt(int signum)
@@ -20,12 +19,26 @@ void	setup_signal()
 }
 
 
+static void handle_mom(int signum)
+{
+	if (signum == SIGINT)
+		write(2, "\n", 1);
+	if (signum == SIGQUIT)
+		write(2, "Quit (core dump)\n", 18);
+	return ;
+}
+
 void	setup_signal_parent()
 {
 	signal(SIGINT, handle_mom);
 	signal(SIGQUIT, handle_mom);
 }
 
+// void	setup_signal_parent()
+// {
+// 	signal(SIGINT, SIG_IGN);
+// 	signal(SIGQUIT, SIG_IGN);
+// }
 
 void	setup_signal_child()
 {
@@ -36,22 +49,13 @@ void	setup_signal_child()
 void handle_child(int signum)
 {
 	(void)signum;
-	// dprintf(2, "signum: %d\n", signum);
-	// if (signum == SIGINT)
-	// 	write(2, "\n", 1);
-	// if (signum == SIGQUIT)
-	// 	write(2, "Quit (core dump)\n", 18);
-	exit (130);
-}
-
-static void handle_mom(int signum)
-{
 	if (signum == SIGINT)
 		write(2, "\n", 1);
 	if (signum == SIGQUIT)
 		write(2, "Quit (core dump)\n", 18);
-	return ;
+	exit (130);
 }
+
 // static void change_status(int signum)
 // {
 // 	(void)signum;
