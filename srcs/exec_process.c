@@ -51,9 +51,10 @@ static int	run_buildin(t_process *process, char ***var, int std[2])
 int	exec_process(t_process *head, t_process *process, char ***var)
 {
 	int	redir_result;
-	int	exit_code;
+	int	exit_code = 1;
 	int	pid;
 	int	stdfd[2];
+	int	status;
 
 	stdfd[0] = dup(0);
 	stdfd[1] = dup(1);
@@ -66,9 +67,24 @@ int	exec_process(t_process *head, t_process *process, char ***var)
 		exit_code = run_buildin(process, var, stdfd);
 		return (recover_stdfd(stdfd), exit_code);
 	}
+	// dprintf(1,"Pass: Only one command\n");
 	pid = fork();
 	if (pid == 0)
+	{
+		setup_signal_child();
 		exec_execve(head, process, (*var), stdfd);
-	wait(&exit_code);
+		dprintf(1, "exitcode: %d", exit_code);
+		exit (exit_code);
+	}
+	else
+	{
+		setup_signal_parent();
+		wait(&exit_code);
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		exit_code = 128 + WTERMSIG(status);
 	return (recover_stdfd(stdfd), exit_code >> 8);
 }

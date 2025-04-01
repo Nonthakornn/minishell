@@ -225,14 +225,10 @@ void			check_argv(int argc, char *argv[]);
 void			excute(t_process **head, char ***var);
 
 //signal
-void			setup_signal(void);
-void			handle_sigint(int signum);
-void			handle_sigquit(int signum);
-// void			setup_signal_heredoc(void);
-// void			handle_sigint_heredoc(int signum);
-// void			setup_signal_fork(void);
-// void			setup_signal_fork(t_process *proc);
-// void			reset_signal(void);
+void			setup_signal();
+void			setup_signal_parent();
+void			setup_signal_child();
+void			handle_child(int signum);
 
 //display for dubugging
 void			display_process_lst(t_process *head);

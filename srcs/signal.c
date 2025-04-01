@@ -1,7 +1,9 @@
 #include "minishell.h"
 
+static void handle_mom(int signum);
+
 //CTRL-C
-void handle_sigint(int signum)
+static void new_prompt(int signum)
 {
 	(void)signum;
 	g_signal = 1;
@@ -11,54 +13,48 @@ void handle_sigint(int signum)
 	rl_redisplay();
 }
 
-void handle_sigquit(int signum)
+void	setup_signal()
 {
-	(void)signum;
-}
-
-void	setup_signal(void)
-{
-	signal(SIGINT, handle_sigint);
+	signal(SIGINT, new_prompt);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-// void handle_sigint_heredoc(int signum)
-// {
-// 	if (signum == SIGINT)
-// 		g_signal = 1;
-// }
 
-// void handle_sigint_fork(int signum)
-// {
-// 	if (signum == SIGINT)
-// 	{
-// 		print_str(1, "2");
-// 		g_signal = 1;
-// 	}
-// 	if (signum == SIGQUIT)
-// 	{
-// 		print_str(1, "2");
-// 		g_signal = 2;
-// 		print_str(2, "Quit (core dump)");
-// 		kill(0, SIGINT);
-// 	}
-// }
-// void	setup_signal_heredoc(void)
-// {
-// 	signal(SIGINT, handle_sigint_heredoc);
-// 	signal(SIGQUIT, SIG_IGN);
-// }
+void	setup_signal_parent()
+{
+	signal(SIGINT, handle_mom);
+	signal(SIGQUIT, handle_mom);
+}
 
-// void	setup_signal_fork()
-// {
-// 	signal(SIGQUIT, SIG_DFL);
-// 	// enable_ctrl_backslash(proc);
-// 	signal(SIGINT, handle_sigint_fork);
-// 	signal(SIGQUIT, handle_sigint_fork);
-// }
 
-// void			reset_signal(void)
+void	setup_signal_child()
+{
+	signal(SIGINT, handle_child);
+	signal(SIGQUIT, handle_child);
+}
+
+void handle_child(int signum)
+{
+	(void)signum;
+	// dprintf(2, "signum: %d\n", signum);
+	// if (signum == SIGINT)
+	// 	write(2, "\n", 1);
+	// if (signum == SIGQUIT)
+	// 	write(2, "Quit (core dump)\n", 18);
+	exit (130);
+}
+
+static void handle_mom(int signum)
+{
+	if (signum == SIGINT)
+		write(2, "\n", 1);
+	if (signum == SIGQUIT)
+		write(2, "Quit (core dump)\n", 18);
+	return ;
+}
+// static void change_status(int signum)
 // {
-// 	signal(SIGINT, SIG_DFL);
-// 	signal(SIGQUIT, SIG_DFL);
+// 	(void)signum;
+// 	g_signal = 1;
+// 	write(1, "\n", 1);
 // }
