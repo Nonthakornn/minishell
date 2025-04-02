@@ -71,34 +71,34 @@ cmd[1] = "-la"
 cmd[2] = NULL
 */
 
-void	display_process_lst(t_process *head)
-{
-	int	i;
-	int	cmd_num;
+// void	display_process_lst(t_process *head)
+// {
+// 	int	i;
+// 	int	cmd_num;
 
-	cmd_num = 0;
-	printf(CYAN"Pipe Command List:\n"RST);
-	printf(CYAN"-----------------------------\n"RST);
-	while (head)
-	{
-		i = 0;
-		printf(CYAN"[Command %d]\n"RST, cmd_num++);
-		while (head->cmd[i])
-		{
-			printf("cmd[%d]: \"%s\"\n", i, head->cmd[i]);
-			i++;
-		}
-		printf("cmd[%d]: NULL\n", i);
-		if (head->redirect)
-			display_redir_lst(head->redirect);
-		else
-			printf("Redirects: NULL\n");
-		printf("next: ");
-		if (head->next)
-			printf("\n");
-		else
-			printf("NULL\n");
-		head = head->next;
-	}
-	printf(RED"-----------------------------"RST"\n");
-}
+// 	cmd_num = 0;
+// 	printf(CYAN"Pipe Command List:\n"RST);
+// 	printf(CYAN"-----------------------------\n"RST);
+// 	while (head)
+// 	{
+// 		i = 0;
+// 		printf(CYAN"[Command %d]\n"RST, cmd_num++);
+// 		while (head->cmd[i])
+// 		{
+// 			printf("cmd[%d]: \"%s\"\n", i, head->cmd[i]);
+// 			i++;
+// 		}
+// 		printf("cmd[%d]: NULL\n", i);
+// 		if (head->redirect)
+// 			display_redir_lst(head->redirect);
+// 		else
+// 			printf("Redirects: NULL\n");
+// 		printf("next: ");
+// 		if (head->next)
+// 			printf("\n");
+// 		else
+// 			printf("NULL\n");
+// 		head = head->next;
+// 	}
+// 	printf(RED"-----------------------------"RST"\n");
+// }

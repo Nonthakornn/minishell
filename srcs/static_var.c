@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-t_process	**get_head()
+t_process	**get_head(void)
 {
-	static t_process	*head = NULL;
+	static t_process	*head;
+
 	return (&head);
 }
 
@@ -14,9 +15,10 @@ void	set_head(t_process *head)
 	*h = head;
 }
 
-char	***get_var()
+char	***get_var(void)
 {
-	static char	**var = NULL;
+	static char	**var;
+
 	return (&var);
 }
 

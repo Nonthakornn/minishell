@@ -10,7 +10,7 @@ static void	new_prompt(int signum)
 	rl_redisplay();
 }
 
-void	setup_signal()
+void	setup_signal(void)
 {
 	signal(SIGINT, new_prompt);
 	signal(SIGQUIT, SIG_IGN);
@@ -30,7 +30,7 @@ static void	handle_parent(int signum)
 	}
 }
 
-void	setup_signal_parent()
+void	setup_signal_parent(void)
 {
 	signal(SIGINT, handle_parent);
 	signal(SIGQUIT, handle_parent);

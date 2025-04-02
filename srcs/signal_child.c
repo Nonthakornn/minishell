@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	*get_sig_code()
+int	*get_sig_code(void)
 {
 	static int	sig_code = 0;
 

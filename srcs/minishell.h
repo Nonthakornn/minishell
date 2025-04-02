@@ -226,23 +226,22 @@ void			check_argv(int argc, char *argv[]);
 void			excute(t_process **head, char ***var);
 
 //signal
-void			setup_signal();
-void			setup_signal_parent();
+void			setup_signal(void);
+void			setup_signal_parent(void);
 void			setup_signal_child(t_process *head, char **var);
-int				*get_sig_code();
+int				*get_sig_code(void);
 void			set_sig_code(int code);
 void			set_stdin(int stdin_fd);
-int				*get_stdin();
+int				*get_stdin(void);
 void			set_stdout(int stdout_fd);
-int				*get_stdout();
-t_process		**get_head();
+int				*get_stdout(void);
+t_process		**get_head(void);
 void			set_head(t_process *head);
-char			***get_var();
+char			***get_var(void);
 void			set_var(char **var);
 
 //display for dubugging
-void			display_process_lst(t_process *head);
+// void			display_process_lst(t_process *head);
 void			display_redir_lst(t_redirect *head);
 void			display_token_lst(t_token *head);
-void			display_redir_lst(t_redirect *head);
 #endif

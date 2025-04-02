@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-void	recover_stdfd(int stdfd[2])
-{
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	dup2(stdfd[0], STDIN_FILENO);
-	dup2(stdfd[1], STDOUT_FILENO);
-	close(stdfd[0]);
-	close(stdfd[1]);
-}
-
 static int	is_buildin(char *cmd)
 {
 	if (is_equal("exit", cmd))
@@ -54,15 +44,21 @@ static void	set_sigstd(int stdfd[2])
 	set_stdout(stdfd[1]);
 }
 
+static void	copy_std(int stdfd[2])
+{
+	stdfd[0] = dup(0);
+	stdfd[1] = dup(1);
+}
+
 int	exec_process(t_process *head, t_process *process, char ***var)
 {
 	int	redir_result;
-	int	exit_code = 1;
+	int	exit_code;
 	int	pid;
 	int	stdfd[2];
 
-	stdfd[0] = dup(0);
-	stdfd[1] = dup(1);
+	exit_code = 0;
+	copy_std(stdfd);
 	set_sigstd(stdfd);
 	redir_result = process_redirect(process);
 	close_pipe(head);

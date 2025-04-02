@@ -50,3 +50,13 @@ void	set_exit_code(char ***var, int exit_code)
 		*var = add_str_arr(*var, exit_str);
 	free(exit_str);
 }
+
+void	recover_stdfd(int stdfd[2])
+{
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	dup2(stdfd[0], STDIN_FILENO);
+	dup2(stdfd[1], STDOUT_FILENO);
+	close(stdfd[0]);
+	close(stdfd[1]);
+}

@@ -16,3 +16,9 @@
    ...
    fun:rl_add_undo
 }
+{
+   ignore_strdup
+   Memcheck:Leak
+   ...
+   fun:strdup
+}

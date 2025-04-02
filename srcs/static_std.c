@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-int	*get_stdin()
+int	*get_stdin(void)
 {
-	static int	stdin_fd = 0;
+	static int	stdin_fd;
+
 	return (&stdin_fd);
 }
 
@@ -14,9 +15,10 @@ void	set_stdin(int stdin_fd)
 	*in = stdin_fd;
 }
 
-int	*get_stdout()
+int	*get_stdout(void)
 {
-	static int	stdout_fd = 1;
+	static int	stdout_fd;
+
 	return (&stdout_fd);
 }
 
@@ -27,4 +29,3 @@ void	set_stdout(int stdout_fd)
 	out = get_stdout();
 	*out = stdout_fd;
 }
-
