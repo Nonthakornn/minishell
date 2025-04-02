@@ -14,7 +14,7 @@ t_token	*create_token_lst(t_token_type type, char *value)
 		free(new_node);
 		return (NULL);
 	}
-	strcpy(new_node->value, value);
+	ft_strcpy(new_node->value, value);
 	new_node->next = NULL;
 	return (new_node);
 }
