@@ -25,3 +25,18 @@ int	ft_atoi(char *nstr)
 	}
 	return (-1 * number * sign);
 }
+
+int	*new_int_array(int len)
+{
+	int	*arr;
+	int	i;
+
+	arr = malloc(sizeof(int) * (len));
+	i = 0;
+	while (i < len)
+	{
+		arr[i] = 0;
+		i++;
+	}
+	return (arr);
+}

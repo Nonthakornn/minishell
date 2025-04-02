@@ -40,4 +40,5 @@ void	print_no_nl(int fd, char *str);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*ft_strcat(char *dst, char *src);
 char	**malloc_array(int cmd_count);
+int		*new_int_array(int len);
 #endif

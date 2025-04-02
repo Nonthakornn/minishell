@@ -230,8 +230,7 @@ void			excute(t_process **head, char ***var);
 void			setup_signal();
 void			setup_signal_parent();
 void			setup_signal_child(t_process *head, char **var);
-int				*get_sig_code();
-void			set_sig_code(int code);
+void			setup_signal_heredoc();
 void			set_stdin(int stdin_fd);
 int				*get_stdin();
 void			set_stdout(int stdout_fd);
@@ -240,6 +239,12 @@ t_process		**get_head();
 void			set_head(t_process *head);
 char			***get_var();
 void			set_var(char **var);
+int				*get_hdin();
+void			set_hdin(int fd);
+int				*get_hdout();
+void			set_hdout(int fd);
+int				**get_hdpipe();
+
 
 //display for dubugging
 void			display_process_lst(t_process *head);

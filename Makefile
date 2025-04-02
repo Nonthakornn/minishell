@@ -14,7 +14,7 @@ SRC_FILES = main.c token_utils.c free_close.c linklist_redirect.c \
 			expand_token2.c exec_echo.c token_utils2.c token_utils3.c \
 			syntax_utils.c exec_exit.c exit_utils.c main_utils.c \
 			signal_child.c signal_parent.c signal_heredoc.c \
-			static_std.c static_var.c
+			static_std.c static_var.c static_heredoc.c
 
 HEADERS = srcs/minishell.h
 

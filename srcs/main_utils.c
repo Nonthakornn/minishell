@@ -21,13 +21,26 @@ t_process	*get_process(char *input, char **var)
 	return (proc);
 }
 
+static void	set_for_free(t_process *head, char **var)
+{
+	set_head(head);
+	set_var(var);
+}
+
 void	excute(t_process **head, char ***var)
 {
 	int		code;
 
 	code = 0;
 	pipe_process_lst(head);
+	set_for_free(*head, *var);
 	exec_heredoc(*head);
+	if (g_signal > 0)
+	{
+		close_pipe(*head);
+		free_process_and_redir(*head);
+		return ;
+	}
 	setup_signal_parent();
 	if ((*head)->next)
 	{
