@@ -12,7 +12,8 @@ SRC_FILES = main.c token_utils.c free_close.c linklist_redirect.c \
 			exec_env.c exec_unset.c exec_export.c exec_export_add.c \
 			exec_pwd.c exec_cd.c exec_chdir.c expand_token.c \
 			expand_token2.c exec_echo.c token_utils2.c token_utils3.c \
-			syntax_utils.c exec_exit.c exit_utils.c
+			syntax_utils.c exec_exit.c exit_utils.c main_utils.c \
+			signal_child.c signal_parent.c static_std.c static_var.c
 
 HEADERS = srcs/minishell.h
 
@@ -27,7 +28,7 @@ CFLAGS =  -Wall -Wextra -Werror -g
 RM = rm -rf
 LDFLAGS = -lreadline
 VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all \
-			--suppressions=readline.supp
+			 --trace-children=yes --suppressions=readline.supp
 
 all:			$(NAME)
 

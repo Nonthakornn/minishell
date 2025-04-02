@@ -21,7 +21,15 @@
 # include <sys/stat.h>
 # include <dirent.h>
 # include <limits.h>
+# include <signal.h>
+# include <termios.h>
 # include "libft.h"
+
+/*
+extern indicates that variable has external linkage
+and can access across multiplefile
+*/
+extern volatile sig_atomic_t	g_signal;
 
 typedef enum e_token_type
 {
@@ -139,6 +147,7 @@ int				process_redirect(t_process *process);
 // exec_process
 void			exec_execve(t_process *head, t_process *process, \
 				char **var, int stdfd[2]);
+// int				exec_process(t_process *head, t_process *process, char ***var, int do_it);
 int				exec_process(t_process *head, t_process *process, char ***var);
 void			wait_process(t_process *head, int *exit_code);
 void			fork_process(t_process *head, char ***var);
@@ -203,12 +212,33 @@ int				exec_exit(t_process *process, char **var, int std[2]);
 bool			handle_overflow(long long result, int sign, int *status);
 int				count_arg(t_process	*proc);
 int				get_exit_code(char **var);
+void			set_exit_code(char ***var, int exit_code);
 
 //syntax utils
 int				count_commands(t_token *seg_start, t_token *seg_end);
 t_token			*find_seg_end(t_token *start);
 int				is_filename_for_redirection(t_token *seg_start,
 					t_token *current);
+
+//process
+t_process		*get_process(char *input, char **var);
+void			check_argv(int argc, char *argv[]);
+void			excute(t_process **head, char ***var);
+
+//signal
+void			setup_signal();
+void			setup_signal_parent();
+void			setup_signal_child(t_process *head, char **var);
+int				*get_sig_code();
+void			set_sig_code(int code);
+void			set_stdin(int stdin_fd);
+int				*get_stdin();
+void			set_stdout(int stdout_fd);
+int				*get_stdout();
+t_process		**get_head();
+void			set_head(t_process *head);
+char			***get_var();
+void			set_var(char **var);
 
 //display for dubugging
 void			display_process_lst(t_process *head);

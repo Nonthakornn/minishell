@@ -17,35 +17,6 @@ t_process	*create_process_lst(char **cmd, t_redirect *redir)
 	return (new_node);
 }
 
-// t_process	*create_process_lst(char **cmd, t_redirect *redir)
-// {
-// 	int			i;
-// 	t_process	*new_node;
-
-// 	i = 0;
-// 	while (cmd[i])
-// 		i++;
-// 	new_node = malloc(sizeof(t_process));
-// 	if (!new_node)
-// 		return (NULL);
-// 	new_node->cmd = malloc(sizeof(char *) * (i + 1));
-// 	i = 0;
-// 	while (cmd[i])
-// 	{
-// 		new_node->cmd[i] = malloc(ft_strlen(cmd[i]) + 1);
-// 		ft_strcpy(new_node->cmd[i], cmd[i]);
-// 		i++;
-// 	}
-// 	new_node->cmd[i] = NULL;
-// 	new_node->redirect = redir;
-// 	new_node->pipe_in = NULL;
-// 	new_node->pipe_out = NULL;
-// 	new_node->here_doc = NULL;
-// 	new_node->next = NULL;
-// 	new_node->pid = -1;
-// 	return (new_node);
-// }
-
 t_process	*lastnode_process_lst(t_process *head)
 {
 	t_process	*ptr;

@@ -28,6 +28,13 @@ int	handle_normal_word(char *str, int *i, t_token **head)
 	return (1);
 }
 
+static void	handle_unjoined_word(t_token **head, char *word,
+	t_quote_state quote_type)
+{
+	addback_token_lst(head, process_quoted_word(word, quote_type));
+	free(word);
+}
+
 int	handle_quote(char *str, int *i, t_token **head, t_quote_state *state)
 {
 	char			quote_char;
@@ -47,7 +54,7 @@ int	handle_quote(char *str, int *i, t_token **head, t_quote_state *state)
 				process_quoted_token(head, word, quote_type, i);
 			else
 			{
-				addback_token_lst(head, process_quoted_word(word, quote_type));
+				handle_unjoined_word(head, word, quote_type);
 				(*i)++;
 			}
 			*state = NORMAL;
@@ -64,7 +71,10 @@ static int	process_quoted_token(t_token **head, char *word,
 
 	joined = join_with_previous(head, word);
 	if (!joined)
+	{
 		addback_token_lst(head, process_quoted_word(word, quote_type));
+		free(word);
+	}
 	else
 		free(word);
 	(*i)++;

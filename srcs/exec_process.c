@@ -48,15 +48,22 @@ static int	run_buildin(t_process *process, char ***var, int std[2])
 	return (0);
 }
 
+static void	set_sigstd(int stdfd[2])
+{
+	set_stdin(stdfd[0]);
+	set_stdout(stdfd[1]);
+}
+
 int	exec_process(t_process *head, t_process *process, char ***var)
 {
 	int	redir_result;
-	int	exit_code;
+	int	exit_code = 1;
 	int	pid;
 	int	stdfd[2];
 
 	stdfd[0] = dup(0);
 	stdfd[1] = dup(1);
+	set_sigstd(stdfd);
 	redir_result = process_redirect(process);
 	close_pipe(head);
 	if (redir_result != 0)
@@ -68,7 +75,10 @@ int	exec_process(t_process *head, t_process *process, char ***var)
 	}
 	pid = fork();
 	if (pid == 0)
+	{
 		exec_execve(head, process, (*var), stdfd);
+		exit (exit_code);
+	}
 	wait(&exit_code);
 	return (recover_stdfd(stdfd), exit_code >> 8);
 }
