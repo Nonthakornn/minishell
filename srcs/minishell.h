@@ -139,6 +139,7 @@ void			free_token(t_token *head);
 void			free_everything(t_process *proc, char **var, int std[2]);
 
 //heredoc
+int				input_heredoc(char *end_str);
 void			exec_heredoc(t_process *process);
 
 //process_redirect

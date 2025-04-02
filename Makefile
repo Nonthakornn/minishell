@@ -4,7 +4,7 @@ SRC_DIR = srcs
 BUILD_DIR = obj
 
 SRC_FILES = main.c token_utils.c free_close.c linklist_redirect.c \
-			linklist_process.c exec_heredoc.c redirect.c  \
+			linklist_process.c input_heredoc.c exec_heredoc.c redirect.c  \
 			split_pipe.c exec_process.c exec_processes.c get_path.c linklist_token.c \
 			lexical.c lexical2.c syntax.c syntax2.c free_return.c \
 			error_exec.c error_export.c error_option.c exec_execve.c \
@@ -13,7 +13,8 @@ SRC_FILES = main.c token_utils.c free_close.c linklist_redirect.c \
 			exec_pwd.c exec_cd.c exec_chdir.c expand_token.c \
 			expand_token2.c exec_echo.c token_utils2.c token_utils3.c \
 			syntax_utils.c exec_exit.c exit_utils.c main_utils.c \
-			signal_child.c signal_parent.c static_std.c static_var.c
+			signal_child.c signal_parent.c signal_heredoc.c \
+			static_std.c static_var.c
 
 HEADERS = srcs/minishell.h
 

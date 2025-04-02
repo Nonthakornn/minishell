@@ -11,9 +11,9 @@ static void	prompt(char **variable)
 	{
 		setup_signal();
 		input = readline("minishell $> ");
-		if (g_signal == 1)
+		if (g_signal > 0)
 		{
-			set_exit_code(&variable, 130);
+			set_exit_code(&variable, g_signal);
 			g_signal = 0;
 		}
 		if (!input)
