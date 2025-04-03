@@ -26,7 +26,6 @@ void	excute(t_process **head, char ***var)
 	int		code;
 
 	code = 0;
-	g_signal = 0;
 	pipe_process_lst(head);
 	exec_heredoc(*head);
 	setup_signal_execute();

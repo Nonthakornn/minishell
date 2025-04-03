@@ -21,10 +21,8 @@ static void	handle_exit_exec(int signum)
 		terminate_process(*head, *var, 131);
 }
 
-void	setup_signal_exit_exec(t_process *head, char **var)
+void	setup_signal_exit_exec(void)
 {
-	set_h_proc(head);
-	set_var(var);
 	signal(SIGINT, handle_exit_exec);
 	signal(SIGQUIT, handle_exit_exec);
 }

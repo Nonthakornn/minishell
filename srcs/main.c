@@ -16,6 +16,8 @@ static void	prompt(char **variable)
 		proc = get_process(input, variable);
 		if (!proc)
 			continue ;
+		set_h_proc(proc);
+		set_var(variable);
 		excute(&proc, &variable);
 	}
 }

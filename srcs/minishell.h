@@ -225,7 +225,7 @@ void			excute(t_process **head, char ***var);
 //signal
 void			setup_signal_prompt(void);
 void			setup_signal_execute(void);
-void			setup_signal_exit_exec(t_process *head, char **var);
+void			setup_signal_exit_exec(void);
 void			set_stdin(int stdin_fd);
 void			set_stdout(int stdout_fd);
 void			set_h_proc(t_process *head);

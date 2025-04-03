@@ -23,6 +23,7 @@ static int	run_buildin(t_process *process, char ***var, int std[2])
 {
 	if (is_equal("exit", (process->cmd)[0]))
 		return (exec_exit(process, (*var), std));
+	g_signal = 0;
 	if (is_equal("echo", (process->cmd)[0]))
 		return (exec_echo(process, (*var)));
 	if (is_equal("env", (process->cmd)[0]))
@@ -64,6 +65,7 @@ int	exec_process(t_process *head, t_process *process, char ***var)
 		exit_code = run_buildin(process, var, stdfd);
 		return (recover_stdfd(stdfd), exit_code);
 	}
+	g_signal = 0;
 	pid = fork();
 	if (pid == 0)
 	{
