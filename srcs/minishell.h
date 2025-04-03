@@ -147,7 +147,6 @@ int				process_redirect(t_process *process);
 // exec_process
 void			exec_execve(t_process *head, t_process *process, \
 				char **var, int stdfd[2]);
-// int				exec_process(t_process *head, t_process *process, char ***var, int do_it);
 int				exec_process(t_process *head, t_process *process, char ***var);
 void			wait_process(t_process *head, int *exit_code);
 void			fork_process(t_process *head, char ***var);
