@@ -47,12 +47,9 @@ static int	too_many_args_return(void)
 
 static void	one_arg_exit(t_process *proc, char **var, int std[2])
 {
-	int	exit_code;
-
-	exit_code = get_exit_code(var);
 	free_everything(proc, var, std);
 	rl_clear_history();
-	exit(exit_code);
+	exit(g_signal);
 }
 
 int	exec_exit(t_process *proc, char **var, int std[2])

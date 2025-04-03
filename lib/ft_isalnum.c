@@ -30,7 +30,6 @@ int	ft_isnum(int c)
 		|| (c == '-') || (c == '+'));
 }
 
-
 int	ft_isnum2(char *str)
 {
 	int	i;

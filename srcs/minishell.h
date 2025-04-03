@@ -210,8 +210,6 @@ int				exec_echo(t_process *process, char **variable);
 int				exec_exit(t_process *process, char **var, int std[2]);
 bool			handle_overflow(long long result, int sign, int *status);
 int				count_arg(t_process	*proc);
-int				get_exit_code(char **var);
-void			set_exit_code(char ***var, int exit_code);
 
 //syntax utils
 int				count_commands(t_token *seg_start, t_token *seg_end);
@@ -225,19 +223,17 @@ void			check_argv(int argc, char *argv[]);
 void			excute(t_process **head, char ***var);
 
 //signal
-void			setup_signal(void);
-void			setup_signal_parent(void);
-void			setup_signal_child(t_process *head, char **var);
-int				*get_sig_code(void);
-void			set_sig_code(int code);
+void			setup_signal_prompt(void);
+void			setup_signal_execute(void);
+void			setup_signal_exit_exec(void);
 void			set_stdin(int stdin_fd);
-int				*get_stdin(void);
 void			set_stdout(int stdout_fd);
-int				*get_stdout(void);
-t_process		**get_head(void);
-void			set_head(t_process *head);
-char			***get_var(void);
+void			set_h_proc(t_process *head);
 void			set_var(char **var);
+int				*get_stdin(void);
+int				*get_stdout(void);
+t_process		**get_h_proc(void);
+char			***get_var(void);
 
 //display for dubugging
 // void			display_process_lst(t_process *head);

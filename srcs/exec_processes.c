@@ -18,7 +18,7 @@ void	fork_process(t_process *head, char ***var)
 		process->pid = fork();
 		if (process->pid == 0)
 		{
-			setup_signal_child(head, *var);
+			setup_signal_exit_exec();
 			exit_code = exec_process(head, process, var);
 			terminate_process(head, *var, exit_code);
 		}

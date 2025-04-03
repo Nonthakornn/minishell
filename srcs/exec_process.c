@@ -23,6 +23,7 @@ static int	run_buildin(t_process *process, char ***var, int std[2])
 {
 	if (is_equal("exit", (process->cmd)[0]))
 		return (exec_exit(process, (*var), std));
+	g_signal = 0;
 	if (is_equal("echo", (process->cmd)[0]))
 		return (exec_echo(process, (*var)));
 	if (is_equal("env", (process->cmd)[0]))
@@ -38,16 +39,12 @@ static int	run_buildin(t_process *process, char ***var, int std[2])
 	return (0);
 }
 
-static void	set_sigstd(int stdfd[2])
-{
-	set_stdin(stdfd[0]);
-	set_stdout(stdfd[1]);
-}
-
-static void	copy_std(int stdfd[2])
+static void	init_stdfd(int stdfd[2])
 {
 	stdfd[0] = dup(0);
 	stdfd[1] = dup(1);
+	set_stdin(stdfd[0]);
+	set_stdout(stdfd[1]);
 }
 
 int	exec_process(t_process *head, t_process *process, char ***var)
@@ -58,8 +55,7 @@ int	exec_process(t_process *head, t_process *process, char ***var)
 	int	stdfd[2];
 
 	exit_code = 0;
-	copy_std(stdfd);
-	set_sigstd(stdfd);
+	init_stdfd(stdfd);
 	redir_result = process_redirect(process);
 	close_pipe(head);
 	if (redir_result != 0)
@@ -69,6 +65,7 @@ int	exec_process(t_process *head, t_process *process, char ***var)
 		exit_code = run_buildin(process, var, stdfd);
 		return (recover_stdfd(stdfd), exit_code);
 	}
+	g_signal = 0;
 	pid = fork();
 	if (pid == 0)
 	{
