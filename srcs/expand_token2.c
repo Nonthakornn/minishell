@@ -78,6 +78,8 @@ char	*handle_dollar(char *str, char **variable)
 
 	if (!ft_strchr(str, '$'))
 		return (str);
+	if (is_equal("$?", str))
+		return (itoa(g_signal));
 	result = ft_strdup(str);
 	if (!result)
 		return (NULL);

@@ -1,45 +1,30 @@
 #include "minishell.h"
 
-int	*get_sig_code(void)
-{
-	static int	sig_code = 0;
-
-	return (&sig_code);
-}
-
-void	set_sig_code(int code)
-{
-	int	*sig_code;
-
-	sig_code = get_sig_code();
-	*sig_code = code;
-}
-
-static void	handle_child(int signum)
+static void	handle_exit_exec(int signum)
 {
 	t_process	**head;
 	char		***var;
-	int			*stdin_fd;
-	int			*stdout_fd;
+	int			*init_stdin;
+	int			*init_stdout;
 
-	head = get_head();
+	head = get_h_proc();
 	var = get_var();
-	stdin_fd = get_stdin();
-	stdout_fd = get_stdout();
-	if (*stdin_fd > 2)
-		close(*stdin_fd);
-	if (*stdout_fd > 2)
-		close(*stdout_fd);
+	init_stdin = get_stdin();
+	init_stdout = get_stdout();
+	if (*init_stdin > 2)
+		close(*init_stdin);
+	if (*init_stdout > 2)
+		close(*init_stdout);
 	if (signum == SIGINT)
 		terminate_process(*head, *var, 130);
 	if (signum == SIGQUIT)
 		terminate_process(*head, *var, 131);
 }
 
-void	setup_signal_child(t_process *head, char **var)
+void	setup_signal_exit_exec(t_process *head, char **var)
 {
-	set_head(head);
+	set_h_proc(head);
 	set_var(var);
-	signal(SIGINT, handle_child);
-	signal(SIGQUIT, handle_child);
+	signal(SIGINT, handle_exit_exec);
+	signal(SIGQUIT, handle_exit_exec);
 }

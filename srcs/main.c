@@ -9,13 +9,8 @@ static void	prompt(char **variable)
 
 	while (1)
 	{
-		setup_signal();
+		setup_signal_prompt();
 		input = readline("minishell $> ");
-		if (g_signal == 1)
-		{
-			set_exit_code(&variable, 130);
-			g_signal = 0;
-		}
 		if (!input)
 			input = ft_strdup("exit");
 		proc = get_process(input, variable);

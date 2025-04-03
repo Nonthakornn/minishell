@@ -1,17 +1,17 @@
 #include "minishell.h"
 
-t_process	**get_head(void)
+t_process	**get_h_proc(void)
 {
 	static t_process	*head;
 
 	return (&head);
 }
 
-void	set_head(t_process *head)
+void	set_h_proc(t_process *head)
 {
 	t_process	**h;
 
-	h = get_head();
+	h = get_h_proc();
 	*h = head;
 }
 
