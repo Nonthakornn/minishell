@@ -1,4 +1,4 @@
-# minishell_v2
+# minishell
 
 ## Function
 
